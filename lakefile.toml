@@ -1,0 +1,19 @@
+name = "sundogcert"
+version = "0.1.0"
+keywords = ["math"]
+defaultTargets = ["Sundogcert"]
+
+[leanOptions]
+pp.unicode.fun = true # pretty-prints `fun a ↦ b`
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+weak.linter.style.header = false # standalone research cert, not a mathlib PR — no copyright-header convention
+maxSynthPendingDepth = 3
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.30.0"  # pinned to the tag matching our Lean 4.30.0 toolchain (master tracks a newer Lean)
+
+[[lean_lib]]
+name = "Sundogcert"
