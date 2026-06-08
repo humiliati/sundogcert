@@ -3,3 +3,4 @@ import Sundogcert.Certificate
 import Sundogcert.Instance
 import Sundogcert.Scaling
 import Sundogcert.Looseness
+import Sundogcert.Degradation
