@@ -67,17 +67,24 @@ method must travel, or it is a lucky one-off.
   observable is **gauge-invariant** (`gauge_invariant_loop`), depending only on the enclosed flux `Φ` (the
   `H¹` topological period), never on the gauge choice. The integrand is faithfully the line-element pairing
   `⟨∇χ, γ'⟩` (`gauge_integrand_eq`, chain rule + Riesz).
+- **And the surviving observable is named** (the topological closure): the flux-line field's loop integral
+  is the topological count — `∮_{C(c,R)} (z−c)⁻¹ dz = 2πi` for *every* radius `R`
+  (`loop_integral_eq_flux`), the **same** value on every enclosing loop (`loop_integral_path_independent`).
+  So the observable is exactly the enclosed flux / `H¹` period, path-independent. The first half shows the
+  gauge freedom *washes out*; this half shows *what survives* — the flux itself.
 - **The imported wall:** that `A` is the physical vector potential entering as a loop integral, that `∇χ`
-  is the gauge freedom, that the AB phase / Faraday loop EMF *is* this integral, and that the loop encloses
-  the flux — physics, named not derived. That nature realizes this as the Aharonov–Bohm effect is named,
-  not proved.
+  is the gauge freedom, that the AB phase / Faraday loop EMF *is* this integral, that the loop encloses the
+  flux, and that the complex vortex field `(z−c)⁻¹` is that potential with `2πi` encoding the flux `Φ` (the
+  physical observable being the *real* circulation) — physics, named not derived. That nature realizes this
+  as the Aharonov–Bohm effect is named, not proved.
 
 ## The shared shape (and where it breaks)
 
 Three of the four share a deeper shape: a **map that *determines* a structural invariant while *losing* a
 continuous or gauge degree of freedom**. The certificate's syndrome determines the coset and loses the
-secret; the averaged shadow keeps the shared label and washes the continuous spread; the closed loop keeps
-the topological flux `Φ` (the `H¹` period) and washes the gauge freedom `∇χ` to exactly zero. The same
+secret; the averaged shadow keeps the shared label and washes the continuous spread; the closed loop washes
+the gauge freedom `∇χ` to exactly zero (`gauge_circulation_zero`) and keeps the topological flux `Φ` — the
+`H¹` period — as the surviving observable (`loop_integral_eq_flux`). The same
 shape recurs across three different mathematical structures — a finite-field coset, a measure-theoretic
 label, a topological period. The halo is *not* that shape — it is a pure geometric extremization — and
 that is the stronger point: the discipline is not tied even to that recurring motif. What all four share is

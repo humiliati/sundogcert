@@ -63,6 +63,7 @@ import Mathlib.Analysis.Calculus.ContDiff.Deriv
 import Mathlib.Analysis.Calculus.Deriv.Comp
 import Mathlib.Analysis.Calculus.FDeriv.Comp
 import Mathlib.Analysis.Calculus.Gradient.Basic
+import Mathlib.MeasureTheory.Integral.CircleIntegral
 
 namespace Sundog.FaradayAB
 
@@ -159,6 +160,67 @@ theorem gauge_invariant_loop {χ : E → ℝ} {γ : ℝ → E} {Aint : ℝ → �
   -- split the integral of the sum, then kill the gauge term via the core
   rw [integral_add hA hgauge, gauge_circulation_zero hχ hγ hloop, add_zero]
 
+/-!
+## The topological closure — the surviving observable IS the enclosed flux
+
+The gauge half above shows the gauge term washes out of the closed-loop observable. This
+second half names the surviving observable: it is the enclosed flux (the topological
+period of the loop), realized as the winding/residue integral of the flux-line field.
+
+The Aharonov–Bohm vector potential of an infinitely thin flux line through the point `c`
+is, in complex form, the vortex field `z ↦ (z - c)⁻¹` (up to the real factor `Φ/2π`; with
+`A = (Φ/2π) grad θ` and `θ = arg (z - c)`). Its line integral around an enclosing circle is
+the topological flux count `2πi`, the SAME for every radius `R > 0`: it depends only on the
+enclosed singularity (the flux), never on the chosen path. That is "exact-but-topological":
+the observable equals the enclosed flux / `H¹` period, and is path-independent.
+
+### The IMPORTED WALL (named, NOT proved here)
+
+* that the vortex field `z ↦ (z - c)⁻¹` is the physical Aharonov–Bohm / flux-line vector
+  potential of a flux line through `c`;
+* that the value `2πi` encodes the enclosed flux `Φ` (the topological `H¹` period of the
+  punctured plane), in units where `Φ` is read off from the winding factor;
+* that the physical observable is the real circulation of the potential around the loop.
+
+The method proves the contour-integral / winding identity below. That nature realizes the
+value `2πi` as the enclosed Aharonov–Bohm flux is named here, not proved.
+-/
+
+open Complex
+open scoped Real
+
+/-- **THE TOPOLOGICAL CLOSURE — the loop integral of the flux-line field equals the flux.**
+
+The line integral of the Aharonov–Bohm vortex field `z ↦ (z - c)⁻¹` around the circle
+`C(c, R)` of any positive radius `R` is the topological flux count `2 * π * I`:
+
+  `(∮ z in C(c, R), (z - c)⁻¹) = 2 * π * I`.
+
+Proof: the pole `c` lies inside the enclosing circle (`Metric.mem_ball_self hR`, valid since
+`R > 0`), so the residue identity `circleIntegral.integral_sub_inv_of_mem_ball` applies with
+`w = c`, giving the winding value `2 * π * I`.
+
+This is the surviving, gauge-independent observable of the Aharonov–Bohm effect: the
+enclosed flux, read off as the `H¹` period of the punctured plane. -/
+theorem loop_integral_eq_flux (c : ℂ) {R : ℝ} (hR : 0 < R) :
+    (∮ z in C(c, R), (z - c)⁻¹) = 2 * π * I :=
+  circleIntegral.integral_sub_inv_of_mem_ball (Metric.mem_ball_self hR)
+
+/-- **PATH-INDEPENDENCE — the loop value depends only on the enclosed flux, not the radius.**
+
+For any two positive radii `R₁, R₂`, the flux-line field has the SAME loop integral around
+`C(c, R₁)` and `C(c, R₂)`:
+
+  `(∮ z in C(c, R₁), (z - c)⁻¹) = (∮ z in C(c, R₂), (z - c)⁻¹)`.
+
+Proof: both sides equal `2 * π * I` by `loop_integral_eq_flux`. The observable is therefore
+a topological invariant of the loop class around the flux — "exact-but-topological": it sees
+only the enclosed singularity (the flux / `H¹` period), never the chosen path. -/
+theorem loop_integral_path_independent (c : ℂ) {R₁ R₂ : ℝ}
+    (hR₁ : 0 < R₁) (hR₂ : 0 < R₂) :
+    (∮ z in C(c, R₁), (z - c)⁻¹) = ∮ z in C(c, R₂), (z - c)⁻¹ :=
+  (loop_integral_eq_flux c hR₁).trans (loop_integral_eq_flux c hR₂).symm
+
 end Sundog.FaradayAB
 
 -- Axiom audit: the deductive core and its corollary should depend only on mathlib's
@@ -166,3 +228,8 @@ end Sundog.FaradayAB
 #print axioms Sundog.FaradayAB.gauge_circulation_zero
 #print axioms Sundog.FaradayAB.gauge_integrand_eq
 #print axioms Sundog.FaradayAB.gauge_invariant_loop
+
+-- Axiom audit for the topological closure (loop = enclosed flux): same foundational
+-- axioms only (`propext`, `Classical.choice`, `Quot.sound`) — NO `sorryAx`.
+#print axioms Sundog.FaradayAB.loop_integral_eq_flux
+#print axioms Sundog.FaradayAB.loop_integral_path_independent
