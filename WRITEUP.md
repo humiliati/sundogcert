@@ -83,6 +83,22 @@ Crucially, **(3) and (4) are completeness phenomena, not soundness breaks.** A c
 never over-claims: it simply quarantines where it cannot reject. Soundness never depends on the basis;
 only the bound's *strength* does.
 
+## Cheap to check, by theorem
+
+The certificate's whole point is an asymmetry — *cheaper to check than to find*. The find-hard side is
+imported (above). The **check-cheap side is now a theorem**: one verification query costs `O(m·n)`
+operations, linear in the parity-check size `|H|` (`verifyCost_le`), against a transparent cost model
+that counts the deployed verifier's worst-case path — the syndrome `H *ᵥ y` is exactly `m·n`
+multiplications, everything else lower-order. The cost model is a trust-surface item (audited by a human,
+like the scheme definitions); given it, the polynomial bound is kernel-checked.
+
+A consistency hook worth naming: the proven multiplication count `m·n` equals `64·128 = 8192` for the
+deployed `[128,64]` regime — *exactly* the lane's measured "flat 8,192-op check." The deductive count and
+the empirical op-count agree.
+
+So the asymmetry now reads: **poly-time check, proved here; exp-time find, imported.** That is the
+sharpest honest form of the claim — one side machine-checked, one side honestly assumed.
+
 ## The frontier: the looseness is the shadow of the hardness
 
 The obvious next ask is a *cheap, basis-robust, tight* bound — one that doesn't degrade when `H` is

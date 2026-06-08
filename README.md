@@ -24,6 +24,10 @@ author-independent.
   denser row-equivalent matrix for the same code (it collapses to 0); and capped by `‖syndrome‖ / density`
   in general. Its looseness is the **shadow of the hardness assumption** — a cheap, basis-robust, tight
   bound would be a fast decoder.
+- **Cheap to check, by theorem** — one verification query costs `O(m·n)` operations, linear in the
+  parity-check size `|H|` (`verifyCost_le`), against a transparent (human-audited) cost model. The
+  proven multiplication count `m·n` equals the deployed `[128,64]` regime's measured 8,192-op check.
+  This is the *check-cheap* half of "cheaper to check than to find"; the *find-hard* half stays imported.
 
 See [`WRITEUP.md`](WRITEUP.md) for the full consolidation.
 
@@ -50,6 +54,7 @@ Axiom audit (the referee-free check):
 | `Sundogcert/Scaling.lean` | the `[2m,m]` projection family + the scaling law (proved for all `m`) |
 | `Sundogcert/Looseness.lean` | basis-dependence: same code, denser `H`, the bound collapses to 0 |
 | `Sundogcert/Degradation.lean` | the general ceiling `colWeightLb ≤ m/density` and the density sawtooth |
+| `Sundogcert/CheckCost.lean` | the check-cost theorem: verification is polynomial-time, `O(m·n)` in `|H|` |
 
 ## Scope
 
