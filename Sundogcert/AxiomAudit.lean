@@ -23,9 +23,6 @@ Each `#print axioms` command is placed on its own line at column 0 (not inline a
 
 To extend the gate: add the headline name of any new load-bearing theorem with its
 own `#guard_msgs in` / `#print axioms` block.
-
-Note: `Sundogcert.ShadowDecayGeneral` is intentionally NOT imported/guarded here —
-it is concurrent, owner-gated work.
 -/
 import Sundogcert.Certificate
 import Sundogcert.Scaling
@@ -33,6 +30,7 @@ import Sundogcert.Looseness
 import Sundogcert.Degradation
 import Sundogcert.CheckCost
 import Sundogcert.ShadowDecay
+import Sundogcert.ShadowDecayGeneral
 import Sundogcert.HaloGeometry
 import Sundogcert.FaradayAB
 import Sundogcert.CertWall
@@ -130,3 +128,29 @@ info: 'Sundog.Certificate.CertWall.colWeightLb_cannot_be_tight_basisRobust' depe
 /-- info: 'Sundog.Certificate.CertWall.tight_bound_decodes' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.Certificate.CertWall.tight_bound_decodes
+
+/-! ## ShadowDecayGeneral — the charFun determine/resist law (any probability measure) -/
+
+/-- info: 'Sundog.ShadowDecayGeneral.shadow_decay_charFun' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayGeneral.shadow_decay_charFun
+
+/-- info: 'Sundog.ShadowDecayGeneral.general_recovers_debye_waller' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayGeneral.general_recovers_debye_waller
+
+/-- info: 'Sundog.ShadowDecayGeneral.resistance_general' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayGeneral.resistance_general
+
+/-- info: 'Sundog.ShadowDecayGeneral.gaussian_resists' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayGeneral.gaussian_resists
+
+/-- info: 'Sundog.ShadowDecayGeneral.determination_general' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayGeneral.determination_general
+
+/-- info: 'Sundog.ShadowDecayGeneral.gaussian_resist_and_determine' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayGeneral.gaussian_resist_and_determine
