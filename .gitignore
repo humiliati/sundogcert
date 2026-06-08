@@ -1,1 +1,3 @@
 /.lake
+# Defensive: a stray clone of an unrelated repo landed here; never track it.
+/EyesOnly/
