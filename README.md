@@ -45,6 +45,10 @@ Axiom audit (the referee-free check):
 -- 'scaling_law' depends on axioms: [propext, Classical.choice, Quot.sound]
 ```
 
+This audit is **build-enforced**: [`AxiomAudit.lean`](Sundogcert/AxiomAudit.lean) pins each headline
+theorem's axiom set with `#guard_msgs`, so a `sorry`, a `native_decide`, or any extra axiom slipping into a
+proof makes `lake build` **fail**. The referee-free promise can no longer silently regress.
+
 ## Modules
 
 | file | content |
@@ -55,9 +59,11 @@ Axiom audit (the referee-free check):
 | `Sundogcert/Looseness.lean` | basis-dependence: same code, denser `H`, the bound collapses to 0 |
 | `Sundogcert/Degradation.lean` | the general ceiling `colWeightLb ≤ m/density` and the density sawtooth |
 | `Sundogcert/CheckCost.lean` | the check-cost theorem: verification is polynomial-time, `O(m·n)` in `|H|` |
+| `Sundogcert/CertWall.lean` | *types* the imported hardness wall: `minCosetWeight` is a code invariant while `colWeightLb` is basis-dependent, so a cheap basis-robust *tight* bound would be a decoder — a **conditional** (`tight_bound_decodes`), never a hardness claim |
 | `Sundogcert/ShadowDecay.lean` | a second worked example (real analysis): a lossy *averaged* shadow loses a continuous variable — the Debye–Waller decay |
-| `Sundogcert/HaloGeometry.lean` | a third worked example (geometric optics): the 22° halo's minimum-deviation principle |
+| `Sundogcert/HaloGeometry.lean` | a third worked example (geometric optics): the 22° halo's minimum-deviation principle, proved a **genuine local minimum** at the symmetric ray (`min_deviation_isLocalMin` — the bright ring forms at the deviation extremum) |
 | `Sundogcert/FaradayAB.lean` | a fourth worked example (vector calculus / topology): the Aharonov–Bohm gauge-invariance (a gradient's closed-loop circulation is zero) *and* its topological closure (the loop integral *is* the enclosed flux, `∮(z−c)⁻¹ = 2πi`, path-independent) |
+| `Sundogcert/AxiomAudit.lean` | the **self-enforcing axiom-clean gate**: every headline theorem's `#print axioms` pinned by `#guard_msgs` — a `sorry`/`native_decide`/extra-axiom regression fails the build |
 
 ## Scope
 

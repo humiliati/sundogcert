@@ -52,8 +52,9 @@ method must travel, or it is a lucky one-off.
 (`HaloGeometry`)
 - The **minimum-deviation principle**: for a ray through an ice prism, the angular deviation
   `dev(r) = arcsin(n·sin r) + arcsin(n·sin(A−r)) − A` is **stationary at the symmetric ray** `r = A/2`
-  (`min_deviation_stationary`: `dev'(A/2) = 0`, by a pure symmetric-ray cancellation) — which is *why* the
-  22° halo has the radius `2·arcsin(n·sin(A/2)) − A` (`dev_value`).
+  (`min_deviation_stationary`: `dev'(A/2) = 0`, by a pure symmetric-ray cancellation) and a **genuine local
+  minimum** there (`min_deviation_isLocalMin`: `dev''(A/2) = 2·g''(A/2) > 0`) — which is *why* the 22° halo
+  is a bright ring at the radius `2·arcsin(n·sin(A/2)) − A` (`dev_value`).
 - **The imported wall:** that ice crystals are hexagonal 60° prisms with `n ≈ 1.31`, that the ray refracts
   out (no total internal reflection — carried as a named differentiability hypothesis), and that the
   bright ring forms at the deviation extremum — physics and observation, named not derived.

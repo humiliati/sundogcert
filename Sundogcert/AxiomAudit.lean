@@ -17,8 +17,12 @@ any other extra axiom into one of these results, the captured message changes, t
 `#guard_msgs` exact-match fails, and `lake build` FAILS. The promise can no longer
 silently regress.
 
+Each `#print axioms` command is placed on its own line at column 0 (not inline after
+`#guard_msgs in`) so the mathlib whitespace style linter, which is active under a full
+`lake build`, stays quiet and does not inject an extra captured message.
+
 To extend the gate: add the headline name of any new load-bearing theorem with its
-own `#guard_msgs in #print axioms` block.
+own `#guard_msgs in` / `#print axioms` block.
 
 Note: `Sundogcert.ShadowDecayGeneral` is intentionally NOT imported/guarded here —
 it is concurrent, owner-gated work.
@@ -36,75 +40,93 @@ import Sundogcert.CertWall
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
 /-- info: 'Sundog.Certificate.syndrome_independent_of_secret' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.Certificate.syndrome_independent_of_secret
+#guard_msgs in
+#print axioms Sundog.Certificate.syndrome_independent_of_secret
 
 /-- info: 'Sundog.Certificate.accept_sound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.Certificate.accept_sound
+#guard_msgs in
+#print axioms Sundog.Certificate.accept_sound
 
 /-- info: 'Sundog.Certificate.reject_sound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.Certificate.reject_sound
+#guard_msgs in
+#print axioms Sundog.Certificate.reject_sound
 
 /-- info: 'Sundog.Certificate.colWeightLb_sound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.Certificate.colWeightLb_sound
+#guard_msgs in
+#print axioms Sundog.Certificate.colWeightLb_sound
 
 /-- info: 'Sundog.Certificate.reject_sound_colweight' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.Certificate.reject_sound_colweight
+#guard_msgs in
+#print axioms Sundog.Certificate.reject_sound_colweight
 
 /-! ## Scaling — the projection-family scaling law -/
 
 /-- info: 'Sundog.Certificate.Scaling.scaling_law' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.Certificate.Scaling.scaling_law
+#guard_msgs in
+#print axioms Sundog.Certificate.Scaling.scaling_law
 
 /-! ## Looseness — basis-dependence collapse -/
 
 /-- info: 'Sundog.Certificate.Looseness.looseness' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.Certificate.Looseness.looseness
+#guard_msgs in
+#print axioms Sundog.Certificate.Looseness.looseness
 
 /-! ## Degradation — the general column-weight ceiling -/
 
 /-- info: 'Sundog.Certificate.Degradation.colWeightLb_le_card_div' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.Certificate.Degradation.colWeightLb_le_card_div
+#guard_msgs in
+#print axioms Sundog.Certificate.Degradation.colWeightLb_le_card_div
 
 /-! ## CheckCost — the linear check-cost theorem -/
 
 /-- info: 'Sundog.Certificate.verifyCost_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.Certificate.verifyCost_le
+#guard_msgs in
+#print axioms Sundog.Certificate.verifyCost_le
 
 /-! ## ShadowDecay — Debye–Waller decay and discrete determination -/
 
 /-- info: 'Sundog.ShadowDecay.debye_waller' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.ShadowDecay.debye_waller
+#guard_msgs in
+#print axioms Sundog.ShadowDecay.debye_waller
 
 /-- info: 'Sundog.ShadowDecay.determination' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.ShadowDecay.determination
+#guard_msgs in
+#print axioms Sundog.ShadowDecay.determination
 
 /-! ## HaloGeometry — minimum-deviation stationarity and local minimum -/
 
 /-- info: 'Sundog.HaloGeometry.min_deviation_stationary' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.HaloGeometry.min_deviation_stationary
+#guard_msgs in
+#print axioms Sundog.HaloGeometry.min_deviation_stationary
 
 /-- info: 'Sundog.HaloGeometry.min_deviation_isLocalMin' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.HaloGeometry.min_deviation_isLocalMin
+#guard_msgs in
+#print axioms Sundog.HaloGeometry.min_deviation_isLocalMin
 
 /-! ## FaradayAB — gauge-circulation invariance and loop = flux -/
 
 /-- info: 'Sundog.FaradayAB.gauge_circulation_zero' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.FaradayAB.gauge_circulation_zero
+#guard_msgs in
+#print axioms Sundog.FaradayAB.gauge_circulation_zero
 
 /-- info: 'Sundog.FaradayAB.loop_integral_eq_flux' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.FaradayAB.loop_integral_eq_flux
+#guard_msgs in
+#print axioms Sundog.FaradayAB.loop_integral_eq_flux
 
 /-! ## CertWall — row-equivalence invariance, no-tight-robust bound, tight⇒decodes -/
 
 /-- info: 'Sundog.Certificate.CertWall.minCosetWeight_rowEquiv' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.Certificate.CertWall.minCosetWeight_rowEquiv
+#guard_msgs in
+#print axioms Sundog.Certificate.CertWall.minCosetWeight_rowEquiv
 
 /--
 info: 'Sundog.Certificate.CertWall.colWeightLb_cannot_be_tight_basisRobust' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
 -/
-#guard_msgs in #print axioms Sundog.Certificate.CertWall.colWeightLb_cannot_be_tight_basisRobust
+#guard_msgs in
+#print axioms Sundog.Certificate.CertWall.colWeightLb_cannot_be_tight_basisRobust
 
 /-- info: 'Sundog.Certificate.CertWall.tight_bound_decodes' depends on axioms: [propext, Classical.choice, Quot.sound] -/
-#guard_msgs in #print axioms Sundog.Certificate.CertWall.tight_bound_decodes
+#guard_msgs in
+#print axioms Sundog.Certificate.CertWall.tight_bound_decodes
