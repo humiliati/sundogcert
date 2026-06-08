@@ -21,9 +21,9 @@ around exactly the thing that is *assumed*, so it cannot hide inside the proof.
 (Validity is not significance. The kernel buys correctness, not an audience; reception is still earned the
 usual way.)
 
-## Two demonstrations, two kinds of math
+## Three demonstrations, three kinds of math
 
-This repository carries the same move on two structurally unrelated objects — which is the point: a
+This repository carries the same move on three structurally unrelated objects — which is the point: a
 method must travel, or it is a lucky one-off.
 
 **1. A syndrome certificate — finite-field algebra.**
@@ -48,13 +48,25 @@ method must travel, or it is a lucky one-off.
 - **The imported wall:** that a real system instantiates this averaging — a genuine population with an
   honest lossiness knob — is a modeling premise, named not proved.
 
-## The shared shape
+**3. Halo geometry — geometric optics / calculus.**
+(`HaloGeometry`)
+- The **minimum-deviation principle**: for a ray through an ice prism, the angular deviation
+  `dev(r) = arcsin(n·sin r) + arcsin(n·sin(A−r)) − A` is **stationary at the symmetric ray** `r = A/2`
+  (`min_deviation_stationary`: `dev'(A/2) = 0`, by a pure symmetric-ray cancellation) — which is *why* the
+  22° halo has the radius `2·arcsin(n·sin(A/2)) − A` (`dev_value`).
+- **The imported wall:** that ice crystals are hexagonal 60° prisms with `n ≈ 1.31`, that the ray refracts
+  out (no total internal reflection — carried as a named differentiability hypothesis), and that the
+  bright ring forms at the deviation extremum — physics and observation, named not derived.
 
-Strip the substrate and both are the same object: a **lossy shadow that *determines* a discrete /
-structural invariant while *losing* a continuous / large fiber.** The certificate's syndrome determines
-the coset and loses the secret; the averaged shadow keeps the shared label and washes the continuous one.
-And in both, the genuinely hard part — decoding hardness, real-world instantiation — is the import,
-named on the outside of the proof rather than smuggled inside it.
+## The shared shape (and where it breaks)
+
+The first two share a deeper shape: a **lossy shadow that *determines* a discrete / structural invariant
+while *losing* a continuous / large fiber** — the certificate's syndrome determines the coset and loses
+the secret; the averaged shadow keeps the shared label and washes the continuous one. The halo is *not*
+that shape — it is a pure geometric extremization — and that is the stronger point: the discipline is not
+tied to one motif. What all three share is only the method itself: the genuinely hard part — decoding
+hardness, real-world instantiation, the physical realization of the geometry — is the import, named on
+the outside of the proof rather than smuggled inside it.
 
 ## The honest limit
 

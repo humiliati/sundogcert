@@ -6,3 +6,4 @@ import Sundogcert.Looseness
 import Sundogcert.Degradation
 import Sundogcert.CheckCost
 import Sundogcert.ShadowDecay
+import Sundogcert.HaloGeometry

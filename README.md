@@ -56,6 +56,7 @@ Axiom audit (the referee-free check):
 | `Sundogcert/Degradation.lean` | the general ceiling `colWeightLb ≤ m/density` and the density sawtooth |
 | `Sundogcert/CheckCost.lean` | the check-cost theorem: verification is polynomial-time, `O(m·n)` in `|H|` |
 | `Sundogcert/ShadowDecay.lean` | a second worked example (real analysis): a lossy *averaged* shadow loses a continuous variable — the Debye–Waller decay |
+| `Sundogcert/HaloGeometry.lean` | a third worked example (geometric optics): the 22° halo's minimum-deviation principle |
 
 ## Scope
 
@@ -67,5 +68,6 @@ The same discipline — *machine-check the deductive core, name the imported wal
 time, on a different kind of math, in [`ShadowDecay.lean`](Sundogcert/ShadowDecay.lean): a real-analysis
 Gaussian-averaging (Debye–Waller) decay, proving *why* a continuous signal resists a lossy averaged shadow,
 with the modeling assumption (that a real system realizes the averaging) named as the imported wall. See
-[`METHOD.md`](METHOD.md) for the discipline stated in full across both worked examples. The method
-travels; it is not a one-off. Toolchain: Lean `v4.30.0`, mathlib `v4.30.0`.
+[`METHOD.md`](METHOD.md) for the discipline stated in full across all three worked examples (finite-field
+algebra, real analysis, geometric optics). The method travels; it is not a one-off. Toolchain: Lean
+`v4.30.0`, mathlib `v4.30.0`.
