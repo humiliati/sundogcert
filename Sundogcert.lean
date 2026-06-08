@@ -7,6 +7,7 @@ import Sundogcert.CertWall
 import Sundogcert.Degradation
 import Sundogcert.CheckCost
 import Sundogcert.ShadowDecay
+import Sundogcert.ShadowDecayGeneral
 import Sundogcert.HaloGeometry
 import Sundogcert.FaradayAB
 import Sundogcert.AxiomAudit
