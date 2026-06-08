@@ -55,9 +55,16 @@ Axiom audit (the referee-free check):
 | `Sundogcert/Looseness.lean` | basis-dependence: same code, denser `H`, the bound collapses to 0 |
 | `Sundogcert/Degradation.lean` | the general ceiling `colWeightLb ≤ m/density` and the density sawtooth |
 | `Sundogcert/CheckCost.lean` | the check-cost theorem: verification is polynomial-time, `O(m·n)` in `|H|` |
+| `Sundogcert/ShadowDecay.lean` | a second worked example (real analysis): a lossy *averaged* shadow loses a continuous variable — the Debye–Waller decay |
 
 ## Scope
 
 This repository is about a verification *methodology* — a cheap check whose validity anyone can reproduce
 — and a clean coding-theory characterization of one bound. It is **not** a cryptographic one-wayness
-claim, and not a claim about P versus NP. Toolchain: Lean `v4.30.0`, mathlib `v4.30.0`.
+claim, and not a claim about P versus NP.
+
+The same discipline — *machine-check the deductive core, name the imported wall* — is demonstrated a second
+time, on a different kind of math, in [`ShadowDecay.lean`](Sundogcert/ShadowDecay.lean): a real-analysis
+Gaussian-averaging (Debye–Waller) decay, proving *why* a continuous signal resists a lossy averaged shadow,
+with the modeling assumption (that a real system realizes the averaging) named as the imported wall. The
+method travels; it is not a one-off. Toolchain: Lean `v4.30.0`, mathlib `v4.30.0`.
