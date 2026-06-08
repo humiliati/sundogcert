@@ -21,9 +21,9 @@ around exactly the thing that is *assumed*, so it cannot hide inside the proof.
 (Validity is not significance. The kernel buys correctness, not an audience; reception is still earned the
 usual way.)
 
-## Three demonstrations, three kinds of math
+## Four demonstrations, four kinds of math
 
-This repository carries the same move on three structurally unrelated objects — which is the point: a
+This repository carries the same move on four structurally unrelated objects — which is the point: a
 method must travel, or it is a lucky one-off.
 
 **1. A syndrome certificate — finite-field algebra.**
@@ -58,15 +58,32 @@ method must travel, or it is a lucky one-off.
   out (no total internal reflection — carried as a named differentiability hypothesis), and that the
   bright ring forms at the deviation extremum — physics and observation, named not derived.
 
+**4. Gauge-invariant circulation — vector calculus / topology.**
+(`FaradayAB`)
+- The observable Aharonov–Bohm phase is the line integral of the vector potential `A` around a **closed
+  loop**. A gauge change `A → A + ∇χ` shifts that observable by the **circulation of a gradient field**,
+  which is **exactly zero** around a closed loop (`gauge_circulation_zero`:
+  `∫₀¹ (χ∘γ)' = χ(γ 1) − χ(γ 0) = 0`, the fundamental theorem of calculus plus `γ 0 = γ 1`) — so the
+  observable is **gauge-invariant** (`gauge_invariant_loop`), depending only on the enclosed flux `Φ` (the
+  `H¹` topological period), never on the gauge choice. The integrand is faithfully the line-element pairing
+  `⟨∇χ, γ'⟩` (`gauge_integrand_eq`, chain rule + Riesz).
+- **The imported wall:** that `A` is the physical vector potential entering as a loop integral, that `∇χ`
+  is the gauge freedom, that the AB phase / Faraday loop EMF *is* this integral, and that the loop encloses
+  the flux — physics, named not derived. That nature realizes this as the Aharonov–Bohm effect is named,
+  not proved.
+
 ## The shared shape (and where it breaks)
 
-The first two share a deeper shape: a **lossy shadow that *determines* a discrete / structural invariant
-while *losing* a continuous / large fiber** — the certificate's syndrome determines the coset and loses
-the secret; the averaged shadow keeps the shared label and washes the continuous one. The halo is *not*
-that shape — it is a pure geometric extremization — and that is the stronger point: the discipline is not
-tied to one motif. What all three share is only the method itself: the genuinely hard part — decoding
-hardness, real-world instantiation, the physical realization of the geometry — is the import, named on
-the outside of the proof rather than smuggled inside it.
+Three of the four share a deeper shape: a **map that *determines* a structural invariant while *losing* a
+continuous or gauge degree of freedom**. The certificate's syndrome determines the coset and loses the
+secret; the averaged shadow keeps the shared label and washes the continuous spread; the closed loop keeps
+the topological flux `Φ` (the `H¹` period) and washes the gauge freedom `∇χ` to exactly zero. The same
+shape recurs across three different mathematical structures — a finite-field coset, a measure-theoretic
+label, a topological period. The halo is *not* that shape — it is a pure geometric extremization — and
+that is the stronger point: the discipline is not tied even to that recurring motif. What all four share is
+only the method itself: the genuinely hard part — decoding hardness, real-world instantiation, the physical
+realization of the geometry, the physical realization of the gauge field — is the import, named on the
+outside of the proof rather than smuggled inside it.
 
 ## The honest limit
 
