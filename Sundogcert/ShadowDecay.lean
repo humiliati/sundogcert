@@ -1,4 +1,5 @@
 import Mathlib.Probability.Distributions.Gaussian.Real
+import Mathlib.Probability.Distributions.Gaussian.Fernique
 import Mathlib.MeasureTheory.Measure.CharacteristicFunction.Basic
 import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
 import Mathlib.MeasureTheory.Integral.IntegrableOn
@@ -6,12 +7,13 @@ import Mathlib.Analysis.Complex.Trigonometric
 import Mathlib.Analysis.SpecialFunctions.Exp
 
 /-!
-# Lossy-averaging decay (Debye–Waller) — why a continuous signal resists an averaged shadow
+# Lossy averaging — a continuous signal resists, a shared discrete label survives
 
 A second worked example of the discipline in `Sundogcert.Certificate`: **machine-check a deductive
 core, name the imported wall.** The certificate's lossiness is finite-field algebra (a parity-check
-shadow loses a secret); this is its real-analysis sibling — a lossy *averaging* shadow loses a
-*continuous* variable, by a Gaussian (Debye–Waller) decay.
+shadow loses a secret); this is its real-analysis sibling. A lossy *averaging* shadow **washes a
+continuous variable** (a Gaussian / Debye–Waller decay) while **keeping a shared discrete label**
+(exact, at every spread `λ`) — both halves of the dichotomy, proved.
 
 ## What is and is NOT formalized
 
@@ -27,8 +29,9 @@ shadow loses a secret); this is its real-analysis sibling — a lossy *averaging
   It is the analogue of the certificate's imported hardness: the mechanism is proved; that the world
   realizes it is named, not proved.
 
-* **Out of scope here:** the dual *determination* half — a shared discrete label surviving the same
-  averaging — is a separate mechanism, not in this file.
+* **ALSO formalized (the determination half):** a shared discrete label carried identically by every
+  unit survives the same averaging EXACTLY, at every spread `λ` (`determination`) — the per-unit
+  zero-mean noise averages out. Lossy averaging keeps the discrete and washes the continuous.
 
 ## The one imported analytic input
 
@@ -218,6 +221,37 @@ theorem debye_waller_lossless (c t : ℝ) :
       = Real.cos (2 * Real.pi * c * t) := by
   rw [debye_waller c 0 t, lossiness_essential, mul_one]
 
+/-! ## The DETERMINATION half — a shared discrete label survives averaging, at every spread `λ`. -/
+
+/-- The standard normal has mean zero: `∫ x ∂N(0,1) = 0`. The per-unit spread noise is centred. -/
+theorem gaussian_mean_zero : ∫ x, x ∂stdGaussian = 0 := by
+  unfold stdGaussian
+  exact integral_id_gaussianReal
+
+/--
+**DETERMINATION — a shared label survives averaging exactly, at every spread `λ`.**
+
+A label `d` carried *identically* by every unit (a shared sign / class, not per-unit noise) is
+recovered exactly by the ensemble average: `∫ x, (d + λ c x) ∂N(0,1) = d`, because the per-unit
+zero-mean noise `λ c ξ` averages out (`gaussian_mean_zero`). Unlike the continuous Debye–Waller
+decay of `resistance`, this is INDEPENDENT of `λ`: the shared label is never washed out — it is
+determined at every population spread. -/
+theorem determination (d lam c : ℝ) :
+    ∫ x, (d + lam * c * x) ∂stdGaussian = d := by
+  have hx : Integrable (fun x : ℝ => x) stdGaussian := by
+    unfold stdGaussian; exact IsGaussian.integrable_id
+  rw [integral_add (integrable_const d) (hx.const_mul (lam * c)),
+    integral_const, integral_const_mul, gaussian_mean_zero]
+  simp
+
+/--
+**The discrete class is determined for ALL `λ`.** Since the shared label is recovered exactly, its
+sign (a discrete class) is read off the averaged shadow regardless of the population spread `λ`,
+the exact opposite of the continuous variable's Debye–Waller wash-out (`resistance`). -/
+theorem determination_sign (d lam c : ℝ) :
+    (0 < ∫ x, (d + lam * c * x) ∂stdGaussian) ↔ (0 < d) := by
+  rw [determination]
+
 end Sundog.ShadowDecay
 
 -- Axiom audit of the headline results: the CORE and all four target theorems should depend only on
@@ -226,3 +260,5 @@ end Sundog.ShadowDecay
 #print axioms Sundog.ShadowDecay.debye_waller
 #print axioms Sundog.ShadowDecay.resistance
 #print axioms Sundog.ShadowDecay.lossiness_essential
+#print axioms Sundog.ShadowDecay.determination
+#print axioms Sundog.ShadowDecay.determination_sign

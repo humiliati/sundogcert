@@ -66,5 +66,6 @@ claim, and not a claim about P versus NP.
 The same discipline — *machine-check the deductive core, name the imported wall* — is demonstrated a second
 time, on a different kind of math, in [`ShadowDecay.lean`](Sundogcert/ShadowDecay.lean): a real-analysis
 Gaussian-averaging (Debye–Waller) decay, proving *why* a continuous signal resists a lossy averaged shadow,
-with the modeling assumption (that a real system realizes the averaging) named as the imported wall. The
-method travels; it is not a one-off. Toolchain: Lean `v4.30.0`, mathlib `v4.30.0`.
+with the modeling assumption (that a real system realizes the averaging) named as the imported wall. See
+[`METHOD.md`](METHOD.md) for the discipline stated in full across both worked examples. The method
+travels; it is not a one-off. Toolchain: Lean `v4.30.0`, mathlib `v4.30.0`.
