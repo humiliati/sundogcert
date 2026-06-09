@@ -93,10 +93,15 @@ concrete Gaussian decay and the general law behind it.)
   (`determination_general`). Neither implies the other — the **Cauchy** law is the separator: it resists
   (its charFun decays) yet cannot determine (it has no mean). The Gaussian discharges **both**, recovering
   Debye–Waller / example 2 as the instance (`general_recovers_debye_waller`).
-- **The imported wall:** the **Cauchy instance** is *named, not built* — mathlib has neither a `charFun` for
-  the Cauchy law nor the non-integrability of its mean, so the separator is the motivating boundary,
-  established empirically and scoped as future work. And, as in example 2, that a real system instantiates
-  this averaging is a modeling premise, named not proved.
+- **The separator, now proven** (`ShadowDecayCauchy`): the Cauchy law really does come apart — it
+  **resists** (`cauchy_charFun_tendsto_zero`: its charFun decays by Riemann–Lebesgue, since the Cauchy
+  density is `L¹` — *no variance needed*) yet **cannot determine** (`cauchy_no_mean`: `¬ Integrable id`, by
+  an `x⁻¹` tail comparison), so `resist` and `determine` are *logically independent* (`cauchy_is_separator`).
+  This closes the wall `ShadowDecayGeneral` named as future work.
+- **The residual wall:** only the *exact* value `charFun(cauchy) s = e^{−γ|s|}` (the Poisson kernel) stays
+  named-not-built — its *decay* is proved, which is all the separator needs; the exact contour computation
+  is a candidate mathlib upstream. And, as in example 2, that a real system instantiates this averaging is a
+  modeling premise, named not proved.
 
 ## The shared shape (and where it breaks)
 
