@@ -129,13 +129,20 @@ Axiom audit (the referee-free check), e.g.:
 -- 'scaling_law' depends on axioms: [propext, Classical.choice, Quot.sound]
 ```
 
-Six modules, all wired into the default build:
+The certificate cluster — seven modules, all wired into the default build:
 - `Certificate.lean` — lossiness + soundness core, the two bounds.
 - `Instance.lean` — a concrete `[4,2]` GF(2) code; an `#eval`-able verifier where `V_supp` quarantines
   but `V_col` rejects the same body at `τ = 1`.
 - `Scaling.lean` — the projection family and the scaling law.
 - `Looseness.lean` — basis-dependence; the collapse to `0`.
 - `Degradation.lean` — the general ceiling and the density sawtooth.
+- `CheckCost.lean` — the check-cost theorem: one verification query is `O(m·n)`, linear in `|H|`.
+- `CertWall.lean` — types the imported hardness wall: a basis-robust *tight* bound would be a decoder
+  (a conditional, `tight_bound_decodes`, never a hardness claim).
+
+(The repo also carries the method's other worked examples — `ShadowDecay`/`ShadowDecayGeneral`,
+`HaloGeometry`, `FaradayAB` — and `AxiomAudit`, the build-enforced axiom-clean gate; see
+[`METHOD.md`](METHOD.md).)
 
 ## What this is *not*
 

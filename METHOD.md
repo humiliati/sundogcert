@@ -47,6 +47,9 @@ method must travel, or it is a lucky one-off.
   (`determination`).
 - **The imported wall:** that a real system instantiates this averaging — a genuine population with an
   honest lossiness knob — is a modeling premise, named not proved.
+- *Generalized* in `ShadowDecayGeneral`: the same determine/resist split is proved for **any** probability
+  measure (not just the Gaussian), governed by its characteristic function — Debye–Waller is recovered as
+  the Gaussian instance. Kept as a generalization of *this* example, not a fifth one.
 
 **3. Halo geometry — geometric optics / calculus.**
 (`HaloGeometry`)
