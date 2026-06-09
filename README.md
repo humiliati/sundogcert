@@ -31,6 +31,46 @@ author-independent.
 
 See [`WRITEUP.md`](WRITEUP.md) for the full consolidation.
 
+## A machine-checked Karp reduction — the hardness wall, pushed inward
+
+The certificate imports exactly one security assumption: that its bounded-weight GF(2) **decoding**
+problem is hard. That assumption is now **anchored to a canonical NP-complete problem by a
+machine-checked reduction.** The chain
+
+> **3SAT ≤ 3DM ≤ X3C ≤ bounded-weight GF(2) decoding**
+
+is formalized end to end, and its top-level correctness is an `iff` (`SATReductionMain.sat_iff_decodes`):
+
+```lean
+theorem sat_iff_decodes (φ : Formula n m) :
+    Satisfiable φ ↔ Decodes (reduce3DM (reduce φ)) (2 * m * n)
+```
+
+A 3-CNF formula `φ` is satisfiable **if and only if** the decoding instance it maps to — via the
+Garey–Johnson `3SAT → 3-dimensional-matching` gadget reduction, then `3DM → exact-cover-by-3-sets`,
+then `X3C → decoding` — decodes within the weight bound. **Both directions** are proved: the
+*forward* direction builds the perfect matching explicitly from a satisfying assignment
+(variable-wheel + clause + garbage gadgets, the leftover tips absorbed by a counted bijection); the
+*reverse* direction reads a satisfying assignment back out of any perfect matching. Axiom-clean, like
+everything else here.
+
+**What is checked is the *reduction correctness*** — the logical equivalence between the SAT instance
+and its decoding image (the many-one / Karp correctness of the map). This pushes the certificate's
+"decoding is hard" assumption inward: from an opaque premise to *"at least as hard as 3SAT, modulo the
+standard complexity wrapping."*
+
+**The imported wall, named.** That wrapping is exactly what stays imported — mathlib has no
+complexity-theory framework:
+- the **NP complexity class** itself (a resource-bounded notion, not formalized);
+- the **poly-time-ness** of the reduction (each map is built and proved correct, but its running time
+  is never modeled — the maps are visibly local, yet "polynomial" is unstated);
+- **3SAT's own NP-hardness** — Cook–Levin, the deep terminal wall that sources every Karp-reduction
+  hardness claim, formalized in no proof assistant to date.
+
+So any "NP-hard" reading of the decoding problem stays **conditional on `P ≠ NP`** and on the imported
+Cook–Levin hardness of 3SAT. This repository proves the reduction is *faithful*; it does **not** prove
+decoding is hard, and makes **no** claim about P versus NP.
+
 ## Build
 
 ```sh
@@ -66,19 +106,33 @@ proof makes `lake build` **fail**. The referee-free promise can no longer silent
 | `Sundogcert/ShadowDecayLattice.lean` | *sharpens* `ShadowDecayGeneral`'s resist condition (not a separate example): the charFun-decay is the boundary between **absolutely-continuous** populations (resist, `absCont_resists`) and **lattice/atomic** ones (survive — the two-point `charFun = cos` recurs to 1, `twoPoint_shadow_survives`), and it is **orthogonal to variance** (`resist_orthogonal_to_variance`: Cauchy ∞-variance resists, bounded two-point survives). Honest limit: brackets the Rajchman boundary, does *not* claim `resist ⟺ AC` |
 | `Sundogcert/HaloGeometry.lean` | a third worked example (geometric optics): the 22° halo's minimum-deviation principle, proved a **genuine local minimum** at the symmetric ray (`min_deviation_isLocalMin` — the bright ring forms at the deviation extremum) |
 | `Sundogcert/FaradayAB.lean` | a fourth worked example (vector calculus / topology): the Aharonov–Bohm gauge-invariance (a gradient's closed-loop circulation is zero) *and* its topological closure (the loop integral *is* the enclosed flux, `∮(z−c)⁻¹ = 2πi`, path-independent) |
+| `Sundogcert/DecodingNPHard.lean` | the chain's last link: exact-cover-by-3-sets ≤ bounded-weight GF(2) decoding (both directions, unconditional) |
+| `Sundogcert/MatchingNPHard.lean` | `3DM ≤ X3C`, composed through to decoding (`threeDM_iff_Decodes`) |
+| `Sundogcert/SATNPHard.lean` | the 3SAT problem (CNF / assignment / satisfies) + `decide`-validated SAT/UNSAT examples |
+| `Sundogcert/VarWheel.lean` | the truth-setting "wheel" gadget: exactly two valid covers = the two truth values |
+| `Sundogcert/ClauseGadget.lean` | the clause gadget + the polarity bridge (a literal's tip is free ⟺ the literal is true) |
+| `Sundogcert/SATReduction.lean` | the global assembly: coordinate types, the reduction `reduce`, cardinalities, chain-connect |
+| `Sundogcert/ThreeDMReindex.lean` | the reindexing bridge: a matching over a `Fintype` index ↔ the `Fin s`-indexed `ThreeDM` |
+| `Sundogcert/SATReductionIncidence.lean` | which triple-indices cover each node — the shared incidence lemmas |
+| `Sundogcert/SATReductionReverse.lean` | reverse correctness: a perfect matching yields a satisfying assignment |
+| `Sundogcert/SATReductionForward.lean` | forward correctness: a satisfying assignment yields a perfect matching |
+| `Sundogcert/SATReductionMain.lean` | the composition — `Satisfiable φ ↔ Decodes …`, closing `3SAT ≤ 3DM ≤ X3C ≤ Decodes` |
 | `Sundogcert/AxiomAudit.lean` | the **self-enforcing axiom-clean gate**: every headline theorem's `#print axioms` pinned by `#guard_msgs` — a `sorry`/`native_decide`/extra-axiom regression fails the build |
 
 ## Scope
 
 This repository is about a verification *methodology* — a cheap check whose validity anyone can reproduce
 — and a clean coding-theory characterization of one bound. It is **not** a cryptographic one-wayness
-claim, and not a claim about P versus NP.
+claim, and not a claim about P versus NP: the `3SAT ≤ 3DM ≤ X3C ≤ decoding` chain machine-checks the
+reduction's *correctness* only, while the NP class, poly-time-ness, and 3SAT's Cook–Levin hardness stay
+imported, named on the outside.
 
 The same discipline — *machine-check the deductive core, name the imported wall* — is demonstrated a second
 time, on a different kind of math, in [`ShadowDecay.lean`](Sundogcert/ShadowDecay.lean): a real-analysis
 Gaussian-averaging (Debye–Waller) decay, proving *why* a continuous signal resists a lossy averaged shadow,
 with the modeling assumption (that a real system realizes the averaging) named as the imported wall. See
-[`METHOD.md`](METHOD.md) for the discipline stated in full across all five worked examples — four kinds of
-math (finite-field algebra, real analysis, geometric optics, vector calculus / topology), with real
-analysis carrying both the concrete Gaussian decay and its general characteristic-function law. The method
-travels; it is not a one-off. Toolchain: Lean `v4.30.0`, mathlib `v4.30.0`.
+[`METHOD.md`](METHOD.md) for the discipline stated in full across all six worked examples — five kinds of
+math (finite-field algebra, real analysis, geometric optics, vector calculus / topology, and a
+computational-complexity Karp reduction), with real analysis carrying both the concrete Gaussian decay and
+its general characteristic-function law. The method travels; it is not a one-off. Toolchain: Lean
+`v4.30.0`, mathlib `v4.30.0`.

@@ -21,11 +21,12 @@ around exactly the thing that is *assumed*, so it cannot hide inside the proof.
 (Validity is not significance. The kernel buys correctness, not an audience; reception is still earned the
 usual way.)
 
-## Five demonstrations, four kinds of math
+## Six demonstrations, five kinds of math
 
-This repository carries the same move on five worked examples, spanning four structurally distinct kinds of
+This repository carries the same move on six worked examples, spanning five structurally distinct kinds of
 math — which is the point: a method must travel, or it is a lucky one-off. (Real analysis appears twice: a
-concrete Gaussian decay and the general law behind it.)
+concrete Gaussian decay and the general law behind it. The sixth is a computational-complexity Karp
+reduction — the method's payoff for the certificate of example 1.)
 
 **1. A syndrome certificate — finite-field algebra.**
 (`Certificate`, `Instance`, `Scaling`, `Looseness`, `Degradation`, `CheckCost`)
@@ -111,6 +112,25 @@ concrete Gaussian decay and the general law behind it.)
   module: this is `AC ⟹ resist` and `lattice ⟹ survive`, *not* `resist ⟺ AC` — singular-continuous Rajchman
   measures resist too; AC and lattice only *bracket* the Rajchman boundary.
 
+**6. A faithful Karp reduction — combinatorics / computational complexity.**
+(`SATNPHard`, `VarWheel`, `ClauseGadget`, `SATReductionIncidence`, `ThreeDMReindex`, `SATReduction`,
+`SATReductionForward`, `SATReductionReverse`, `SATReductionMain`, on `MatchingNPHard` / `DecodingNPHard`)
+- The deductive core is a **reduction correctness**, proved as an `iff`: `Satisfiable φ ↔
+  Decodes (reduce3DM (reduce φ)) (2·m·n)` (`sat_iff_decodes`). A 3-CNF formula is satisfiable exactly when
+  the bounded-weight GF(2) decoding instance it maps to — through the Garey–Johnson chain
+  `3SAT → 3DM → X3C → decoding` — decodes within the weight bound. Both directions are machine-checked
+  combinatorics: the **forward** builds the perfect matching from an assignment (variable-wheel, clause, and
+  garbage gadgets, the leftover tips absorbed by a counted bijection); the **reverse** reads an assignment
+  back out of any perfect matching. The wheel gadget admits exactly the two constant covers — the two truth
+  values — and the clause gadget's polarity bridge ties a tip being free to its literal being true.
+- **The imported wall:** the NP complexity *class*, the *poly-time-ness* of the reduction maps (each built
+  and proved correct, but never timed), and 3SAT's **own** NP-hardness — Cook–Levin, the deep terminal wall,
+  in no proof assistant to date. What is checked is that the reduction is *faithful*; the hardness is the
+  import, so any "NP-hard" reading stays conditional on `P ≠ NP`. This is **not** a claim about P versus NP.
+- This is the method's *payoff* for example 1: the certificate's decoding-hardness assumption is no longer
+  opaque — a checked reduction anchors it to the canonical NP-complete problem, leaving only the
+  (unformalizable-in-mathlib) complexity wrapping named on the outside of the proof.
+
 ## The shared shape (and where it breaks)
 
 Four of the five share a deeper shape: a **map that *determines* a structural invariant while *losing* a
@@ -120,11 +140,12 @@ secret; the averaged shadow keeps the shared label and washes the continuous spr
 exactly zero (`gauge_circulation_zero`) and keeps the topological flux `Φ` — the `H¹` period — as the
 surviving observable (`loop_integral_eq_flux`). The same shape recurs across a finite-field coset, a
 measure-theoretic label and the characteristic-function spectrum that governs it, and a topological period.
-The halo is *not* that shape — it is a pure geometric extremization — and that is the stronger point: the
-discipline is not tied even to that recurring motif. What all five share is only the method itself: the
-genuinely hard part — decoding hardness, real-world instantiation, the physical realization of the geometry,
-the physical realization of the gauge field — is the import, named on the outside of the proof rather than
-smuggled inside it.
+Neither the halo (a pure geometric extremization) nor the Karp reduction (a combinatorial *equivalence*
+whose import is hardness, not a model or a measurement) is that shape — and that is the stronger point: the
+discipline is not tied even to that recurring motif. What all six share is only the method itself: the
+genuinely hard part — decoding hardness (and, behind the reduction, Cook–Levin), real-world instantiation,
+the physical realization of the geometry, the physical realization of the gauge field — is the import, named
+on the outside of the proof rather than smuggled inside it.
 
 ## The honest limit
 
