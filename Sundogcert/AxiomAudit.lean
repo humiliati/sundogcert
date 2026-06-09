@@ -179,7 +179,7 @@ info: 'Sundog.Certificate.CertWall.colWeightLb_cannot_be_tight_basisRobust' depe
 #guard_msgs in
 #print axioms Sundog.ShadowDecayCauchy.resist_determine_independent
 
-/-! ## DecodingNPHard — EC3S→decoding reduction (both directions proved; unconditional) -/
+/-! ## DecodingNPHard — EC3S→decoding (forward + backward both proved; iff unconditional) -/
 
 /-- info: 'Sundog.DecodingNPHard.reduction_forward' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
