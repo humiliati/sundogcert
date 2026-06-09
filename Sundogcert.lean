@@ -14,3 +14,14 @@ import Sundogcert.FaradayAB
 import Sundogcert.DecodingNPHard
 import Sundogcert.AxiomAudit
 import Sundogcert.ShadowDecayLattice
+-- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
+import Sundogcert.MatchingNPHard
+import Sundogcert.SATNPHard
+import Sundogcert.VarWheel
+import Sundogcert.ClauseGadget
+import Sundogcert.SATReduction
+import Sundogcert.ThreeDMReindex
+import Sundogcert.SATReductionIncidence
+import Sundogcert.SATReductionReverse
+import Sundogcert.SATReductionForward
+import Sundogcert.SATReductionMain
