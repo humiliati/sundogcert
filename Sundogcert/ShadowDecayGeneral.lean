@@ -38,13 +38,20 @@ uniform / Cauchy wash; a lattice population whose `charFun = cos` does not).
   `Integrable id μ ∧ ∫ x ∂μ = 0`; and the proof that the **Gaussian discharges both** (so the
   `ShadowDecay` results are recovered as the `μ = N(0,1)` instance).
 
-* **NOT formalized (named, scoped as future work):** the **Cauchy instance**. mathlib has
-  `ProbabilityTheory.cauchyMeasure` but **neither** its characteristic function (`exp(-γ|s|)`, a
-  from-scratch Poisson-kernel computation — mathlib has the Poisson kernel in
-  `Mathlib.Analysis.Complex.Poisson` but no `charFun_cauchy` lemma) **nor** the non-integrability of
-  `id` against it. The Cauchy is therefore the *motivating* separator, established empirically, and
-  a candidate next pillar — not asserted as a theorem. This is the same honesty as `ShadowDecay`'s
-  imported wall: the mechanism is proved; the un-built instance is named.
+* **Proved in sibling pillars (built after this file):** the **Cauchy separator** is now a theorem
+  in `Sundogcert.ShadowDecayCauchy` — it discharges the resist hypothesis by Riemann–Lebesgue
+  (`cauchy_charFun_tendsto_zero`) and *refutes* the determine hypothesis by a tail comparison with
+  `x⁻¹` (`cauchy_no_mean`), giving `cauchy_is_separator : resist ∧ ¬ Integrable id`. The clean
+  AC-resist / lattice-survive brackets of the `‖charFun‖ → 0` boundary are in
+  `Sundogcert.ShadowDecayLattice`. So the separator the Cauchy witness names is no longer
+  empirical-only — it is machine-checked and axiom-clean (build-enforced in `AxiomAudit`).
+
+* **The one residual named wall:** the **exact** Cauchy characteristic function
+  `charFun (cauchyMeasure x₀ γ) s = exp(-γ|s|)` (the Poisson kernel) is still *not* proved — only
+  its *decay*, which is all the resist condition needs. mathlib has the Poisson kernel in
+  `Mathlib.Analysis.Complex.Poisson` but no `charFun_cauchy` lemma; the exact value remains a
+  candidate mathlib-upstream. Same honesty as `ShadowDecay`'s imported wall: the mechanism and the
+  separator are proved; only the sharper exact-value statement is named.
 
 ## References
 
