@@ -8,6 +8,8 @@ import Sundogcert.Degradation
 import Sundogcert.CheckCost
 import Sundogcert.ShadowDecay
 import Sundogcert.ShadowDecayGeneral
+import Sundogcert.ShadowDecayCauchy
 import Sundogcert.HaloGeometry
 import Sundogcert.FaradayAB
+import Sundogcert.DecodingNPHard
 import Sundogcert.AxiomAudit

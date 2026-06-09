@@ -31,9 +31,11 @@ import Sundogcert.Degradation
 import Sundogcert.CheckCost
 import Sundogcert.ShadowDecay
 import Sundogcert.ShadowDecayGeneral
+import Sundogcert.ShadowDecayCauchy
 import Sundogcert.HaloGeometry
 import Sundogcert.FaradayAB
 import Sundogcert.CertWall
+import Sundogcert.DecodingNPHard
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -154,3 +156,35 @@ info: 'Sundog.Certificate.CertWall.colWeightLb_cannot_be_tight_basisRobust' depe
 /-- info: 'Sundog.ShadowDecayGeneral.gaussian_resist_and_determine' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.ShadowDecayGeneral.gaussian_resist_and_determine
+
+/-! ## ShadowDecayCauchy — the Cauchy population is the determine/resist separator -/
+
+/-- info: 'Sundog.ShadowDecayCauchy.cauchy_charFun_tendsto_zero' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayCauchy.cauchy_charFun_tendsto_zero
+
+/-- info: 'Sundog.ShadowDecayCauchy.cauchy_resists' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayCauchy.cauchy_resists
+
+/-- info: 'Sundog.ShadowDecayCauchy.cauchy_no_mean' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayCauchy.cauchy_no_mean
+
+/-- info: 'Sundog.ShadowDecayCauchy.cauchy_is_separator' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayCauchy.cauchy_is_separator
+
+/-- info: 'Sundog.ShadowDecayCauchy.resist_determine_independent' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayCauchy.resist_determine_independent
+
+/-! ## DecodingNPHard — the EC3S→syndrome-decoding reduction (forward proved; iff conditional) -/
+
+/-- info: 'Sundog.DecodingNPHard.reduction_forward' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.DecodingNPHard.reduction_forward
+
+/-- info: 'Sundog.DecodingNPHard.reduction_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.DecodingNPHard.reduction_iff
