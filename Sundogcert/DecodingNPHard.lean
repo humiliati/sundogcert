@@ -3,7 +3,7 @@
   over GF(2), via the reduction from EXACT-COVER-BY-3-SETS (EC3S / X3C).
   (Lean 4 / mathlib v4.30.0.  Berlekamp–McEliece–van Tilborg route.)
 
-  WHAT THIS FILE PROVES (the deductive core, MILESTONE 1):
+  WHAT THIS FILE PROVES (the deductive core — MILESTONES 1 AND 2 BOTH DONE):
     * the reduction is laid out exactly as designed: an EC3S instance `(c : Fin s → Finset X)`
       becomes a parity-check matrix `Hmat c` over `ZMod 2` with target syndrome `allOnes`, and a
       bounded-weight decoding question `Decodes c q`.
@@ -13,10 +13,15 @@
     * the DOUBLE-COUNT (`incidence_double_count`): `∑ i∈T, (c i).card = ∑ x, coverCount c T x`,
       which with `hc` (each 3-set has card 3) and `hX` (|X| = 3q) pins `T.card = q`.
     * `reduction_forward` (PROVED): an exact cover yields a weight-`≤ q` decoding witness.
-    * `reduction_iff (hback)`: the full iff, CONDITIONAL on the named backward hypothesis
-      `hback : Decodes c q → X3C c`.  The backward direction (the weight-counting argument that a
-      low-weight decoding witness must be a 0/1 exact-cover indicator) is MILESTONE 2; here it is a
-      genuine HYPOTHESIS argument — NOT a `sorry`, NOT an `axiom`.
+    * `reduction_backward` (PROVED, MILESTONE 2): a weight-`≤ q` decoding witness MUST be a 0/1
+      exact-cover indicator.  Over `ZMod 2` the error is 0/1, so its support `T` has `eOf T = e`
+      and `|T| ≤ q`; "syndrome = allOnes" forces every cover count ODD hence `≥ 1`, and the
+      double-count `∑ coverCount = 3|T| ≥ |X| = 3q` pins `|T| = q`; equal sums with the pointwise
+      `≥ 1` bound force every cover count `= 1` — an exact cover.
+    * `reduction_iff` (UNCONDITIONAL): the full `X3C c ↔ Decodes c q`, both directions now
+      machine-checked (`⟨reduction_forward, reduction_backward⟩`) — NO hypothesis, NO `sorry`,
+      NO `axiom`.  The reduction's correctness is FULLY proved; only the COMPLEXITY WRAPPING
+      remains the named imported wall (below).
 
   WIRE-IN TO THE CERTIFICATE.  `Decodes c q` is EXACTLY the decision form of
   `Sundog.Certificate.CertWall.minCosetWeight (Hmat c) allOnes ≤ q` — we use the EXISTENTIAL
@@ -29,9 +34,11 @@
     * the NP complexity class itself;
     * poly-time-ness of this reduction (it is visibly local, but "polynomial" is unformalized);
     * EC3S's own NP-hardness (Karp 1972).
-  STANDING LIMIT.  Even completed (milestone 2 done), this proves "decoding is NP-hard CONDITIONAL
-  on P≠NP" — hardness is never absolute.  What IS proved is that bounded-weight GF(2) decoding is
-  exactly as hard as a canonical NP-hard problem (EC3S).
+  STANDING LIMIT.  With milestone 2 done, this proves "decoding is NP-hard CONDITIONAL on P≠NP" —
+  hardness is never absolute, and this limit is UNCHANGED by completing the backward direction.
+  What IS proved (now in full) is that bounded-weight GF(2) decoding is exactly as hard as a
+  canonical NP-hard problem (EC3S): the reduction correctness `X3C c ↔ Decodes c q` is fully
+  machine-checked; only the complexity wrapping above stays imported.
 
   CORRECTNESS NOTE (a wrong reduction is the failure mode).  Decoding is over GF(2), so
   `H *ᵥ e` is a MOD-2 (XOR) sum.  EC3S is the right source problem because GF(2) is the natural
@@ -165,15 +172,62 @@ theorem reduction_forward (hc : ∀ i, (c i).card = 3) (hX : Fintype.card X = 3 
   refine ⟨eOf c T, syndrome_eOf_eq_allOnes c T hT, ?_⟩
   rw [hammingNorm_eOf, exactCover_card_eq c q hc hX T hT]
 
-/-- **THE REDUCTION IFF**, conditional on the named backward hypothesis.  Forward is the PROVED
-    `reduction_forward`; `hback` (the weight-counting argument that a low-weight decoding witness
-    must be a 0/1 exact-cover indicator) is MILESTONE 2 — supplied here as a genuine hypothesis
-    argument, NOT a `sorry` and NOT an `axiom`.  When milestone 2 discharges `hback`, this becomes
-    the unconditional EC3S ⇔ bounded-weight-GF(2)-decoding equivalence (the reduction's
-    correctness), landing on CertWall's `minCosetWeight` imported wall. -/
-theorem reduction_iff (hc : ∀ i, (c i).card = 3) (hX : Fintype.card X = 3 * q)
-    (hback : Decodes c q → X3C c) : X3C c ↔ Decodes c q :=
-  ⟨reduction_forward c q hc hX, hback⟩
+/-- **BACKWARD (PROVED, MILESTONE 2).**  A bounded-weight GF(2) decoding witness MUST be a 0/1
+    exact-cover indicator.  Over `ZMod 2` every coordinate of `e` is `0` or `1`, so for its support
+    `T := {i | e i ≠ 0}` we have `e = eOf T` and `|T| = hammingNorm e ≤ q`.  "Syndrome = allOnes"
+    casts each cover count to `1` in `ZMod 2`, forcing it ODD hence `≥ 1`; the double-count plus
+    `hc` gives `∑ coverCount = 3|T|`, and pointwise `≥ 1` summed gives `∑ coverCount ≥ |X| = 3q`,
+    pinning `|T| = q`.  Finally equal sums against the pointwise `≥ 1` bound force every cover count
+    to be EXACTLY `1` — an exact cover. -/
+theorem reduction_backward (hc : ∀ i, (c i).card = 3) (hX : Fintype.card X = 3 * q)
+    (h : Decodes c q) : X3C c := by
+  obtain ⟨e, hsyn, hwt⟩ := h
+  classical
+  -- (A) the support T, and e = eOf c T (over ZMod 2 every coord is 0 or 1):
+  set T : Finset (Fin s) := Finset.univ.filter (fun i => e i ≠ 0) with hTdef
+  have hz : ∀ a : ZMod 2, a = 0 ∨ a = 1 := by decide
+  have he : e = eOf c T := by
+    funext i; unfold eOf
+    by_cases hi : e i = 0
+    · simp [hi, hTdef]
+    · have h1 : e i = 1 := (hz (e i)).resolve_left hi
+      simp [h1, hTdef]
+  -- (B) |T| ≤ q via hammingNorm:
+  have hTle : T.card ≤ q := by rw [← hammingNorm_eOf c T, ← he]; exact hwt
+  -- (C) each cover count is ≥ 1 (syndrome bit 1 ⟹ count odd ⟹ nonzero):
+  have hge1 : ∀ x : X, 1 ≤ coverCount c T x := by
+    intro x
+    have hcast : ((coverCount c T x : ℕ) : ZMod 2) = 1 := by
+      rw [← syndrome_eq_coverCount_cast c T x, ← he, hsyn]; rfl
+    rcases Nat.eq_zero_or_pos (coverCount c T x) with h0 | hpos
+    · exfalso; rw [h0, Nat.cast_zero] at hcast; exact (by decide : (0 : ZMod 2) ≠ 1) hcast
+    · exact hpos
+  -- (D) double-count + hc ⟹ ∑ coverCount = 3 * |T|:
+  have hsum : (∑ x : X, coverCount c T x) = 3 * T.card := by
+    rw [← incidence_double_count c T]
+    rw [Finset.sum_congr rfl (fun i _ => hc i), Finset.sum_const, smul_eq_mul]; ring
+  -- (E) pointwise ≥ 1 ⟹ ∑ coverCount ≥ |X| = 3q ⟹ |T| ≥ q ⟹ |T| = q:
+  have hlow : Fintype.card X ≤ ∑ x : X, coverCount c T x := by
+    have hone : (∑ _x : X, (1 : ℕ)) ≤ ∑ x : X, coverCount c T x :=
+      Finset.sum_le_sum (fun x _ => hge1 x)
+    simpa [Finset.sum_const, Finset.card_univ] using hone
+  have hTcard : T.card = q := by rw [hsum, hX] at hlow; omega
+  -- (F) equal sums + pointwise ≥ ⟹ pointwise = 1 (the exact cover):
+  refine ⟨T, fun x => ?_⟩
+  have hsumEq : (∑ _x : X, (1 : ℕ)) = ∑ x : X, coverCount c T x := by
+    rw [Finset.sum_const, Finset.card_univ, hX, hsum, hTcard]; ring
+  have hpt := (Finset.sum_eq_sum_iff_of_le (fun x _ => hge1 x)).mp hsumEq
+  exact (hpt x (Finset.mem_univ x)).symm
+
+/-- **THE REDUCTION IFF** (UNCONDITIONAL).  Both directions are now machine-checked: forward is the
+    PROVED `reduction_forward`, backward is the PROVED `reduction_backward` (milestone 2).  This is
+    the full EC3S ⇔ bounded-weight-GF(2)-decoding equivalence — the reduction's correctness, NO
+    hypothesis, NO `sorry`, NO `axiom` — landing on CertWall's `minCosetWeight` imported wall.  Only
+    the COMPLEXITY WRAPPING (NP class, poly-time-ness, EC3S's own NP-hardness, Karp 1972) stays the
+    named imported wall; the standing limit (NP-hard CONDITIONAL on P≠NP) is unchanged. -/
+theorem reduction_iff (hc : ∀ i, (c i).card = 3) (hX : Fintype.card X = 3 * q) :
+    X3C c ↔ Decodes c q :=
+  ⟨reduction_forward c q hc hX, reduction_backward c q hc hX⟩
 
 /-! ### Axiom audit on the two headline theorems (expect propext/Classical.choice/Quot.sound). -/
 
