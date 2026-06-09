@@ -37,6 +37,14 @@ import Sundogcert.FaradayAB
 import Sundogcert.CertWall
 import Sundogcert.DecodingNPHard
 import Sundogcert.ShadowDecayLattice
+import Sundogcert.SATNPHard
+import Sundogcert.VarWheel
+import Sundogcert.ClauseGadget
+import Sundogcert.SATReduction
+import Sundogcert.ThreeDMReindex
+import Sundogcert.SATReductionReverse
+import Sundogcert.SATReductionForward
+import Sundogcert.SATReductionMain
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -219,3 +227,46 @@ info: 'Sundog.Certificate.CertWall.colWeightLb_cannot_be_tight_basisRobust' depe
 /-- info: 'Sundog.ShadowDecayLattice.resist_orthogonal_to_variance' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.ShadowDecayLattice.resist_orthogonal_to_variance
+
+/-! ## 3SAT ≤ 3DM ≤ X3C ≤ Decodes — the machine-checked Karp reduction correctness.
+
+    Gadget cores (the wheel two-state engine, the clause polarity bridge), the index bridge and the
+    data-layer chain-connect, both reduction directions, and the end-to-end headline.  Guarding the
+    top-level `sat_iff_decodes` transitively protects the whole chain (its axiom set would change if
+    any dependency regressed).  `litTipFree_iff_eval` is `[propext]` only — a genuine subset. -/
+
+/-- info: 'Sundog.SATNPHard.ex_sat' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SATNPHard.ex_sat
+
+/-- info: 'Sundog.VarWheel.validCover_iff_const' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.VarWheel.validCover_iff_const
+
+/-- info: 'Sundog.ClauseGadget.litTipFree_iff_eval' depends on axioms: [propext] -/
+#guard_msgs in
+#print axioms Sundog.ClauseGadget.litTipFree_iff_eval
+
+/-- info: 'Sundog.SATReduction.reduce_chain_connects' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SATReduction.reduce_chain_connects
+
+/-- info: 'Sundog.ThreeDMReindex.threeDM_reindex' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ThreeDMReindex.threeDM_reindex
+
+/-- info: 'Sundog.SATReductionReverse.reverse' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SATReductionReverse.reverse
+
+/-- info: 'Sundog.SATReductionForward.forward' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SATReductionForward.forward
+
+/-- info: 'Sundog.SATReductionMain.sat_iff_threeDM' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SATReductionMain.sat_iff_threeDM
+
+/-- info: 'Sundog.SATReductionMain.sat_iff_decodes' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SATReductionMain.sat_iff_decodes
