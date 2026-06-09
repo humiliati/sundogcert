@@ -15,17 +15,18 @@ the single spectral condition
 the **decay of the characteristic function** (the Rajchman / Riemann–Lebesgue condition). This file
 shows that condition is the sharp dividing line between two clean families of populations:
 
-* **ABSOLUTELY-CONTINUOUS populations resist.** Any `μ = volume.withDensity f` with `f` an integrable
-  density has `‖charFun μ s‖ → 0` by the **Riemann–Lebesgue lemma** (`absCont_charFun_tendsto_zero`),
+* **ABSOLUTELY-CONTINUOUS populations resist.** Any `μ = volume.withDensity f` with `f` an
+  integrable density has `‖charFun μ s‖ → 0` by the **Riemann–Lebesgue lemma**
+  (`absCont_charFun_tendsto_zero`),
   so it resists (`absCont_resists`). This generalizes the Gaussian, uniform, and Cauchy examples
   (`ShadowDecayCauchy` is the heavy-tailed instance — infinite variance, yet still resists).
 
 * **LATTICE / ATOMIC populations survive.** The symmetric two-point (Rademacher) measure
   `twoPoint a = ½(δ₋ₐ + δₐ)` has characteristic function `charFun = cos(a·)` (`twoPoint_charFun`),
   which **recurs to its supremum `1`** at `t = kπ/|a|` and therefore does NOT decay
-  (`twoPoint_does_not_resist`). It fails the hypothesis of `resistance_general`, and concretely the
-  averaged shadow `cos(2π c t)·cos(2π λ a t)` recurs to `cos(2π c t) ≠ 0` along `λ = k/(a t)`, so the
-  continuous signal **SURVIVES** (`twoPoint_shadow_survives`).
+  (`twoPoint_does_not_resist`). It fails the hypothesis of `resistance_general`, and concretely
+  the averaged shadow `cos(2π c t)·cos(2π λ a t)` recurs to `cos(2π c t) ≠ 0` along `λ = k/(a t)`,
+  so the continuous signal **SURVIVES** (`twoPoint_shadow_survives`).
 
 The separation is **orthogonal to variance.** The Cauchy population has *infinite* variance yet
 resists (`ShadowDecayCauchy.cauchy_resists`); the bounded two-point has *finite everything* yet
@@ -36,7 +37,8 @@ survives. What decides resistance is the charFun spectrum, not any moment.
 * **IS proved (deductive, axiom-clean):**
   - `AC ⟹ resist`: one clean direction, via Riemann–Lebesgue (`absCont_resists`).
   - `lattice ⟹ survive`: the other clean direction, via the recurrence of `cos` (the two-point
-    `charFun` does not decay, `twoPoint_does_not_resist`; the shadow recurs, `twoPoint_shadow_survives`).
+    `charFun` does not decay, `twoPoint_does_not_resist`; the shadow recurs,
+    `twoPoint_shadow_survives`).
   - The capstone `resist_separates_ac_from_lattice`: AC sits on the resist side of the
     `‖charFun‖ → 0` boundary, the two-point sits on the survive side — they bracket it.
 
@@ -70,7 +72,7 @@ namespace Sundog.ShadowDecayLattice
 
 open MeasureTheory ProbabilityTheory Complex Filter Topology
 open Sundog.ShadowDecay Sundog.ShadowDecayGeneral
-open scoped Real FourierTransform ENNReal
+open scoped Real FourierTransform ENNReal NNReal
 
 /-! ## AC SIDE — any absolutely-continuous population resists (Riemann–Lebesgue). -/
 
@@ -191,7 +193,7 @@ theorem twoPoint_charFun (a t : ℝ) :
   -- the two atoms `±a` give `exp(± i a t)`; `cos z = (exp(z I) + exp(-z I))/2` assembles them.
   rw [Complex.cos]
   have hneg : (t : ℂ) * ((-a : ℝ) : ℂ) * I = -(↑a * ↑t * I) := by push_cast; ring
-  have hpos : (t : ℂ) * (a : ℂ) * I = ↑a * ↑t * I := by push_cast; ring
+  have hpos : (t : ℂ) * (a : ℂ) * I = ↑a * ↑t * I := by ring
   rw [hneg, hpos]
   rw [show (-(↑a * ↑t) * I : ℂ) = -(↑a * ↑t * I) by ring]
   rw [show ((1 / 2 : ℝ) : ℂ) = 1 / 2 by norm_num]
@@ -224,15 +226,15 @@ theorem twoPoint_does_not_resist (a : ℝ) (ha : a ≠ 0) :
     have harg : (a : ℝ) * u k = (if 0 < a then (k : ℝ) else -(k : ℝ)) * Real.pi := by
       rw [hu]
       rcases lt_or_gt_of_ne ha with h | h
-      · rw [if_neg (not_lt.mpr h.le), abs_of_neg h]; field_simp; ring
+      · rw [if_neg (not_lt.mpr h.le), abs_of_neg h]; field_simp
       · rw [if_pos h, abs_of_pos h]; field_simp
     rw [show ((a : ℝ) : ℂ) * ((u k : ℝ) : ℂ) = (((a * u k : ℝ)) : ℂ) by push_cast; ring]
     rw [← Complex.ofReal_cos, Complex.norm_real, harg]
     rcases lt_or_gt_of_ne ha with h | h
     · rw [if_neg (not_lt.mpr h.le), show (-(k : ℝ)) * Real.pi = -((k : ℝ) * Real.pi) by ring,
         Real.cos_neg, Real.cos_nat_mul_pi]
-      simp [abs_pow]
-    · rw [if_pos h, Real.cos_nat_mul_pi]; simp [abs_pow]
+      simp
+    · rw [if_pos h, Real.cos_nat_mul_pi]; simp
   -- but the composed limit would be `0`, contradicting the constant `1`.
   have hcomp : Tendsto (fun k : ℕ => ‖charFun (twoPoint a) (u k)‖) atTop (𝓝 0) := hT.comp hudiv
   rw [tendsto_congr hval] at hcomp
@@ -244,7 +246,8 @@ theorem twoPoint_does_not_resist (a : ℝ) (ha : a ≠ 0) :
 /--
 **The two-point averaged shadow factors as a product of cosines (the recurrence relation).** For the
 symmetric two-point population, the ensemble-averaged continuous fringe is
-`∫ cos(2π(c + λ x) t) ∂(twoPoint a) = cos(2π c t) · cos(2π λ a t)`. The second factor `cos(2π λ a t)`
+`∫ cos(2π(c + λ x) t) ∂(twoPoint a) = cos(2π c t) · cos(2π λ a t)`. The second factor
+`cos(2π λ a t)`
 oscillates forever in `λ` — it is the recurrence that prevents wash-out. -/
 theorem twoPoint_shadow_eq (a c lam t : ℝ) :
     ∫ x, Real.cos (2 * Real.pi * (c + lam * x) * t) ∂twoPoint a
@@ -265,8 +268,9 @@ phase `c` with `cos(2π c t) ≠ 0`, the averaged continuous fringe does not ten
 `λ → ∞`:
 `¬ Tendsto (fun λ => ∫ cos(2π(c + λ x) t) ∂(twoPoint a)) atTop (𝓝 0)`.
 
-The shadow equals `cos(2π c t) · cos(2π λ a t)` (`twoPoint_shadow_eq`); the recurrence factor returns
-to `±1` at `λ = k / (a t)`, so the shadow recurs to `± cos(2π c t) ≠ 0` infinitely often and cannot
+The shadow equals `cos(2π c t) · cos(2π λ a t)` (`twoPoint_shadow_eq`); the recurrence factor
+returns to `±1` at `λ = k / (a t)`, so the shadow recurs to `± cos(2π c t) ≠ 0` infinitely often
+and cannot
 converge to `0`. Contrast the AC case (`absCont_resists`), where the shadow washes out: the lattice
 population's continuous signal SURVIVES the lossy averaging. -/
 theorem twoPoint_shadow_survives (a c t : ℝ) (ha : a ≠ 0) (ht : 0 < t)
@@ -289,19 +293,22 @@ theorem twoPoint_shadow_survives (a c t : ℝ) (ha : a ≠ 0) (ht : 0 < t)
         = Real.cos (2 * Real.pi * c * t) := by
     intro k
     rw [twoPoint_shadow_eq]
-    have hk : 2 * Real.pi * v k * a * t = (if 0 < a * t then (k : ℝ) else -(k : ℝ)) * (2 * Real.pi) := by
+    have hk : 2 * Real.pi * v k * a * t
+        = (if 0 < a * t then (k : ℝ) else -(k : ℝ)) * (2 * Real.pi) := by
       rw [hv]
       rcases lt_or_gt_of_ne hat with h | h
-      · rw [if_neg (not_lt.mpr h.le), abs_of_neg h]; field_simp; ring
-      · rw [if_pos h, abs_of_pos h]; field_simp; ring
+      · rw [if_neg (not_lt.mpr h.le), abs_of_neg h]; field_simp
+      · rw [if_pos h, abs_of_pos h]; field_simp
     rw [hk]
     rcases lt_or_gt_of_ne hat with h | h
-    · rw [if_neg (not_lt.mpr h.le), show (-(k : ℝ)) * (2 * Real.pi) = -((k : ℝ) * (2 * Real.pi)) by ring,
+    · rw [if_neg (not_lt.mpr h.le),
+        show (-(k : ℝ)) * (2 * Real.pi) = -((k : ℝ) * (2 * Real.pi)) by ring,
         Real.cos_neg, Real.cos_nat_mul_two_pi, mul_one]
     · rw [if_pos h, Real.cos_nat_mul_two_pi, mul_one]
   -- but the composed limit would be `0`, contradicting the constant `cos(2π c t) ≠ 0`.
   have hcomp : Tendsto (fun k : ℕ =>
-      ∫ x, Real.cos (2 * Real.pi * (c + v k * x) * t) ∂twoPoint a) atTop (𝓝 0) := hT.comp hvdiv
+      ∫ x, Real.cos (2 * Real.pi * (c + v k * x) * t) ∂twoPoint a) atTop (𝓝 0) :=
+    hT.comp hvdiv
   rw [tendsto_congr hval] at hcomp
   have hconst : Tendsto (fun _ : ℕ => Real.cos (2 * Real.pi * c * t)) atTop
       (𝓝 (Real.cos (2 * Real.pi * c * t))) := tendsto_const_nhds
@@ -309,4 +316,68 @@ theorem twoPoint_shadow_survives (a c t : ℝ) (ha : a ≠ 0) (ht : 0 < t)
 
 /-! ## CAPSTONE — the charFun-decay condition separates AC (resist) from lattice (survive). -/
 
+/--
+**THE SHARP BOUNDARY (capstone) — charFun decay separates AC from lattice.**
+
+The resist condition of the general law is the spectral condition `‖charFun μ s‖ → 0`. This capstone
+shows that condition is the sharp dividing line bracketed by the two clean families:
+
+* an **absolutely-continuous** population `absContMeasure f` (`f` a nonnegative integrable density)
+  **satisfies** the resist condition (`absCont_charFun_tendsto_zero`, by Riemann–Lebesgue), so it
+  resists;
+* the **lattice** population `twoPoint a` (`a ≠ 0`) **fails** the resist condition
+  (`twoPoint_does_not_resist`, its characteristic function is `cos(a·)`, which recurs to `1`), so it
+  survives.
+
+AC sits on the resist side of the boundary, the two-point on the survive side — they bracket it.
+
+**What is NOT claimed.** This is `AC ⟹ resist` and `lattice ⟹ survive`, NOT `resist ⟺ AC`. The
+latter is false: singular-continuous **Rajchman** measures also resist (their characteristic
+function decays
+while they have no density). The full Rajchman characterization of which singular measures resist is
+subtle and is not captured here — AC and lattice are the two clean *brackets*, not a complete
+dichotomy. -/
+theorem resist_separates_ac_from_lattice
+    (f : ℝ → ℝ) (hf_meas : Measurable f) (hf_nonneg : ∀ x, 0 ≤ f x)
+    (a : ℝ) (ha : a ≠ 0) :
+    -- AC sits on the resist side: its charFun decays
+    (Tendsto (fun s : ℝ => ‖charFun (absContMeasure f) s‖) atTop (𝓝 0))
+      -- the lattice two-point sits on the survive side: its charFun does NOT decay
+      ∧ ¬ Tendsto (fun s : ℝ => ‖charFun (twoPoint a) s‖) atTop (𝓝 0) :=
+  ⟨absCont_charFun_tendsto_zero f hf_meas hf_nonneg, twoPoint_does_not_resist a ha⟩
+
+/--
+**The separation is ORTHOGONAL to variance** (composed with `ShadowDecayCauchy`). What governs
+resistance is the characteristic-function spectrum, NOT any moment:
+
+* the **Cauchy** population has *infinite* variance — indeed no first moment at all
+  (`ShadowDecayCauchy.cauchy_no_mean`) — yet it **resists**
+  (`ShadowDecayCauchy.cauchy_charFun_tendsto_zero`), because it is absolutely continuous and its
+  charFun decays;
+* the bounded **two-point** population has *finite everything* yet **survives**
+  (`twoPoint_does_not_resist`), because its charFun `cos(a·)` does not decay.
+
+So resistance cannot be read off the variance: an infinite-variance law resists while a
+bounded law survives. The deciding quantity is the charFun decay alone. -/
+theorem resist_orthogonal_to_variance
+    (x₀ : ℝ) (γ : ℝ≥0) (hγ : γ ≠ 0) (a : ℝ) (ha : a ≠ 0) :
+    -- Cauchy: infinite variance (no mean) yet resists (charFun decays)
+    ((Tendsto (fun s : ℝ => ‖charFun (cauchyMeasure x₀ γ) s‖) atTop (𝓝 0))
+        ∧ ¬ Integrable (fun x : ℝ => x) (cauchyMeasure x₀ γ))
+      -- two-point: bounded (finite everything) yet survives (charFun does not decay)
+      ∧ ¬ Tendsto (fun s : ℝ => ‖charFun (twoPoint a) s‖) atTop (𝓝 0) :=
+  ⟨Sundog.ShadowDecayCauchy.cauchy_is_separator x₀ γ hγ, twoPoint_does_not_resist a ha⟩
+
 end Sundog.ShadowDecayLattice
+
+-- Axiom audit: the AC-resist / lattice-survive separation and all corollaries should depend only on
+-- mathlib's foundational axioms (`propext`, `Classical.choice`, `Quot.sound`) — NO `sorryAx`.
+#print axioms Sundog.ShadowDecayLattice.charFun_absCont_eq_fourier
+#print axioms Sundog.ShadowDecayLattice.absCont_charFun_tendsto_zero
+#print axioms Sundog.ShadowDecayLattice.absCont_resists
+#print axioms Sundog.ShadowDecayLattice.twoPoint_charFun
+#print axioms Sundog.ShadowDecayLattice.twoPoint_does_not_resist
+#print axioms Sundog.ShadowDecayLattice.twoPoint_shadow_eq
+#print axioms Sundog.ShadowDecayLattice.twoPoint_shadow_survives
+#print axioms Sundog.ShadowDecayLattice.resist_separates_ac_from_lattice
+#print axioms Sundog.ShadowDecayLattice.resist_orthogonal_to_variance

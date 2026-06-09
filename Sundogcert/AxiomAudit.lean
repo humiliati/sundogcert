@@ -36,6 +36,7 @@ import Sundogcert.HaloGeometry
 import Sundogcert.FaradayAB
 import Sundogcert.CertWall
 import Sundogcert.DecodingNPHard
+import Sundogcert.ShadowDecayLattice
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -188,3 +189,33 @@ info: 'Sundog.Certificate.CertWall.colWeightLb_cannot_be_tight_basisRobust' depe
 /-- info: 'Sundog.DecodingNPHard.reduction_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.DecodingNPHard.reduction_iff
+
+/-! ## ShadowDecayLattice — AC resists (Riemann–Lebesgue), the lattice two-point survives -/
+
+/-- info: 'Sundog.ShadowDecayLattice.absCont_charFun_tendsto_zero' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayLattice.absCont_charFun_tendsto_zero
+
+/-- info: 'Sundog.ShadowDecayLattice.absCont_resists' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayLattice.absCont_resists
+
+/-- info: 'Sundog.ShadowDecayLattice.twoPoint_charFun' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayLattice.twoPoint_charFun
+
+/-- info: 'Sundog.ShadowDecayLattice.twoPoint_does_not_resist' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayLattice.twoPoint_does_not_resist
+
+/-- info: 'Sundog.ShadowDecayLattice.twoPoint_shadow_survives' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayLattice.twoPoint_shadow_survives
+
+/-- info: 'Sundog.ShadowDecayLattice.resist_separates_ac_from_lattice' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayLattice.resist_separates_ac_from_lattice
+
+/-- info: 'Sundog.ShadowDecayLattice.resist_orthogonal_to_variance' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShadowDecayLattice.resist_orthogonal_to_variance

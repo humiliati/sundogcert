@@ -102,6 +102,14 @@ concrete Gaussian decay and the general law behind it.)
   named-not-built — its *decay* is proved, which is all the separator needs; the exact contour computation
   is a candidate mathlib upstream. And, as in example 2, that a real system instantiates this averaging is a
   modeling premise, named not proved.
+- **Which measures resist — the sharp boundary** (`ShadowDecayLattice`): the charFun-decay condition separates
+  **absolutely-continuous** populations (resist by Riemann–Lebesgue — `absCont_resists`, generalizing the
+  Gaussian/uniform/Cauchy) from **lattice/atomic** ones (survive — the symmetric two-point has `charFun = cos`,
+  which recurs to `1` and never decays, so its averaged shadow `cos(2πct)·cos(2πλat)` *recurs* instead of
+  washing). It is **orthogonal to variance** (`resist_orthogonal_to_variance`): the Cauchy resists with
+  *infinite* variance, the bounded two-point survives with finite everything. Honest limit, named in the
+  module: this is `AC ⟹ resist` and `lattice ⟹ survive`, *not* `resist ⟺ AC` — singular-continuous Rajchman
+  measures resist too; AC and lattice only *bracket* the Rajchman boundary.
 
 ## The shared shape (and where it breaks)
 

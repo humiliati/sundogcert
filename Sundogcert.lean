@@ -13,3 +13,4 @@ import Sundogcert.HaloGeometry
 import Sundogcert.FaradayAB
 import Sundogcert.DecodingNPHard
 import Sundogcert.AxiomAudit
+import Sundogcert.ShadowDecayLattice
