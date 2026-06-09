@@ -11,6 +11,7 @@ import Sundogcert.ShadowDecayGeneral
 import Sundogcert.ShadowDecayCauchy
 import Sundogcert.HaloGeometry
 import Sundogcert.FaradayAB
+import Sundogcert.SortingCert
 import Sundogcert.DecodingNPHard
 import Sundogcert.AxiomAudit
 import Sundogcert.ShadowDecayLattice

@@ -1,0 +1,39 @@
+===== KEYWORD: Karp =====
+ as underlying model of computation and veryfing TM-computability of all constructions. Future work This work, the NP-hardness of SAT, now enables a variety of fully mech- anised NP-completeness proofs, like the well known 21 NP-complete problems by Karp [21], without even knowing what a Turing machine is. We conjecture that many interesting results in computational complexity theory can be mechanised when phrased in terms of L, as evident by a mechanisation of the time hierarchy theorem we are work
+---
+9, page 464, USA, 1999. IEEE Computer Society. 20 Jan Martin Jansen. Programming in the λ-Calculus: From Church to Scott and Back, pages 168– 180. Springer Berlin Heidelberg, Berlin, Heidelberg, 2013. doi:10.1007/978-3-642-40355-2_ 12. 21 Richard M. Karp. Reducibility among Combinatorial Problems, pages 85–103. Springer US, Boston, MA, 1972. doi:10.1007/978-1-4684-2001-2_9. 22 L. A. Levin. Universal sequential search problems. volume 9, pages 265 – 266, 1973. [Probl. Peredachi Inf., 9,3:115-116, 197
+---
+===== KEYWORD: now enables =====
+es we have for poly-time computability proofs in L are vastly superior to the hypothetical alternative of using TMs as underlying model of computation and veryfing TM-computability of all constructions. Future work This work, the NP-hardness of SAT, now enables a variety of fully mech- anised NP-completeness proofs, like the well known 21 NP-complete problems by Karp [21], without even knowing what a Turing machine is. We conjecture that many interesting results in computational complexity theory can be me
+---
+===== KEYWORD: future work =====
+ion and the involved problems. Section 5 and Section 6 elaborate on some details of the reductions. Section 7 gives a general overview of the mechanisation and in particular the mechanisation of resource analyses. Finally, we discuss our results and future work in Section 8. 4 Mechanising Complexity Theory: The Cook-Levin Theorem in Coq 2 Preliminaries We work in a constructive type theory with inductive types and an impredicative universe of propositions P as implemented in Coq. The basic inductive types 
+---
+with mechanising TMs [13, 14]. But the techniques we have for poly-time computability proofs in L are vastly superior to the hypothetical alternative of using TMs as underlying model of computation and veryfing TM-computability of all constructions. Future work This work, the NP-hardness of SAT, now enables a variety of fully mech- anised NP-completeness proofs, like the well known 21 NP-complete problems by Karp [21], without even knowing what a Turing machine is. We conjecture that many interesting resul
+---
+===== KEYWORD: 3-dimensional =====
+(none)
+===== KEYWORD: three-dimensional =====
+(none)
+===== KEYWORD: exact cover =====
+(none)
+===== KEYWORD: matching =====
+ formula. Exploiting the local computational structure of TMs, we constrain succeeding lines of the tableau locally with covering cards of 3 by 2 symbols to enforce valid configuration changes. At each possible offset of two succeeding lines, a card matching the symbols at that position needs to exist. Importantly, the cards need to overlap, which allows to express global constraints using only local cards. The set of cards available encodes the valid transitions the TM can take. Cards can be re-used. I
+---
+===== KEYWORD: clique =====
+(none)
+===== KEYWORD: we mechanise =====
+Mechanising Complexity Theory: The Cook-Levin Theorem in Coq Lennard Gäher ! Saarland University, Saarland Informatics Campus, Saarbrücken, Germany Fabian Kunze ! Saarland University, Saarland Informatics Campus, Saarbrücken, Germany Abstract We mechanise the Cook-Levin theorem, i.e. the NP-completeness of SAT, in the proof assistant Coq. We use the call-by-value λ-calculus L as the model of computation to formalise time com- plexity, the class NP, and polynomial-time reductions. The latter two notio
+---
+ satisfied by L. Overview In this paper, we formalise the basics of polynomial-time complexity theory for L, namely the classes P and NP, as well as the notions of NP-hardness and NP-completeness. As a first example of using L for complexity theory, we mechanise the popular Cook-Levin theorem in Coq. This theorem essentially founded the class of NP-complete problems when it was independently discovered by Cook [7] and Levin [22] in 1971. In the formulation by Cook, the satisfiability problem of Boolean form
+---
+only as an intermediate construct. Definitions, lemmas, and theorems in this document are hyperlinked with the documenta- tion of the Coq development; the links are marked by the symbol . Contribution In summary, our contributions are as follows: 1. We mechanise the theory of polynomial-time complexity for L, in particular the notions of polynomial-time computability, NP, NP-hardness, and NP-completeness, 2. and provide the first mechanisation of a structural result in complexity theory, namely the Cook-Lev
+---
+ certificates and verify it to run in polynomial-time. Further details are left to the Coq formalisation. Lemma 19 (SAT is in NP). SAT ∈NP In total, we now have proved the Cook-Levin theorem: Theorem 20 (Cook-Levin). SAT is NP-complete7. 7 Actually, we mechanise that even 3-SAT, where clauses are restricted to have size 3, is NP-complete. 14 Mechanising Complexity Theory: The Cook-Levin Theorem in Coq Table 1 Line counts (grouped, counted with coqwc) Component Spec Proof Libraries definitions and frameworks
+---
+===== KEYWORD: we formalise =====
+e complexity classes for L as for TMs, which justifies using L for the mechanisation of complexity theory. The two key requirements for L. Gäher and F. Kunze 3 mechanising structural results are thus elegantly satisfied by L. Overview In this paper, we formalise the basics of polynomial-time complexity theory for L, namely the classes P and NP, as well as the notions of NP-hardness and NP-completeness. As a first example of using L for complexity theory, we mechanise the popular Cook-Levin theorem in Coq. T
+---
+===== KEYWORD: contributions =====
+ted and analysed in L. TMs serve only as an intermediate construct. Definitions, lemmas, and theorems in this document are hyperlinked with the documenta- tion of the Coq development; the links are marked by the symbol . Contribution In summary, our contributions are as follows: 1. We mechanise the theory of polynomial-time complexity for L, in particular the notions of polynomial-time computability, NP, NP-hardness, and NP-completeness, 2. and provide the first mechanisation of a structural result in comple
+---
