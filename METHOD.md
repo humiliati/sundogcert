@@ -21,10 +21,11 @@ around exactly the thing that is *assumed*, so it cannot hide inside the proof.
 (Validity is not significance. The kernel buys correctness, not an audience; reception is still earned the
 usual way.)
 
-## Four demonstrations, four kinds of math
+## Five demonstrations, four kinds of math
 
-This repository carries the same move on four structurally unrelated objects — which is the point: a
-method must travel, or it is a lucky one-off.
+This repository carries the same move on five worked examples, spanning four structurally distinct kinds of
+math — which is the point: a method must travel, or it is a lucky one-off. (Real analysis appears twice: a
+concrete Gaussian decay and the general law behind it.)
 
 **1. A syndrome certificate — finite-field algebra.**
 (`Certificate`, `Instance`, `Scaling`, `Looseness`, `Degradation`, `CheckCost`)
@@ -47,9 +48,9 @@ method must travel, or it is a lucky one-off.
   (`determination`).
 - **The imported wall:** that a real system instantiates this averaging — a genuine population with an
   honest lossiness knob — is a modeling premise, named not proved.
-- *Generalized* in `ShadowDecayGeneral`: the same determine/resist split is proved for **any** probability
-  measure (not just the Gaussian), governed by its characteristic function — Debye–Waller is recovered as
-  the Gaussian instance. Kept as a generalization of *this* example, not a fifth one.
+- *Generalized into its own worked example* (§5, `ShadowDecayGeneral`): the same determine/resist split
+  holds for **any** probability measure, and which half fires turns out to be governed by two *independent*
+  spectral conditions on the measure — Debye–Waller is just the Gaussian instance.
 
 **3. Halo geometry — geometric optics / calculus.**
 (`HaloGeometry`)
@@ -82,19 +83,35 @@ method must travel, or it is a lucky one-off.
   physical observable being the *real* circulation) — physics, named not derived. That nature realizes this
   as the Aharonov–Bohm effect is named, not proved.
 
+**5. The general law — real analysis (the characteristic-function spectrum).**
+(`ShadowDecayGeneral`)
+- Example 2, generalized. Averaging the fringe `cos(2π(c+λξ)t)` over **any** probability measure `μ` factors
+  through `μ`'s **characteristic function**: `∫ cos(2π(c+λξ)t) ∂μ = Re[e^{2πi c t}·charFun μ (2πλt)]`
+  (`shadow_decay_charFun`). From that single identity the dichotomy splits into **two independent spectral
+  conditions**: **resist** (the continuous signal washes) ⟺ `‖charFun μ‖ → 0` (Riemann–Lebesgue;
+  `resistance_general`); **determine** (the shared label survives) ⟺ a **finite centered mean**
+  (`determination_general`). Neither implies the other — the **Cauchy** law is the separator: it resists
+  (its charFun decays) yet cannot determine (it has no mean). The Gaussian discharges **both**, recovering
+  Debye–Waller / example 2 as the instance (`general_recovers_debye_waller`).
+- **The imported wall:** the **Cauchy instance** is *named, not built* — mathlib has neither a `charFun` for
+  the Cauchy law nor the non-integrability of its mean, so the separator is the motivating boundary,
+  established empirically and scoped as future work. And, as in example 2, that a real system instantiates
+  this averaging is a modeling premise, named not proved.
+
 ## The shared shape (and where it breaks)
 
-Three of the four share a deeper shape: a **map that *determines* a structural invariant while *losing* a
+Four of the five share a deeper shape: a **map that *determines* a structural invariant while *losing* a
 continuous or gauge degree of freedom**. The certificate's syndrome determines the coset and loses the
-secret; the averaged shadow keeps the shared label and washes the continuous spread; the closed loop washes
-the gauge freedom `∇χ` to exactly zero (`gauge_circulation_zero`) and keeps the topological flux `Φ` — the
-`H¹` period — as the surviving observable (`loop_integral_eq_flux`). The same
-shape recurs across three different mathematical structures — a finite-field coset, a measure-theoretic
-label, a topological period. The halo is *not* that shape — it is a pure geometric extremization — and
-that is the stronger point: the discipline is not tied even to that recurring motif. What all four share is
-only the method itself: the genuinely hard part — decoding hardness, real-world instantiation, the physical
-realization of the geometry, the physical realization of the gauge field — is the import, named on the
-outside of the proof rather than smuggled inside it.
+secret; the averaged shadow keeps the shared label and washes the continuous spread — and its general law
+(§5) names *which* spectral condition governs each half; the closed loop washes the gauge freedom `∇χ` to
+exactly zero (`gauge_circulation_zero`) and keeps the topological flux `Φ` — the `H¹` period — as the
+surviving observable (`loop_integral_eq_flux`). The same shape recurs across a finite-field coset, a
+measure-theoretic label and the characteristic-function spectrum that governs it, and a topological period.
+The halo is *not* that shape — it is a pure geometric extremization — and that is the stronger point: the
+discipline is not tied even to that recurring motif. What all five share is only the method itself: the
+genuinely hard part — decoding hardness, real-world instantiation, the physical realization of the geometry,
+the physical realization of the gauge field — is the import, named on the outside of the proof rather than
+smuggled inside it.
 
 ## The honest limit
 

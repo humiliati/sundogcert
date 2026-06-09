@@ -61,7 +61,7 @@ proof makes `lake build` **fail**. The referee-free promise can no longer silent
 | `Sundogcert/CheckCost.lean` | the check-cost theorem: verification is polynomial-time, `O(m·n)` in `|H|` |
 | `Sundogcert/CertWall.lean` | *types* the imported hardness wall: `minCosetWeight` is a code invariant while `colWeightLb` is basis-dependent, so a cheap basis-robust *tight* bound would be a decoder — a **conditional** (`tight_bound_decodes`), never a hardness claim |
 | `Sundogcert/ShadowDecay.lean` | a second worked example (real analysis): a lossy *averaged* shadow loses a continuous variable — the Debye–Waller decay |
-| `Sundogcert/ShadowDecayGeneral.lean` | a *generalization* of `ShadowDecay` (not a fifth example): the determine/resist split for **any** probability measure, governed by its characteristic-function spectrum, with Debye–Waller recovered as the Gaussian instance |
+| `Sundogcert/ShadowDecayGeneral.lean` | a fifth worked example (real analysis, generalizing the second): the determine/resist split for **any** probability measure — resist ⟺ `‖charFun μ‖→0` (Riemann–Lebesgue), determine ⟺ a finite centered mean (two *independent* spectral conditions; the Cauchy law is the separator) — with Debye–Waller the Gaussian instance |
 | `Sundogcert/HaloGeometry.lean` | a third worked example (geometric optics): the 22° halo's minimum-deviation principle, proved a **genuine local minimum** at the symmetric ray (`min_deviation_isLocalMin` — the bright ring forms at the deviation extremum) |
 | `Sundogcert/FaradayAB.lean` | a fourth worked example (vector calculus / topology): the Aharonov–Bohm gauge-invariance (a gradient's closed-loop circulation is zero) *and* its topological closure (the loop integral *is* the enclosed flux, `∮(z−c)⁻¹ = 2πi`, path-independent) |
 | `Sundogcert/AxiomAudit.lean` | the **self-enforcing axiom-clean gate**: every headline theorem's `#print axioms` pinned by `#guard_msgs` — a `sorry`/`native_decide`/extra-axiom regression fails the build |
@@ -76,6 +76,7 @@ The same discipline — *machine-check the deductive core, name the imported wal
 time, on a different kind of math, in [`ShadowDecay.lean`](Sundogcert/ShadowDecay.lean): a real-analysis
 Gaussian-averaging (Debye–Waller) decay, proving *why* a continuous signal resists a lossy averaged shadow,
 with the modeling assumption (that a real system realizes the averaging) named as the imported wall. See
-[`METHOD.md`](METHOD.md) for the discipline stated in full across all four worked examples (finite-field
-algebra, real analysis, geometric optics, vector calculus / topology). The method travels; it is not a
-one-off. Toolchain: Lean `v4.30.0`, mathlib `v4.30.0`.
+[`METHOD.md`](METHOD.md) for the discipline stated in full across all five worked examples — four kinds of
+math (finite-field algebra, real analysis, geometric optics, vector calculus / topology), with real
+analysis carrying both the concrete Gaussian decay and its general characteristic-function law. The method
+travels; it is not a one-off. Toolchain: Lean `v4.30.0`, mathlib `v4.30.0`.
