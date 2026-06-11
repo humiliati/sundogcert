@@ -45,6 +45,7 @@ import Sundogcert.ThreeDMReindex
 import Sundogcert.SATReductionReverse
 import Sundogcert.SATReductionForward
 import Sundogcert.SATReductionMain
+import Sundogcert.AuditCost
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -270,3 +271,26 @@ info: 'Sundog.Certificate.CertWall.colWeightLb_cannot_be_tight_basisRobust' depe
 /-- info: 'Sundog.SATReductionMain.sat_iff_decodes' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.SATReductionMain.sat_iff_decodes
+
+/-! ## AuditCost — audit asymmetry (HS7): sound cheap audit + ∀-verifier blindness -/
+
+/-- info: 'Sundog.AuditCost.audit_sound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AuditCost.audit_sound
+
+/-- info: 'Sundog.AuditCost.auditCost_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AuditCost.auditCost_le
+
+/-- info: 'Sundog.AuditCost.pooled_channel_blind' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AuditCost.pooled_channel_blind
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.AuditCost.no_verifier_checks_perUnit' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AuditCost.no_verifier_checks_perUnit
+
+/-- info: 'Sundog.AuditCost.audit_asymmetry' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AuditCost.audit_asymmetry

@@ -21,12 +21,13 @@ around exactly the thing that is *assumed*, so it cannot hide inside the proof.
 (Validity is not significance. The kernel buys correctness, not an audience; reception is still earned the
 usual way.)
 
-## Six demonstrations, five kinds of math
+## Seven demonstrations, six kinds of math
 
-This repository carries the same move on six worked examples, spanning five structurally distinct kinds of
+This repository carries the same move on seven worked examples, spanning six structurally distinct kinds of
 math — which is the point: a method must travel, or it is a lucky one-off. (Real analysis appears twice: a
 concrete Gaussian decay and the general law behind it. The sixth is a computational-complexity Karp
-reduction — the method's payoff for the certificate of example 1.)
+reduction — the method's payoff for the certificate of example 1. The seventh is a finite audit game
+quantified over *all* decidable verifiers.)
 
 **1. A syndrome certificate — finite-field algebra.**
 (`Certificate`, `Instance`, `Scaling`, `Looseness`, `Degradation`, `CheckCost`)
@@ -131,18 +132,39 @@ reduction — the method's payoff for the certificate of example 1.)
   opaque — a checked reduction anchors it to the canonical NP-complete problem, leaving only the
   (unformalizable-in-mathlib) complexity wrapping named on the outside of the proof.
 
+**7. An audit asymmetry — finite decidability / a game over verifiers.**
+(`AuditCost`)
+- In one finite setting (populations `u : Fin n → ℚ`, observation channel `(report, pooledMean u)`):
+  a full-access **audit game** is sound and complete against an adversarial reporter at a proven linear
+  op-cost (`audit_asymmetry`, `auditCost_le ≤ 3n+2` — the CheckCost cost-model discipline reused), while
+  **every** decidable verifier seeing only the pooled channel is **per-unit blind** — an explicit
+  same-mean fiber pair realizes any prescribed per-unit difference with identical verdicts for every
+  report (`pooled_channel_blind`), so *no* channel verifier is sound-and-complete for *any* per-unit
+  claim (`no_verifier_checks_perUnit`). Non-vacuity is proved, not asserted: at `n = 1` the channel
+  *determines* the unit (`n1_channel_determines`), and the blind pair is *separated* one statistic up,
+  by the second moment (`secondMoment_separates`) — the information is present in the population; the
+  channel is what is blind.
+- **The imported wall:** the cost model is the trust surface (exactly as in example 1's `CheckCost`),
+  and that any real oversight interface *is* a pooled-mean channel is a modeling premise, named not
+  proved. The blindness proofs are short by design — data processing is short; the content is the
+  statement's quantifier (for ALL verifiers) and the explicit construction.
+- This is the finite, verifier-quantified sibling of §5's determine/resist law: where §5 shows one
+  statistic's limit washes, this quantifies the blindness over every decidable auditor of the channel.
+
 ## The shared shape (and where it breaks)
 
-Four of the five share a deeper shape: a **map that *determines* a structural invariant while *losing* a
+Five of the seven share a deeper shape: a **map that *determines* a structural invariant while *losing* a
 continuous or gauge degree of freedom**. The certificate's syndrome determines the coset and loses the
 secret; the averaged shadow keeps the shared label and washes the continuous spread — and its general law
 (§5) names *which* spectral condition governs each half; the closed loop washes the gauge freedom `∇χ` to
 exactly zero (`gauge_circulation_zero`) and keeps the topological flux `Φ` — the `H¹` period — as the
-surviving observable (`loop_integral_eq_flux`). The same shape recurs across a finite-field coset, a
-measure-theoretic label and the characteristic-function spectrum that governs it, and a topological period.
+surviving observable (`loop_integral_eq_flux`); the pooled-mean channel (§7) keeps the population mean and
+loses every per-unit coordinate — there the lost half is certified against *all* decidable verifiers, not
+one statistic. The same shape recurs across a finite-field coset, a measure-theoretic label and the
+characteristic-function spectrum that governs it, a topological period, and a finite audit channel.
 Neither the halo (a pure geometric extremization) nor the Karp reduction (a combinatorial *equivalence*
 whose import is hardness, not a model or a measurement) is that shape — and that is the stronger point: the
-discipline is not tied even to that recurring motif. What all six share is only the method itself: the
+discipline is not tied even to that recurring motif. What all seven share is only the method itself: the
 genuinely hard part — decoding hardness (and, behind the reduction, Cook–Levin), real-world instantiation,
 the physical realization of the geometry, the physical realization of the gauge field — is the import, named
 on the outside of the proof rather than smuggled inside it.

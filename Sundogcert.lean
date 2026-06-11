@@ -16,6 +16,7 @@ import Sundogcert.RSCertificate
 import Sundogcert.DecodingNPHard
 import Sundogcert.AxiomAudit
 import Sundogcert.ShadowDecayLattice
+import Sundogcert.AuditCost
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard

@@ -104,6 +104,7 @@ proof makes `lake build` **fail**. The referee-free promise can no longer silent
 | `Sundogcert/ShadowDecayGeneral.lean` | a fifth worked example (real analysis, generalizing the second): the determine/resist split for **any** probability measure — resist ⟺ `‖charFun μ‖→0` (Riemann–Lebesgue), determine ⟺ a finite centered mean (two *independent* spectral conditions; the Cauchy law is the separator) — with Debye–Waller the Gaussian instance |
 | `Sundogcert/ShadowDecayCauchy.lean` | *closes* the named wall of `ShadowDecayGeneral` (not a separate example): the Cauchy law is the **proven** separator — it resists (`cauchy_charFun_tendsto_zero`, by Riemann–Lebesgue) yet cannot determine (`cauchy_no_mean`, `¬ Integrable id`), so resist and determine are logically independent; only the *exact* `charFun = e^{−γ|s|}` stays named |
 | `Sundogcert/ShadowDecayLattice.lean` | *sharpens* `ShadowDecayGeneral`'s resist condition (not a separate example): the charFun-decay is the boundary between **absolutely-continuous** populations (resist, `absCont_resists`) and **lattice/atomic** ones (survive — the two-point `charFun = cos` recurs to 1, `twoPoint_shadow_survives`), and it is **orthogonal to variance** (`resist_orthogonal_to_variance`: Cauchy ∞-variance resists, bounded two-point survives). Honest limit: brackets the Rajchman boundary, does *not* claim `resist ⟺ AC` |
+| `Sundogcert/AuditCost.lean` | a seventh worked example (finite decidability / audit game): a proved-cheap full-access audit — sound + complete against an adversarial reporter at `auditCost ≤ 3n+2` — paired with **∀-verifier blindness** of the pooled-mean channel: an explicit same-mean fiber pair defeats *every* decidable channel verifier at any prescribed per-unit `δ` (`pooled_channel_blind`), so no channel verifier checks any per-unit claim (`no_verifier_checks_perUnit`). Non-vacuity proved: `n = 1` determines; the second moment separates the blind pair |
 | `Sundogcert/HaloGeometry.lean` | a third worked example (geometric optics): the 22° halo's minimum-deviation principle, proved a **genuine local minimum** at the symmetric ray (`min_deviation_isLocalMin` — the bright ring forms at the deviation extremum) |
 | `Sundogcert/FaradayAB.lean` | a fourth worked example (vector calculus / topology): the Aharonov–Bohm gauge-invariance (a gradient's closed-loop circulation is zero) *and* its topological closure (the loop integral *is* the enclosed flux, `∮(z−c)⁻¹ = 2πi`, path-independent) |
 | `Sundogcert/DecodingNPHard.lean` | the chain's last link: exact-cover-by-3-sets ≤ bounded-weight GF(2) decoding (both directions, unconditional) |
@@ -131,8 +132,8 @@ The same discipline — *machine-check the deductive core, name the imported wal
 time, on a different kind of math, in [`ShadowDecay.lean`](Sundogcert/ShadowDecay.lean): a real-analysis
 Gaussian-averaging (Debye–Waller) decay, proving *why* a continuous signal resists a lossy averaged shadow,
 with the modeling assumption (that a real system realizes the averaging) named as the imported wall. See
-[`METHOD.md`](METHOD.md) for the discipline stated in full across all six worked examples — five kinds of
-math (finite-field algebra, real analysis, geometric optics, vector calculus / topology, and a
-computational-complexity Karp reduction), with real analysis carrying both the concrete Gaussian decay and
-its general characteristic-function law. The method travels; it is not a one-off. Toolchain: Lean
-`v4.30.0`, mathlib `v4.30.0`.
+[`METHOD.md`](METHOD.md) for the discipline stated in full across all seven worked examples — six kinds of
+math (finite-field algebra, real analysis, geometric optics, vector calculus / topology, a
+computational-complexity Karp reduction, and a finite audit game quantified over all decidable verifiers),
+with real analysis carrying both the concrete Gaussian decay and its general characteristic-function law.
+The method travels; it is not a one-off. Toolchain: Lean `v4.30.0`, mathlib `v4.30.0`.
