@@ -23,6 +23,10 @@ version: "1.0.0"
 date-released: "2026-06-15"
 license: Apache-2.0
 repository-code: "https://github.com/humiliati/sundogcert"
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.20711227
+    description: Zenodo software archive DOI
 keywords:
   - Lean 4
   - mathlib
