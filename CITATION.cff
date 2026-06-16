@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using these metadata."
+title: >-
+  sundogcert: A machine-checked 3SAT <= 3DM <= X3C <= syndrome-decoding
+  hardness chain in Lean 4
+abstract: >-
+  An axiom-clean Lean 4 / mathlib formalization of the reduction-correctness
+  spine of the classical Karp chain 3SAT <= 3DM <= X3C <= bounded-weight GF(2)
+  syndrome decoding, with each link proved as a both-directions equivalence,
+  the syndrome-certificate core it lands on, and a build-enforced axiom gate
+  pinning every headline theorem to Lean's three foundational axioms. The
+  repository additionally carries related Lean method-demonstration modules
+  (real-analysis shadow decay, halo minimum-deviation geometry, Aharonov-Bohm
+  gauge invariance). Reproducible by `lake build` (Lean v4.30.0, mathlib v4.30.0).
+type: software
+authors:
+  - given-names: Jeffery Wade
+    family-names: Hughes
+    name-suffix: Jr.
+    orcid: "https://orcid.org/0009-0001-2875-5937"
+    affiliation: "Independent Researcher; Stellar Aqua LLC"
+version: "1.0.0"
+date-released: "2026-06-15"
+license: Apache-2.0
+repository-code: "https://github.com/humiliati/sundogcert"
+keywords:
+  - Lean 4
+  - mathlib
+  - formal verification
+  - interactive theorem proving
+  - NP-hardness
+  - Karp reduction
+  - syndrome decoding
+  - coding theory
+  - 3-dimensional matching
+  - exact cover

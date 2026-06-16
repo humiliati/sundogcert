@@ -1,0 +1,26 @@
+{
+  "title": "sundogcert: A machine-checked 3SAT ≤ 3DM ≤ X3C ≤ syndrome-decoding hardness chain in Lean 4",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "Apache-2.0",
+  "description": "<p>An axiom-clean Lean 4 / mathlib formalization of the reduction-correctness spine of the classical Karp chain <strong>3SAT ≤ 3DM ≤ X3C ≤ bounded-weight GF(2) syndrome decoding</strong>, each link proved as a both-directions equivalence, together with the syndrome-certificate core it lands on and a build-enforced axiom-cleanliness gate that pins every headline theorem to Lean's three foundational axioms. The repository additionally carries related Lean method-demonstration modules (real-analysis shadow decay, halo minimum-deviation geometry, Aharonov–Bohm gauge invariance). Reproducible by <code>lake build</code> (Lean v4.30.0, mathlib v4.30.0). Accompanies the paper <em>Mechanising the Hardness of Syndrome Decoding</em>.</p>",
+  "creators": [
+    {
+      "name": "Hughes, Jeffery Wade Jr.",
+      "orcid": "0009-0001-2875-5937",
+      "affiliation": "Independent Researcher; Stellar Aqua LLC"
+    }
+  ],
+  "keywords": [
+    "Lean 4",
+    "mathlib",
+    "formal verification",
+    "interactive theorem proving",
+    "NP-hardness",
+    "Karp reduction",
+    "syndrome decoding",
+    "coding theory",
+    "3-dimensional matching",
+    "exact cover"
+  ]
+}
