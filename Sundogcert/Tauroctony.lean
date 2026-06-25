@@ -115,6 +115,10 @@ theorem ruin_break_even {BM BN pM pN L : ℝ} (_hΔp : 0 < pM - pN) :
 #guard_msgs in
 #print axioms optimum_mono
 
+/-- info: 'Sundogcert.Tauroctony.signature_noninterference' does not depend on any axioms -/
+#guard_msgs in
+#print axioms signature_noninterference
+
 /-- info: 'Sundogcert.Tauroctony.ruin_break_even' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms ruin_break_even
