@@ -141,7 +141,16 @@ branch-budget receipt that marks overflow branches as `structural-zero`:
 python scripts/rs_pruning_prototype.py
 python -m pytest scripts/test_branch_budget_receipt.py -q
 python -m pytest scripts/test_rs_pruning_prototype.py -q
+python -m pytest scripts/test_discrete_holonomy_receipt.py -q
 ```
+
+The discrete-loop theorem for the next lane lives in
+[`Sundogcert/DiscreteHolonomy.lean`](Sundogcert/DiscreteHolonomy.lean). It proves
+that finite gauge sums telescope to endpoint differences and close to zero on
+closed loops. The toy runtime receipt is
+[`scripts/discrete_holonomy_receipt.py`](scripts/discrete_holonomy_receipt.py);
+it checks integer trace loops only and keeps the attention-mapping claim outside
+the proof.
 
 ## Scope
 

@@ -254,8 +254,18 @@ Promotion status:
    ```
 
 4. Specify a discrete loop theorem.
-   Port the Aharonov-Bohm idea into a finite graph statement first. Only after
-   that attach it to attention traces.
+   Done at the finite core level in `Sundogcert/DiscreteHolonomy.lean`: finite
+   gauge sums telescope to endpoint differences, closed loops zero out, and
+   pure-gauge sums are path-independent when endpoints agree. The executable
+   toy receipt in `scripts/discrete_holonomy_receipt.py` checks closed integer
+   trace loops and emits `accept`, `structural-zero`, or verifier-checkable
+   `quarantine`. This still does not attach the theorem to attention traces;
+   that measurement map remains an imported wall.
+
+   ```sh
+   lake build Sundogcert.DiscreteHolonomy
+   python -m pytest scripts/test_discrete_holonomy_receipt.py -q
+   ```
 
 5. Specify a cusp detector.
    Write the sampled-jet predicate and falsification cases before formalizing

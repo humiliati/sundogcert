@@ -30,3 +30,4 @@ import Sundogcert.SATReductionForward
 import Sundogcert.SATReductionMain
 import Sundogcert.Tauroctony
 import Sundogcert.AgenticTrace
+import Sundogcert.DiscreteHolonomy

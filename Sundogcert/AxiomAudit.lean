@@ -47,6 +47,7 @@ import Sundogcert.SATReductionForward
 import Sundogcert.SATReductionMain
 import Sundogcert.AuditCost
 import Sundogcert.AgenticTrace
+import Sundogcert.DiscreteHolonomy
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -317,3 +318,21 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.AgenticTrace.not_branch_count_gt_budget' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.AgenticTrace.not_branch_count_gt_budget
+
+/-! ## DiscreteHolonomy -- finite gauge zero-out for closed trace loops -/
+
+/-- info: 'Sundog.DiscreteHolonomy.sum_discreteDiff_eq_endpoint' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.DiscreteHolonomy.sum_discreteDiff_eq_endpoint
+
+/-- info: 'Sundog.DiscreteHolonomy.gauge_sum_eq_endpoint' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.DiscreteHolonomy.gauge_sum_eq_endpoint
+
+/-- info: 'Sundog.DiscreteHolonomy.closed_gauge_sum_zero' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.DiscreteHolonomy.closed_gauge_sum_zero
+
+/-- info: 'Sundog.DiscreteHolonomy.gauge_sum_path_independent' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.DiscreteHolonomy.gauge_sum_path_independent
