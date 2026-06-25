@@ -46,6 +46,7 @@ import Sundogcert.SATReductionReverse
 import Sundogcert.SATReductionForward
 import Sundogcert.SATReductionMain
 import Sundogcert.AuditCost
+import Sundogcert.AgenticTrace
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -294,3 +295,25 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.AuditCost.audit_asymmetry' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.AuditCost.audit_asymmetry
+
+/-! ## AgenticTrace -- first formal hooks for trace-governed agent search -/
+
+/-- info: 'Sundog.AgenticTrace.rs_receipt_accept_safe' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AgenticTrace.rs_receipt_accept_safe
+
+/-- info: 'Sundog.AgenticTrace.rs_receipt_unique' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AgenticTrace.rs_receipt_unique
+
+/-- info: 'Sundog.AgenticTrace.trace_gated_noninterference' does not depend on any axioms -/
+#guard_msgs in
+#print axioms Sundog.AgenticTrace.trace_gated_noninterference
+
+/-- info: 'Sundog.AgenticTrace.branch_count_le_budget' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AgenticTrace.branch_count_le_budget
+
+/-- info: 'Sundog.AgenticTrace.not_branch_count_gt_budget' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AgenticTrace.not_branch_count_gt_budget

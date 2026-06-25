@@ -120,6 +120,29 @@ proof makes `lake build` **fail**. The referee-free promise can no longer silent
 | `Sundogcert/SATReductionMain.lean` | the composition — `Satisfiable φ ↔ Decodes …`, closing `3SAT ≤ 3DM ≤ X3C ≤ Decodes` |
 | `Sundogcert/AxiomAudit.lean` | the **self-enforcing axiom-clean gate**: every headline theorem's `#print axioms` pinned by `#guard_msgs` — a `sorry`/`native_decide`/extra-axiom regression fails the build |
 
+## Agentic trace slate
+
+[`AGENTIC_TRACE_HYPOTHESES.md`](AGENTIC_TRACE_HYPOTHESES.md) stages the
+trace-conditioned agentic-search hypotheses from the current research brief.
+Its first formal receipt layer is
+[`Sundogcert/AgenticTrace.lean`](Sundogcert/AgenticTrace.lean): accepted RS
+receipts are safe, RS decodings are unique inside the radius, trace-gated
+policies are noninterferent under trace-preserving attacks, and finite branch
+traces cannot exceed their certified slots. The speculative model-measurement
+claims remain named imported walls.
+
+The first executable prototype is
+[`scripts/rs_pruning_prototype.py`](scripts/rs_pruning_prototype.py). It runs a
+tiny deterministic GF(17) RS-pruning demo over stale/contradictory trace cells
+and emits verifier-checkable receipts: an RS pruning receipt plus a finite
+branch-budget receipt that marks overflow branches as `structural-zero`:
+
+```sh
+python scripts/rs_pruning_prototype.py
+python -m pytest scripts/test_branch_budget_receipt.py -q
+python -m pytest scripts/test_rs_pruning_prototype.py -q
+```
+
 ## Scope
 
 This repository is about a verification *methodology* — a cheap check whose validity anyone can reproduce
