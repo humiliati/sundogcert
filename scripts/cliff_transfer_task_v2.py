@@ -35,6 +35,7 @@ import re
 import sys
 import time
 
+import cliff_transfer_analysis as cta
 import cliff_transfer_api_adapter as api
 import cliff_transfer_keyring as keyring
 
@@ -125,6 +126,93 @@ def probe(provider="openai", model=None, *, lambdas=(0.0, 0.25, 0.5, 0.75, 1.0),
             "O_by_lambda": curve, "examples": examples}
 
 
+_FULL_GRID = tuple(i / 20 for i in range(21))
+_SIG_PROVENANCE = ["next_token_entropy", "self_consistency_variance",
+                   "retrieval_overlap", "draft_length_zscore"]
+
+
+def row_from_samples(lam: float, samples, truth: str, trap: str) -> dict:
+    """Build one analysis-shaped row from k model samples (adopts cliff_transfer_analysis's
+    contract). O = majority trap-vote; s[0] = mean first-token entropy (the AUC driver)."""
+    decisions = [score_o(s.text, truth, trap)[0] for s in samples]
+    valid = [d for d in decisions if d is not None]
+    o = 1 if valid and sum(valid) * 2 > len(valid) else 0
+    mean_entropy = sum(s.entropy for s in samples) / len(samples)
+    acc = [1.0 if d == 1 else 0.0 for d in decisions]
+    mean_acc = sum(acc) / len(acc)
+    sc_var = sum((a - mean_acc) ** 2 for a in acc) / len(acc)
+    rep = next((s.text for s, d in zip(samples, decisions) if (d == 1) == (o == 1)), samples[0].text)
+    return {
+        "lambda_fraction": lam,
+        "lambda_hat": lam,  # lambda_c = 1.0: documented (no per-stack normalization)
+        "s": [mean_entropy, sc_var, 0.0, 0.0],
+        "O": o,
+        "signature_provenance": list(_SIG_PROVENANCE),
+        "signature_uses_outcome": False,
+        "draft_text": rep,
+        "n_malformed": sum(1 for d in decisions if d is None),
+    }
+
+
+def run_stack_v2(provider, model=None, *, lambdas=_FULL_GRID, n_trials=30, k_samples=3,
+                 max_calls=3000, delay=0.3, allow_paid=True, key_dir=None,
+                 opener=keyring._default_open) -> dict:
+    """Run one v2 stack and analyze it through the frozen pipeline (per-stack verdict)."""
+    if provider not in api.FREE_PROVIDERS and not allow_paid:
+        raise SystemExit(f"{provider} is paid; pass allow_paid=True.")
+    model = model or api.DEFAULT_MODEL[provider]
+    adapter = api.ApiModelAdapter(provider=provider, model=model, k_samples=k_samples,
+                                  temperature=0.7, max_tokens=12, delay=delay,
+                                  budget=api.CallBudget(max_calls), key_dir=key_dir, opener=opener)
+    t0 = time.time()
+    rows, seed = [], 0
+    for lam in lambdas:
+        for _ in range(n_trials):
+            prompt, truth, trap = build_corpus(lam, seed)
+            seed += 1
+            samples = [adapter._sample(prompt) for _ in range(k_samples)]
+            rows.append(row_from_samples(lam, samples, truth, trap))
+    sid = f"v2_{provider}_{model}".replace("/", "_").replace(".", "_").replace("-", "_")
+    ps = cta.analyze_stack(rows, stack_id=sid, lambda_c=1.0)
+    o_by = {}
+    for r in rows:
+        o_by.setdefault(r["lambda_fraction"], []).append(r["O"])
+    return {
+        "provider": provider, "model": model, "stack_id": sid,
+        "calls": adapter.calls, "prompt_tokens": adapter.prompt_tokens,
+        "completion_tokens": adapter.completion_tokens, "usd_estimate": adapter.usd_estimate(),
+        "wall_s": time.time() - t0, "malformed": sum(r["n_malformed"] for r in rows),
+        "O_by_lambda": sorted((l, sum(v) / len(v)) for l, v in o_by.items()),
+        "per_stack": ps.to_dict(),
+    }
+
+
+def two_stack_v2(specs, **kw) -> dict:
+    """Run two v2 stacks and adjudicate the preregistered transfer verdict."""
+    stacks = [run_stack_v2(p, m, **kw) for (p, m) in specs]
+    decision = cta.transfer_verdict([s["per_stack"] for s in stacks])
+    return {
+        "version": TASK_V2_VERSION, "stacks": stacks,
+        "transfer_verdict": decision.to_dict(),
+        "total_usd_estimate": sum(s["usd_estimate"] for s in stacks),
+        "total_calls": sum(s["calls"] for s in stacks),
+    }
+
+
+def format_run(r: dict) -> str:
+    lines = [f"TASK-V2 RUN {r['version']}  total_calls={r['total_calls']} "
+             f"total_usd~={r['total_usd_estimate']:.4f}"]
+    for s in r["stacks"]:
+        ps = s["per_stack"]
+        lines.append(f"  [{s['provider']}/{s['model']}] calls={s['calls']} usd~={s['usd_estimate']:.4f} "
+                     f"malformed={s['malformed']}")
+        lines.append("     O(λ): " + "  ".join(f"{l:.2f}:{o:.2f}" for l, o in s["O_by_lambda"]))
+        lines.append(f"     fit: λ*={ps['lambda_star']:.3f} w={ps['w']:.3f} sig_auc={ps['signature_auc']:.3f} "
+                     f"abl={ps['ablation_auc']:.3f} lead={ps['monitor_lead']:.3f} controls_pass={ps['controls_pass']}")
+    lines.append(f"  VERDICT: {r['transfer_verdict']['verdict']} — {r['transfer_verdict']['reason']}")
+    return "\n".join(lines)
+
+
 def selftest() -> dict:
     p0, truth, trap = build_corpus(0.0, 0)
     p1, _, _ = build_corpus(1.0, 0)
@@ -152,16 +240,28 @@ def format_probe(r: dict) -> str:
 
 
 def main(argv=None):
-    p = argparse.ArgumentParser(description="v2 authority-vs-volume cliff task (probe).")
+    p = argparse.ArgumentParser(description="v2 authority-vs-volume cliff task.")
     p.add_argument("--selftest", action="store_true")
     p.add_argument("--probe", action="store_true")
+    p.add_argument("--run", action="store_true", help="powered two-stack run through the analysis pipeline")
+    p.add_argument("--specs", default="openai:gpt-3.5-turbo,openai:gpt-4o-mini",
+                   help="comma-separated provider:model pairs for --run")
     p.add_argument("--provider", default="openai", choices=sorted(api.DEFAULT_MODEL))
     p.add_argument("--model", default=None)
     p.add_argument("--samples", type=int, default=4)
-    p.add_argument("--max-calls", type=int, default=120)
+    p.add_argument("--n-trials", type=int, default=30)
+    p.add_argument("--k-samples", type=int, default=3)
+    p.add_argument("--max-calls", type=int, default=3000)
     p.add_argument("--delay", type=float, default=0.2)
     p.add_argument("--json", action="store_true")
     args = p.parse_args(argv)
+
+    if args.run:
+        specs = [tuple(s.split(":", 1)) for s in args.specs.split(",")]
+        r = two_stack_v2(specs, n_trials=args.n_trials, k_samples=args.k_samples,
+                         max_calls=args.max_calls, delay=args.delay)
+        print(json.dumps(r, indent=2) if args.json else format_run(r))
+        return r
 
     if args.probe:
         r = probe(args.provider, args.model, samples=args.samples,

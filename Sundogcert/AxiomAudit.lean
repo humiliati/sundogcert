@@ -48,6 +48,7 @@ import Sundogcert.SATReductionMain
 import Sundogcert.AuditCost
 import Sundogcert.AgenticTrace
 import Sundogcert.DiscreteHolonomy
+import Sundogcert.CircuitNet
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -296,6 +297,21 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.AuditCost.audit_asymmetry' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.AuditCost.audit_asymmetry
+
+/-! ## CircuitNet — exact tropical-circuit → ReLU-network compilation -/
+
+/-- info: 'Sundog.CircuitNet.compile_eval' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.CircuitNet.compile_eval
+
+/-- info: 'Sundog.CircuitNet.compile_depth_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.CircuitNet.compile_depth_le
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.CircuitNet.bellmanStep_compiles_exactly' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.CircuitNet.bellmanStep_compiles_exactly
 
 /-! ## AgenticTrace -- first formal hooks for trace-governed agent search -/
 

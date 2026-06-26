@@ -4,11 +4,49 @@ Run:
   python -m pytest scripts/test_cliff_transfer_task_v2.py -q
 """
 
+import cliff_transfer_analysis as cta
+import cliff_transfer_api_adapter as api
 import cliff_transfer_task_v2 as t2
+
+
+def _sample(text, entropy=0.0):
+    return api.Sample(text=text, prompt_tokens=0, completion_tokens=0, http_status=200, entropy=entropy)
 
 
 def test_selftest_passes():
     assert t2.selftest()["ok"] is True
+
+
+def test_row_from_samples_majority_vote_and_signature_shape():
+    truth, trap = "Velora", "Threx"
+    # 2 trap / 1 truth -> majority trap -> O=1; s[0] = mean entropy.
+    row = t2.row_from_samples(0.6, [_sample("Threx", 0.4), _sample("Threx", 0.6),
+                                    _sample("Velora", 0.2)], truth, trap)
+    assert row["O"] == 1
+    assert abs(row["s"][0] - 0.4) < 1e-9          # mean entropy is the AUC driver
+    assert row["signature_uses_outcome"] is False
+    assert "next_token_entropy" in row["signature_provenance"]
+    # 1 trap / 2 truth -> majority truth -> O=0.
+    assert t2.row_from_samples(0.4, [_sample("Threx"), _sample("Velora"),
+                                     _sample("Velora")], truth, trap)["O"] == 0
+
+
+def test_v2_rows_feed_analyze_stack_and_verdict():
+    # Synthetic planted cliff (O flips at λ=0.6) with entropy peaking at the edge;
+    # confirms v2 rows satisfy cliff_transfer_analysis's contract end-to-end.
+    rows = []
+    for lam in t2._FULL_GRID:
+        for k in range(8):
+            o = 1 if lam >= 0.6 else 0
+            ent = 0.9 if abs(lam - 0.6) < 0.08 else 0.1   # uncertainty spikes at the cliff
+            rows.append({"lambda_fraction": lam, "lambda_hat": lam, "O": o,
+                         "s": [ent, 0.0, 0.0, 0.0],
+                         "signature_provenance": list(t2._SIG_PROVENANCE),
+                         "signature_uses_outcome": False})
+    ps = cta.analyze_stack(rows, stack_id="v2_synth", lambda_c=1.0)
+    assert ps.controls_pass is True                # leakage audit passes on v2 provenance
+    assert ps.cliff.width <= cta.MAX_WIDTH         # the planted cliff is sharp
+    assert 0.5 <= ps.cliff.lambda_star <= 0.7
 
 
 def test_lambda_controls_contradiction_volume():
