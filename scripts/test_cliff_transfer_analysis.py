@@ -74,3 +74,26 @@ def test_leakage_audit_controls_k3():
     decision = cta.transfer_verdict((stack, leaked))
 
     assert decision.verdict == cta.K3_CONFOUNDED
+
+
+def test_leakage_audit_matches_tokens_not_substrings():
+    # Regression: banned "O" must match a standalone token, NOT the letter "o"
+    # inside legitimate provenance. The substring form false-positived on every
+    # black-box run ("retrieval_overlap", "next_token_entropy" contain "o") while
+    # passing white-box by luck.
+    white_box = [{"signature_provenance": ["hidden_states[layer=7]", "pca_first_4_pcs"]}]
+    black_box = [{"signature_provenance": ["next_token_entropy", "self_consistency_variance",
+                                           "retrieval_overlap", "draft_length_zscore"]}]
+    assert cta.leakage_audit(white_box)[0] is True
+    assert cta.leakage_audit(black_box)[0] is True  # the bug this fixes
+
+    # Genuine leakage is still caught: a standalone O token, snake_case field
+    # names, the multi-word ban, and the explicit flag.
+    for leaky in (
+        [{"signature_provenance": ["gate_accepts", "O"]}],
+        [{"signature_provenance": ["judge_boundary_violation"]}],
+        [{"signature_provenance": ["draft_outcome_score"]}],
+        [{"signature_provenance": ["uses_unsafe_label"]}],
+        [{"signature_provenance": ["clean"], "signature_uses_outcome": True}],
+    ):
+        assert cta.leakage_audit(leaky)[0] is False, leaky
