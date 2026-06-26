@@ -334,6 +334,18 @@ set_option linter.style.longLine false in
 #guard_msgs in
 #print axioms Sundog.AgenticTrace.decisive_receipt_safe_and_preserving
 
+/-! ### Decisive designation is necessarily external (the word under-determines it) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.AgenticTrace.decisive_underdetermined_by_word' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AgenticTrace.decisive_underdetermined_by_word
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.AgenticTrace.no_word_function_determines_decisive' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AgenticTrace.no_word_function_determines_decisive
+
 /-! ## DiscreteHolonomy -- finite gauge zero-out for closed trace loops -/
 
 /-- info: 'Sundog.DiscreteHolonomy.sum_discreteDiff_eq_endpoint' depends on axioms: [propext, Classical.choice, Quot.sound] -/

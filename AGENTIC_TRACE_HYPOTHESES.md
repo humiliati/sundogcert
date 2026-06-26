@@ -119,13 +119,18 @@ quarantines, the skins split, and malformed designations fail closed.
 
 Promotion status:
 
-- **falsifier-gate cleared** (was: falsifier-gated). The decisive-source binding +
-  the Lean content-preservation lemma the gate required are done. H-I can
-  re-attempt promotion against its *remaining* imported walls — the live state
-  measurement and the empirical λ cliff — which are unchanged. The honest residual:
-  *which* coordinates are decisive is still a caller-supplied designation, not
-  derived by the certificate; the fix proves only the conditional (given the
-  designation, the drop cannot happen).
+- **falsifier-gate cleared; remaining walls classified** (`AGENTIC_TRACE_H1_WALLS.md`).
+  The decisive-source binding + the Lean content-preservation lemmas are done. The
+  residual the fix introduced — can decisiveness be *derived* from the word rather
+  than designated? — is now **resolved as a necessary import**, machine-checked:
+  `decisive_underdetermined_by_word` / `no_word_function_determines_decisive` prove
+  the word under-determines the decisive set (same shape as the `AuditCost`
+  blindness theorems), so the caller designation is correct by necessity, not a
+  shortcut. What remains is exactly what the slate always called empirical — the
+  existence/transfer of the stress-signature λ cliff on a real model — plus an
+  operational trace-extraction commitment-timing note. H-I is promotable against
+  those clearly-labelled imported walls; it is not blocked by any unproved
+  deductive claim.
 
 ## Hypothesis II: Whitney A3 Cusp for Context Decay
 
@@ -335,11 +340,14 @@ landed (§8 of that doc): a designated decisive cell that would be pruned forces
 content-preservation lemmas (`decisive_kept`, `decisive_pruned_not_kept`,
 `decisive_receipt_safe_and_preserving`) are axiom-clean in the `AxiomAudit` gate.
 
-The next move on H-I is to attack its **remaining** imported walls — the live
-state measurement and the empirical λ cliff — and to consider whether the decisive
-designation can be *derived* rather than caller-supplied (the one residual the fix
-leaves open). Reed-Solomon soundness, unique decoding, and Tauroctony
-noninterference remain in place and intact.
+H-I's walls are now classified (`AGENTIC_TRACE_H1_WALLS.md`): content preservation
+CLOSED; the "derive decisiveness" residual RESOLVED as a necessary import
+(machine-checked); the live-state / λ-cliff wall is empirical by design (needs a
+model receipt, out of scope for the deductive core); trace-extraction reduced to a
+commitment-timing operational note. The next concrete artifact for H-I is the
+*empirical* one — a pre-registered cliff-transfer measurement when a real model is
+in hand — not more deductive work. Reed-Solomon soundness, unique decoding, and
+Tauroctony noninterference remain in place and intact.
 
 Hypothesis IV (generic branch-budget receipt) is unaffected and can still run in
 parallel, but the cap-set language should stay reserved until a real finite-field
