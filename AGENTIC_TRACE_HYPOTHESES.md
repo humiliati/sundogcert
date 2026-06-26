@@ -95,26 +95,37 @@ Falsifier:
   while dropping the decisive source, or where the same receipt is accepted for
   two semantically incompatible resolutions.
 
-Falsifier outcome (2026-06-25): **FIRES.** Both forms are satisfied by a runnable,
-receipt-checkable counterexample against the live prototype — see
-`AGENTIC_TRACE_H1_FALSIFIER_RESULT.md` and
-`scripts/h1_decisive_source_falsifier.py` (+ frozen test). RS majority decoding
-prunes a decisive *minority* source exactly as it prunes noise, and the receipt
-payload excludes labels, so one byte-identical accepted receipt covers two
-safety-incompatible readings. The RS core is intact (the control confirms the
-*numeric* two-survivor attack is impossible in-radius — `rs_receipt_unique`); the
-break is the unproven semantics-to-signature measurement map, the gap
-`signature_noninterference` relocates rather than deletes.
+Falsifier outcome (2026-06-25): **FIRED, then FIXED.** Both forms were satisfied by
+a runnable, receipt-checkable counterexample against the live prototype
+(`AGENTIC_TRACE_H1_FALSIFIER_RESULT.md`, `scripts/h1_decisive_source_falsifier.py`):
+RS majority decoding prunes a decisive *minority* source exactly as it prunes
+noise, and the receipt payload excluded labels, so one byte-identical accepted
+receipt covered two safety-incompatible readings. The RS core was always intact
+(the control confirms the *numeric* two-survivor attack is impossible in-radius —
+`rs_receipt_unique`); the break was the unproven semantics-to-signature measurement
+map, the gap `signature_noninterference` relocates rather than deletes.
+
+The fix landed the same day (`AGENTIC_TRACE_H1_FALSIFIER_RESULT.md` §8): an opt-in
+**decisive designation** bound into the receipt — `prune_trace(..., decisive_indices=...)`
+quarantines (`decisive-source-pruned`) rather than accepting when a designated
+decisive cell would be pruned, and the designation is part of the digest (so the
+two skins no longer share a receipt). Malformed designations **fail closed**: an
+out-of-range or non-int index (a typo like `(99,)`, or a partially valid `(0, 99)`)
+quarantines (`malformed-decisive-designation`) rather than being silently dropped.
+Lean: `DecisiveKept` + `decisive_kept`, `decisive_pruned_not_kept`,
+`decisive_receipt_safe_and_preserving` (axiom-clean, in the `AxiomAudit` gate).
+`scripts/decisive_gate_fix.py` (+ frozen test) shows the falsifier corpus now
+quarantines, the skins split, and malformed designations fail closed.
 
 Promotion status:
 
-- **falsifier-gated** (was: best first candidate). The RS machinery and the
-  noninterference theorem are present, but promotion now requires *binding the
-  decisive source into the signature* — a receipt that prunes a designated
-  decisive/authoritative cell must `quarantine`, not `accept` — plus a Lean
-  content-preservation lemma (an accepted prune preserves every designated
-  decisive coordinate), not only the existing count bound. Until then H-I is not
-  the lead candidate.
+- **falsifier-gate cleared** (was: falsifier-gated). The decisive-source binding +
+  the Lean content-preservation lemma the gate required are done. H-I can
+  re-attempt promotion against its *remaining* imported walls — the live state
+  measurement and the empirical λ cliff — which are unchanged. The honest residual:
+  *which* coordinates are decisive is still a caller-supplied designation, not
+  derived by the certificate; the fix proves only the conditional (given the
+  designation, the drop cannot happen).
 
 ## Hypothesis II: Whitney A3 Cusp for Context Decay
 
@@ -247,7 +258,10 @@ Promotion status:
    Started in `scripts/rs_pruning_prototype.py`. It uses a tiny GF(17) RS
    scheme, explicit stale/contradictory trace cells, a deterministic brute-force
    verifier, and emits the trace, pruned trace, survivor polynomial, and receipt
-   digest. Run it with:
+   digest. Since 2026-06-25 it also supports the decisive-source binding
+   (`prune_trace(..., decisive_indices=...)`) that closes the falsifier — a
+   designated decisive cell that would be pruned forces a `decisive-source-pruned`
+   quarantine, and the designation is bound into the digest. Run it with:
 
    ```sh
    python scripts/rs_pruning_prototype.py
@@ -312,16 +326,21 @@ A hypothesis graduates from slate to roadmap when it has all of:
 
 ## Recommended Next Move
 
-**Updated 2026-06-25 after the H-I falsifier fired.** H-I was the lead candidate,
-but its pre-registered falsifier fires (`AGENTIC_TRACE_H1_FALSIFIER_RESULT.md`):
-the RS receipt certifies numeric low-degree agreement, not decisiveness, so an
-accepted prune can drop the decisive source. The next move on H-I is therefore the
-*decisive-source-binding* fix — make a prune of any designated decisive cell
-`quarantine` rather than `accept`, and state the Lean content-preservation lemma —
-before any promotion. Reed-Solomon soundness, unique decoding, and Tauroctony
-noninterference remain in place and intact; what is missing is the
-semantics-to-signature binding the falsifier exposed.
+**Updated 2026-06-25 — H-I falsifier fired AND was fixed the same day.** H-I's
+pre-registered falsifier fired (`AGENTIC_TRACE_H1_FALSIFIER_RESULT.md`): the RS
+receipt certified numeric low-degree agreement, not decisiveness, so an accepted
+prune could drop the decisive source. The decisive-source-binding fix is now
+landed (§8 of that doc): a designated decisive cell that would be pruned forces a
+`quarantine`, the designation is bound into the receipt digest, and the Lean
+content-preservation lemmas (`decisive_kept`, `decisive_pruned_not_kept`,
+`decisive_receipt_safe_and_preserving`) are axiom-clean in the `AxiomAudit` gate.
 
-Hypothesis IV (generic branch-budget receipt) is unaffected by the falsifier and
-can still run in parallel, but the cap-set language should stay reserved until a
-real finite-field projection exists.
+The next move on H-I is to attack its **remaining** imported walls — the live
+state measurement and the empirical λ cliff — and to consider whether the decisive
+designation can be *derived* rather than caller-supplied (the one residual the fix
+leaves open). Reed-Solomon soundness, unique decoding, and Tauroctony
+noninterference remain in place and intact.
+
+Hypothesis IV (generic branch-budget receipt) is unaffected and can still run in
+parallel, but the cap-set language should stay reserved until a real finite-field
+projection exists.

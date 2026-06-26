@@ -100,6 +100,61 @@ theorem not_branch_count_gt_budget {Branch : Type u} [DecidableEq Branch]
     Not (budget < trace.branches.card) :=
   not_lt_of_ge (branch_count_le_budget trace)
 
+/-! ## Decisive-source binding (the H-I falsifier fix)
+
+The RS receipt above certifies a low-degree *numeric* survivor and nothing else.
+The falsifier in `AGENTIC_TRACE_H1_FALSIFIER_RESULT.md` showed that this is too
+weak for the safety story H-I attaches to it: RS majority decoding prunes a
+decisive *minority* source exactly as it prunes noise, so an accepted receipt can
+drop the one cell that mattered, and — because the receipt is a function of the
+numbers alone — one certificate can cover two incompatible readings.
+
+The fix is a *decisive gate*: the caller designates a set `D` of authoritative
+coordinates that an accepted prune must keep. The gate accepts only when the
+survivor `f` reproduces the received word `y` on all of `D` (`D ⊆ agree S f y`).
+The measurement wall is untouched — which coordinates *are* decisive is a
+caller-supplied designation, not something the certificate derives — but, given
+the designation, the lemmas below prove the drop is impossible. -/
+
+variable (S : RSScheme F)
+
+/-- The decisive gate: the designated authoritative coordinates `D` are all kept,
+i.e. the survivor `f` reproduces the received word `y` on every coordinate of `D`
+(none is pruned). -/
+def DecisiveKept (f : Polynomial F) (y : Fin S.n → F) (D : Finset (Fin S.n)) : Prop :=
+  D ⊆ agree S f y
+
+/-- **Content preservation.** An accepted decisive-gated receipt reproduces the
+received value at every decisive coordinate: the decisive source survives in the
+decoding rather than being pruned as noise. This is the content-preservation
+statement the count bound `branch_count_le_budget` could not supply. -/
+theorem decisive_kept {f : Polynomial F} {y : Fin S.n → F} {D : Finset (Fin S.n)}
+    (hgate : DecisiveKept S f y D) {i : Fin S.n} (hi : i ∈ D) :
+    f.eval (S.nodes i) = y i :=
+  (mem_agree S).mp (hgate hi)
+
+/-- **Gate soundness (the falsifier-killer).** If the survivor disagrees with a
+decisive coordinate — exactly the cell an RS prune deletes — the decisive gate
+cannot pass. So no accepted decisive-gated receipt drops the decisive source: the
+falsifier's "accepted receipt drops the decisive source" is impossible by
+construction. -/
+theorem decisive_pruned_not_kept {f : Polynomial F} {y : Fin S.n → F} {D : Finset (Fin S.n)}
+    {i : Fin S.n} (hi : i ∈ D) (hpruned : f.eval (S.nodes i) ≠ y i) :
+    ¬ DecisiveKept S f y D :=
+  fun hgate => hpruned ((mem_agree S).mp (hgate hi))
+
+/-- **Headline — safe AND decisive-preserving in one accepted receipt.** A
+verifier that exhibits a survivor `f` for `y`, together with a passing decisive
+gate, yields a receipt that is BOTH RS-safe (a decoding witness exists, via
+`accept_sound`'s core) AND content-preserving (every decisive coordinate is
+reproduced). This is the H-I receipt the falsifier demanded: the RS safety the
+prototype already had, now provably bound to the decisive source it used to drop. -/
+theorem decisive_receipt_safe_and_preserving
+    (V : Verifier S) (y : Fin S.n → F) (D : Finset (Fin S.n))
+    {f : Polynomial F} (hdec : V.decode? y = some f) (hgate : DecisiveKept S f y D) :
+    Safe S y ∧ ∀ i ∈ D, f.eval (S.nodes i) = y i :=
+  ⟨⟨f, V.decode_sound y f hdec⟩, fun _ hi => decisive_kept S hgate hi⟩
+
 end Sundog.AgenticTrace
 
 -- Axiom audit: these wrappers stay inside the same foundation as their imported cores.
@@ -108,3 +163,6 @@ end Sundog.AgenticTrace
 #print axioms Sundog.AgenticTrace.trace_gated_noninterference
 #print axioms Sundog.AgenticTrace.branch_count_le_budget
 #print axioms Sundog.AgenticTrace.not_branch_count_gt_budget
+#print axioms Sundog.AgenticTrace.decisive_kept
+#print axioms Sundog.AgenticTrace.decisive_pruned_not_kept
+#print axioms Sundog.AgenticTrace.decisive_receipt_safe_and_preserving
