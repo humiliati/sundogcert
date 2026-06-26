@@ -166,6 +166,11 @@ Its headless lock lives in
 [`scripts/cliff_transfer_harness.py`](scripts/cliff_transfer_harness.py): fixture
 mode builds the lambda-graded corpus, emits `(lambda, s, O)` rows, and validates
 the SUPPORT/K1/K2 controls without making model calls.
+[`scripts/cliff_transfer_keyring.py`](scripts/cliff_transfer_keyring.py) discovers
+operator-held provider keys from `syek.*` files or environment variables and can
+run no-generation list-models probes without printing secret values.
+[`scripts/cliff_transfer_api_adapter.py`](scripts/cliff_transfer_api_adapter.py)
+wires those keys into capped, operator-gated black-box API sweeps.
 
 ## Scope
 
