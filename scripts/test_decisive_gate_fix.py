@@ -95,6 +95,22 @@ def test_tampered_decisive_designation_is_rejected():
     assert rsp.verify_receipt(forged) is False  # 6 is pruned -> decisive gate broken
 
 
+def test_word_underdetermines_decisive():
+    # Runtime shadow of Lean `decisive_underdetermined_by_word`: the SAME received
+    # word accepts under two DISTINCT singleton designations on different kept
+    # cells (0 and 1, both in the demo survivor's agreement set). So no function
+    # of the word alone could return "the" decisive set — it is necessarily
+    # caller-supplied, not derivable. This is why the fix is opt-in by necessity.
+    scheme, base = rsp.demo_scheme(), rsp.demo_trace()
+    r0 = rsp.prune_trace(scheme, base, decisive_indices=(0,))
+    r1 = rsp.prune_trace(scheme, base, decisive_indices=(1,))
+    assert r0.verdict == rsp.ACCEPT and r1.verdict == rsp.ACCEPT
+    assert r0.received == r1.received           # identical word
+    assert r0.survivor_poly == r1.survivor_poly  # identical RS survivor
+    assert r0.decisive_indices != r1.decisive_indices  # incompatible designations
+    assert r0.digest != r1.digest               # ...which the receipt does record
+
+
 def test_overall_fix_closes_falsifier():
     result = fix.run()
     assert result["fix_closes_falsifier"] is True

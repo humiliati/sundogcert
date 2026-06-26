@@ -155,6 +155,45 @@ theorem decisive_receipt_safe_and_preserving
     Safe S y ∧ ∀ i ∈ D, f.eval (S.nodes i) = y i :=
   ⟨⟨f, V.decode_sound y f hdec⟩, fun _ hi => decisive_kept S hgate hi⟩
 
+/-! ### The decisive designation is necessarily external
+
+The fix above proves the *conditional* — given a decisive designation, the drop is
+impossible — but leaves which coordinates are decisive caller-supplied. Could a
+runtime instead *derive* the designation from the received word, removing the
+caller? No: the word under-determines it. Whenever the survivor keeps two distinct
+coordinates, two distinct singleton designations both pass the gate, so no function
+of the word alone can return *the* decisive set. The caller (the authority/source
+labelling) is a genuine imported wall, not an unfilled gap — this is the same shape
+as the audit-blindness theorems (`AuditCost`): some information is provably absent
+from the observable. -/
+
+/-- **The word under-determines the decisive set.** If the survivor `f` keeps two
+distinct coordinates `i ≠ j` of the received word `y`, then two *distinct* decisive
+designations `{i}` and `{j}` both pass the gate. The same accepted word is
+consistent with incompatible decisive sets. -/
+theorem decisive_underdetermined_by_word
+    {f : Polynomial F} {y : Fin S.n → F} {i j : Fin S.n}
+    (hi : i ∈ agree S f y) (hj : j ∈ agree S f y) (hij : i ≠ j) :
+    ∃ D₁ D₂ : Finset (Fin S.n),
+      D₁ ≠ D₂ ∧ DecisiveKept S f y D₁ ∧ DecisiveKept S f y D₂ := by
+  refine ⟨{i}, {j}, ?_, ?_, ?_⟩
+  · rw [Ne, Finset.singleton_inj]; exact hij
+  · exact Finset.singleton_subset_iff.mpr hi
+  · exact Finset.singleton_subset_iff.mpr hj
+
+/-- **No function of the word recovers the decisive set.** There is no single
+decisive set that every gate-passing designation must equal — `{i}` and `{j}`
+above are two that differ. So any `d : (Fin S.n → F) → Finset (Fin S.n)` claiming
+to derive the designation from the word alone is underdetermined: the caller's
+designation is a necessary import, not a gap the certificate can close. -/
+theorem no_word_function_determines_decisive
+    {f : Polynomial F} {y : Fin S.n → F} {i j : Fin S.n}
+    (hi : i ∈ agree S f y) (hj : j ∈ agree S f y) (hij : i ≠ j) :
+    ¬ ∃ D : Finset (Fin S.n), ∀ D' : Finset (Fin S.n), DecisiveKept S f y D' → D' = D := by
+  rintro ⟨D, hD⟩
+  obtain ⟨D₁, D₂, hne, h1, h2⟩ := decisive_underdetermined_by_word S hi hj hij
+  exact hne ((hD D₁ h1).trans (hD D₂ h2).symm)
+
 end Sundog.AgenticTrace
 
 -- Axiom audit: these wrappers stay inside the same foundation as their imported cores.
@@ -166,3 +205,5 @@ end Sundog.AgenticTrace
 #print axioms Sundog.AgenticTrace.decisive_kept
 #print axioms Sundog.AgenticTrace.decisive_pruned_not_kept
 #print axioms Sundog.AgenticTrace.decisive_receipt_safe_and_preserving
+#print axioms Sundog.AgenticTrace.decisive_underdetermined_by_word
+#print axioms Sundog.AgenticTrace.no_word_function_determines_decisive
