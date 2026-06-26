@@ -21,10 +21,15 @@ import argparse
 import json
 import math
 import random
+import re
 import sys
 from dataclasses import dataclass
 from itertools import combinations
 from typing import Iterable, Mapping, Sequence
+
+# Identifier tokens for the leakage audit (split on non-alphanumeric, so
+# snake_case provenance like "gate_accepts" -> {"gate", "accepts"}).
+_PROVENANCE_TOKEN = re.compile(r"[a-z0-9]+")
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -275,7 +280,15 @@ def monitor_lead(rows: Sequence[Mapping]) -> float:
 
 
 def leakage_audit(rows: Sequence[Mapping]) -> tuple[bool, tuple[str, ...]]:
-    """Check that signature provenance does not name downstream O/gate/judge fields."""
+    """Check that signature provenance does not name downstream O/gate/judge fields.
+
+    Single-word banned terms are matched as whole identifier TOKENS, not raw
+    substrings: the outcome field is named "O", so the ban must catch a standalone
+    "o" token (e.g. in "gate_O"), NOT the letter "o" inside legitimate provenance
+    like "retrieval_overlap" or "next_token_entropy". (The substring form
+    false-positived on every black-box run while passing white-box by luck.)
+    Multi-word terms containing "_" are still matched as substrings.
+    """
     failures: list[str] = []
     banned = ("O", "outcome", "gate", "judge", "verdict", "unsafe_label")
     for idx, row in enumerate(rows):
@@ -283,8 +296,11 @@ def leakage_audit(rows: Sequence[Mapping]) -> tuple[bool, tuple[str, ...]]:
             failures.append(f"row {idx}: signature_uses_outcome=true")
         provenance = " ".join(str(x) for x in row.get("signature_provenance", ()))
         lowered = provenance.lower()
+        tokens = set(_PROVENANCE_TOKEN.findall(lowered))
         for word in banned:
-            if word.lower() in lowered:
+            w = word.lower()
+            hit = (w in lowered) if "_" in w else (w in tokens)
+            if hit:
                 failures.append(f"row {idx}: signature provenance mentions {word}")
                 break
     return (not failures, tuple(failures))
