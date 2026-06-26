@@ -162,12 +162,13 @@ designation into the certificate.
 covers it), and a unique survivor that would prune any decisive coordinate yields
 a `decisive-source-pruned` **quarantine** instead of an accept. `verify_receipt`
 re-checks that an accepted receipt prunes no decisive coordinate. Demonstrated by
-`scripts/decisive_gate_fix.py` (+ frozen test, 6 cases):
+`scripts/decisive_gate_fix.py` (+ frozen test, 10 cases):
 
 ```
 [A] ungated=accept (dropped decisive=True)  gated=quarantine reason=decisive-source-pruned   FIX_HOLDS=True
 [B] safe=accept (verifies=True)  decisive=quarantine reason=decisive-source-pruned  digests_differ=True   FIX_HOLDS=True
 [C] non-vacuity: designating kept cells still accepts + verifies                                          FIX_HOLDS=True
+[D] malformed: (99,)->quarantine  (-1,)->quarantine  (0,99)->quarantine (no silent drop)                  FIX_HOLDS=True
 VERDICT: fix_closes_falsifier=True
 ```
 
@@ -180,6 +181,16 @@ blind and the falsifier still fires on that path (it cannot know which minority
 cell is decisive unless told) — what is guaranteed is that, *given* a designation,
 the drop is impossible.
 
+**Fail-closed on malformed designations (leg D).** A decisive designation is
+input the binding *must not silently normalize*. An out-of-range, negative, or
+non-int index — `decisive_indices=(99,)`, or a partially valid `(0, 99)` — now
+**quarantines** (`malformed-decisive-designation`) rather than being filtered down
+to "fewer/no decisive cells" and accepted; a typo can no longer dull the guarantee.
+`verify_receipt` also rejects a forged accept that claims an out-of-range decisive
+cell. In the Lean model this case is unrepresentable — the designation is a
+`Finset (Fin S.n)`, so an out-of-range index cannot be written — so the runtime
+check enforces, on raw Python ints, exactly what Lean's typing gives for free.
+
 **Lean (`Sundogcert/AgenticTrace.lean`, axiom-clean, in the `AxiomAudit` gate).**
 A decisive gate `DecisiveKept S f y D := D ⊆ agree S f y`, and:
 
@@ -191,7 +202,7 @@ A decisive gate `DecisiveKept S f y D := D ⊆ agree S f y`, and:
 
 All three depend on exactly `[propext, Classical.choice, Quot.sound]` (no `sorry`,
 no `native_decide`), build-enforced. `lake build` green (3533 jobs); the full
-Python suite is green (44 tests, excluding the pre-existing self-exiting
+Python suite is green (48 tests, excluding the pre-existing self-exiting
 `test_upstream_gate_check.py`).
 
 **Honesty note.** The Lean proofs are short — they are definitional consequences of

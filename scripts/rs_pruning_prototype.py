@@ -64,6 +64,11 @@ def modp(value: int, p: int) -> int:
     return value % p
 
 
+def _valid_index(i: object, n: int) -> bool:
+    """A well-formed coordinate index: a non-bool int in range [0, n)."""
+    return isinstance(i, int) and not isinstance(i, bool) and 0 <= i < n
+
+
 def poly_eval(coeffs: Iterable[int], x: int, p: int) -> int:
     """Evaluate c0 + c1*x + ... by Horner's rule over GF(p)."""
     acc = 0
@@ -233,7 +238,30 @@ def prune_trace(
     no accepted receipt can drop the decisive source.
     """
     received = tuple(modp(cell.received, scheme.p) for cell in trace)
-    decisive = tuple(sorted({i for i in decisive_indices if 0 <= i < scheme.n}))
+
+    # Decisive designations fail CLOSED. A malformed index (out of range,
+    # negative, or non-int) QUARANTINEs rather than being silently dropped.
+    # Silent normalization here would let a typo like (99,) — or a partially
+    # valid set like (0, 99) — collapse toward "fewer/no decisive cells" and
+    # still accept, dulling the very guarantee the binding exists to provide.
+    # (In the Lean model the designation is a `Finset (Fin S.n)`, so an
+    # out-of-range index is unrepresentable; this enforces, on raw Python ints,
+    # what Lean's typing gives for free.)
+    bad_decisive = [i for i in decisive_indices if not _valid_index(i, scheme.n)]
+    if bad_decisive:
+        return RSPruningReceipt(
+            scheme=scheme,
+            received=received,
+            verdict=QUARANTINE,
+            reason="malformed-decisive-designation",
+            survivor_poly=None,
+            agreement_indices=(),
+            pruned_indices=tuple(range(scheme.n)),
+            candidate_count=0,
+            decisive_indices=tuple(decisive_indices),  # recorded AS GIVEN (the bad input)
+        ).with_digest()
+    decisive = tuple(sorted(set(decisive_indices)))  # all valid: dedup + sort
+
     if not scheme.unique_radius_holds:
         return RSPruningReceipt(
             scheme=scheme,
@@ -315,9 +343,14 @@ def verify_receipt(receipt: RSPruningReceipt) -> bool:
         return False
     if pruned != receipt.pruned_indices:
         return False
-    # Decisive-source binding: an accepted receipt must keep every designated
-    # decisive coordinate. (The digest already covers decisive_indices, so a
-    # tampered designation is caught above; this re-checks the gate itself.)
+    # Decisive-source binding: an accepted receipt's designation must be
+    # well-formed (in range) AND keep every designated decisive coordinate. The
+    # digest already covers decisive_indices, so forging the designation means
+    # recomputing the digest; these two checks then reject the forgery — an
+    # out-of-range decisive claim, or an accepted receipt that prunes a decisive
+    # cell, can never verify.
+    if any(not _valid_index(i, receipt.scheme.n) for i in receipt.decisive_indices):
+        return False
     if set(receipt.decisive_indices) & set(pruned):
         return False
 

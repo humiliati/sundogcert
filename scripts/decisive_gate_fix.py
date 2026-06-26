@@ -40,6 +40,7 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
 DECISIVE_PRUNED = "decisive-source-pruned"
+MALFORMED_DECISIVE = "malformed-decisive-designation"
 
 
 def _decisive_minority_trace(decisive_index: int = 6):
@@ -128,20 +129,52 @@ def fix_C_kept_decisive_still_accepts() -> dict:
     }
 
 
+def fix_D_malformed_designation_fails_closed() -> dict:
+    """A malformed decisive designation QUARANTINEs — it is never silently dropped.
+
+    The dangerous case is a *partially* valid set: index 0 is real but 99 is a
+    typo. Silent normalization would keep {0} (which the survivor happens to keep)
+    and ACCEPT, so the typo would pass unnoticed. Fail-closed quarantines instead.
+    """
+    scheme = rsp.demo_scheme()
+    base = rsp.demo_trace()
+    out_of_range = rsp.prune_trace(scheme, base, decisive_indices=(99,))
+    negative = rsp.prune_trace(scheme, base, decisive_indices=(-1,))
+    partially_valid = rsp.prune_trace(scheme, base, decisive_indices=(0, 99))
+    return {
+        "name": "D_malformed_designation_fails_closed",
+        "out_of_range_verdict": out_of_range.verdict,
+        "out_of_range_reason": out_of_range.reason,
+        "negative_verdict": negative.verdict,
+        "partially_valid_verdict": partially_valid.verdict,
+        "partially_valid_reason": partially_valid.reason,
+        # Holds iff every malformed designation quarantines (none silently accepts).
+        "fix_holds": (
+            out_of_range.verdict == rsp.QUARANTINE
+            and out_of_range.reason == MALFORMED_DECISIVE
+            and negative.verdict == rsp.QUARANTINE
+            and partially_valid.verdict == rsp.QUARANTINE
+            and partially_valid.reason == MALFORMED_DECISIVE
+        ),
+    }
+
+
 def run() -> dict:
     a = fix_A_designation_forces_quarantine()
     b = fix_B_designation_splits_the_receipt()
     c = fix_C_kept_decisive_still_accepts()
+    d = fix_D_malformed_designation_fails_closed()
     return {
         "fix_A": a,
         "fix_B": b,
         "fix_C": c,
-        "fix_closes_falsifier": a["fix_holds"] and b["fix_holds"] and c["fix_holds"],
+        "fix_D": d,
+        "fix_closes_falsifier": all(x["fix_holds"] for x in (a, b, c, d)),
     }
 
 
 def format_report(result: dict) -> str:
-    a, b, c = result["fix_A"], result["fix_B"], result["fix_C"]
+    a, b, c, d = result["fix_A"], result["fix_B"], result["fix_C"], result["fix_D"]
     return "\n".join(
         [
             "H-I FIX — decisive-source binding",
@@ -160,6 +193,11 @@ def format_report(result: dict) -> str:
             "[C] non-vacuity — designating kept cells still accepts:",
             f"    verdict={c['verdict']} verifies={c['verifies']} all_kept_survive={c['all_kept_survive']}",
             f"    FIX_HOLDS={c['fix_holds']}",
+            "",
+            "[D] malformed designation fails closed (no silent drop):",
+            f"    (99,)->{d['out_of_range_verdict']}/{d['out_of_range_reason']}  "
+            f"(-1,)->{d['negative_verdict']}  (0,99)->{d['partially_valid_verdict']}/{d['partially_valid_reason']}",
+            f"    FIX_HOLDS={d['fix_holds']}",
             "",
             f"VERDICT: fix_closes_falsifier={result['fix_closes_falsifier']}",
         ]

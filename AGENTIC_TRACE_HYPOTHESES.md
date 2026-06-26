@@ -109,10 +109,13 @@ The fix landed the same day (`AGENTIC_TRACE_H1_FALSIFIER_RESULT.md` §8): an opt
 **decisive designation** bound into the receipt — `prune_trace(..., decisive_indices=...)`
 quarantines (`decisive-source-pruned`) rather than accepting when a designated
 decisive cell would be pruned, and the designation is part of the digest (so the
-two skins no longer share a receipt). Lean: `DecisiveKept` + `decisive_kept`,
-`decisive_pruned_not_kept`, `decisive_receipt_safe_and_preserving` (axiom-clean, in
-the `AxiomAudit` gate). `scripts/decisive_gate_fix.py` (+ frozen test) shows the
-falsifier corpus now quarantines and the skins split.
+two skins no longer share a receipt). Malformed designations **fail closed**: an
+out-of-range or non-int index (a typo like `(99,)`, or a partially valid `(0, 99)`)
+quarantines (`malformed-decisive-designation`) rather than being silently dropped.
+Lean: `DecisiveKept` + `decisive_kept`, `decisive_pruned_not_kept`,
+`decisive_receipt_safe_and_preserving` (axiom-clean, in the `AxiomAudit` gate).
+`scripts/decisive_gate_fix.py` (+ frozen test) shows the falsifier corpus now
+quarantines, the skins split, and malformed designations fail closed.
 
 Promotion status:
 

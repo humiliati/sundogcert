@@ -41,6 +41,41 @@ def test_C_kept_decisive_still_accepts():
     assert c["fix_holds"] is True
 
 
+def test_D_malformed_designation_fails_closed():
+    d = fix.fix_D_malformed_designation_fails_closed()
+    assert d["out_of_range_verdict"] == rsp.QUARANTINE
+    assert d["out_of_range_reason"] == fix.MALFORMED_DECISIVE
+    assert d["negative_verdict"] == rsp.QUARANTINE
+    # The load-bearing case: a partially valid set (0 is real, 99 is a typo) must
+    # NOT silently keep {0} and accept — it fails closed.
+    assert d["partially_valid_verdict"] == rsp.QUARANTINE
+    assert d["partially_valid_reason"] == fix.MALFORMED_DECISIVE
+    assert d["fix_holds"] is True
+
+
+def test_malformed_designation_does_not_verify():
+    bad = rsp.prune_trace(rsp.demo_scheme(), rsp.demo_trace(), decisive_indices=(99,))
+    assert bad.verdict == rsp.QUARANTINE
+    assert rsp.verify_receipt(bad) is False
+
+
+def test_forged_out_of_range_decisive_is_rejected():
+    # Forge an ACCEPT that claims an out-of-range decisive cell. Even with a
+    # recomputed digest, verify_receipt rejects it: the designation is invalid.
+    accept = rsp.prune_trace(rsp.demo_scheme(), rsp.demo_trace(), decisive_indices=(0,))
+    assert rsp.verify_receipt(accept) is True
+    forged = replace(accept, decisive_indices=(99,)).with_digest()
+    assert rsp.verify_receipt(forged) is False
+
+
+def test_non_int_designation_fails_closed():
+    # A non-int index (e.g. a stray string or bool) is malformed, not coerced.
+    for bad_des in (("0",), (True,), (1.0,)):
+        r = rsp.prune_trace(rsp.demo_scheme(), rsp.demo_trace(), decisive_indices=bad_des)
+        assert r.verdict == rsp.QUARANTINE, bad_des
+        assert r.reason == fix.MALFORMED_DECISIVE, bad_des
+
+
 def test_designation_is_bound_into_the_digest():
     # Same numbers, two designations -> two distinct receipts.
     scheme, base = rsp.demo_scheme(), rsp.demo_trace()
