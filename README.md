@@ -142,6 +142,7 @@ python scripts/rs_pruning_prototype.py
 python -m pytest scripts/test_branch_budget_receipt.py -q
 python -m pytest scripts/test_rs_pruning_prototype.py -q
 python -m pytest scripts/test_discrete_holonomy_receipt.py -q
+python -m pytest scripts/test_cusp_detector.py -q
 ```
 
 The discrete-loop theorem for the next lane lives in
@@ -151,6 +152,12 @@ closed loops. The toy runtime receipt is
 [`scripts/discrete_holonomy_receipt.py`](scripts/discrete_holonomy_receipt.py);
 it checks integer trace loops only and keeps the attention-mapping claim outside
 the proof.
+
+The sampled cusp detector for context-decay experiments lives in
+[`scripts/cusp_detector.py`](scripts/cusp_detector.py). It checks exact
+five-point finite-difference jets and emits `accept`, `structural-zero`, or
+verifier-checkable `quarantine`; it does not claim that any vector-memory system
+has already been mapped to a Whitney cusp.
 
 ## Scope
 

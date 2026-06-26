@@ -268,8 +268,20 @@ Promotion status:
    ```
 
 5. Specify a cusp detector.
-   Write the sampled-jet predicate and falsification cases before formalizing
-   any quarantine theorem.
+   Done at the runtime-spec level in `scripts/cusp_detector.py`. The detector
+   consumes five evenly spaced score samples from a one-dimensional retrieval or
+   regularization sweep, computes sampled second and third differences, and
+   emits `structural-zero` only when the left/right second differences change
+   sign with enough magnitude, the center second difference is near zero, and
+   the local third differences stay inside a declared bound. Malformed samples,
+   negative thresholds, and sign changes outside the third-difference envelope
+   emit verifier-checkable quarantine receipts. This is still only a sampled
+   detector spec; the vector-memory-to-cusp measurement map remains an imported
+   wall.
+
+   ```sh
+   python -m pytest scripts/test_cusp_detector.py -q
+   ```
 
 ## Promotion Criteria
 
