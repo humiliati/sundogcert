@@ -169,6 +169,11 @@ class RSPruningReceipt:
     agreement_indices: tuple[int, ...]
     pruned_indices: tuple[int, ...]
     candidate_count: int
+    # Caller-designated authoritative coordinates that an accepted prune must
+    # keep (the H-I falsifier fix). Bound INTO the payload so the digest covers
+    # the designation: two corpora with the same numbers but different decisive
+    # sets no longer share a receipt.
+    decisive_indices: tuple[int, ...] = ()
     digest: str = ""
 
     def payload(self) -> dict:
@@ -181,6 +186,7 @@ class RSPruningReceipt:
             "agreement_indices": list(self.agreement_indices),
             "pruned_indices": list(self.pruned_indices),
             "candidate_count": self.candidate_count,
+            "decisive_indices": list(self.decisive_indices),
         }
 
     def computed_digest(self) -> str:
@@ -212,8 +218,22 @@ def find_decodings(scheme: RSScheme, received: tuple[int, ...]) -> list[Decoding
     return candidates
 
 
-def prune_trace(scheme: RSScheme, trace: list[TraceCell]) -> RSPruningReceipt:
+def prune_trace(
+    scheme: RSScheme,
+    trace: list[TraceCell],
+    decisive_indices: tuple[int, ...] = (),
+) -> RSPruningReceipt:
+    """Prune a trace to its unique RS survivor and emit a receipt.
+
+    `decisive_indices` designates authoritative coordinates that an accepted
+    prune must keep. The RS receipt certifies low-degree NUMERIC agreement only;
+    without a designation it is blind to which minority cell is the decisive
+    source (the H-I falsifier). With a designation, a survivor that would prune
+    any decisive coordinate is refused (`decisive-source-pruned` quarantine), so
+    no accepted receipt can drop the decisive source.
+    """
     received = tuple(modp(cell.received, scheme.p) for cell in trace)
+    decisive = tuple(sorted({i for i in decisive_indices if 0 <= i < scheme.n}))
     if not scheme.unique_radius_holds:
         return RSPruningReceipt(
             scheme=scheme,
@@ -224,6 +244,7 @@ def prune_trace(scheme: RSScheme, trace: list[TraceCell]) -> RSPruningReceipt:
             agreement_indices=(),
             pruned_indices=tuple(range(scheme.n)),
             candidate_count=0,
+            decisive_indices=decisive,
         ).with_digest()
 
     candidates = find_decodings(scheme, received)
@@ -237,9 +258,26 @@ def prune_trace(scheme: RSScheme, trace: list[TraceCell]) -> RSPruningReceipt:
             agreement_indices=(),
             pruned_indices=tuple(range(scheme.n)),
             candidate_count=len(candidates),
+            decisive_indices=decisive,
         ).with_digest()
 
     survivor = candidates[0]
+    dropped_decisive = tuple(i for i in decisive if i in set(survivor.pruned_indices))
+    if dropped_decisive:
+        # A unique survivor exists, but accepting it would prune a designated
+        # decisive source. Refuse rather than emit a safe-looking receipt.
+        return RSPruningReceipt(
+            scheme=scheme,
+            received=received,
+            verdict=QUARANTINE,
+            reason="decisive-source-pruned",
+            survivor_poly=survivor.coeffs,
+            agreement_indices=survivor.agreement_indices,
+            pruned_indices=survivor.pruned_indices,
+            candidate_count=1,
+            decisive_indices=decisive,
+        ).with_digest()
+
     return RSPruningReceipt(
         scheme=scheme,
         received=received,
@@ -249,6 +287,7 @@ def prune_trace(scheme: RSScheme, trace: list[TraceCell]) -> RSPruningReceipt:
         agreement_indices=survivor.agreement_indices,
         pruned_indices=survivor.pruned_indices,
         candidate_count=1,
+        decisive_indices=decisive,
     ).with_digest()
 
 
@@ -275,6 +314,11 @@ def verify_receipt(receipt: RSPruningReceipt) -> bool:
     if agreements != receipt.agreement_indices:
         return False
     if pruned != receipt.pruned_indices:
+        return False
+    # Decisive-source binding: an accepted receipt must keep every designated
+    # decisive coordinate. (The digest already covers decisive_indices, so a
+    # tampered designation is caught above; this re-checks the gate itself.)
+    if set(receipt.decisive_indices) & set(pruned):
         return False
 
     candidates = find_decodings(receipt.scheme, receipt.received)

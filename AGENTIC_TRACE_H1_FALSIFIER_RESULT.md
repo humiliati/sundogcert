@@ -1,11 +1,12 @@
 # H-I FALSIFIER — Syndrome-Gated Tauroctony drops the decisive source
 
 **Frozen:** 2026-06-25, branched from repo HEAD `622d827`.
-**Status:** **FALSIFIER FIRES** — H-I's own pre-registered falsifier (A and B) is
-satisfied by a runnable, receipt-checkable counterexample. A fired falsifier on a
-**pre-promotion** hypothesis is a banked SUCCESS: it is caught before the slate's
-"Recommended Next Move" promotes H-I, and it localizes the exact wall that must be
-discharged first.
+**Status:** **FALSIFIER FIRES → FIX LANDED (§8).** H-I's own pre-registered
+falsifier (A and B) was satisfied by a runnable, receipt-checkable counterexample;
+the decisive-source-binding fix in §8 closes it (runtime + Lean, axiom-clean). A
+fired falsifier on a **pre-promotion** hypothesis is a banked SUCCESS: it was
+caught before the slate's "Recommended Next Move" promoted H-I, it localized the
+exact wall, and the wall is now discharged.
 **Lane:** sundogcert agentic-trace slate ([`AGENTIC_TRACE_HYPOTHESES.md`](AGENTIC_TRACE_HYPOTHESES.md)),
 Hypothesis I.
 
@@ -145,3 +146,69 @@ python -m pytest scripts/test_h1_decisive_source_falsifier.py -q
   banked theorem asserts.
 - The finding does not depend on randomness: every number above is deterministic
   and the test pins it.
+
+## §8 FIX LANDED — decisive-source binding (2026-06-25)
+
+The fix the result called for is implemented and verified, runtime and Lean.
+
+**Diagnosis.** The receipt was blind in two ways: it certified numeric agreement
+without knowing which coordinate is *decisive*, and its payload excluded the
+designation, so two readings shared a digest. Both blindnesses have the same cure:
+let the caller **designate** the decisive coordinates and **bind** that
+designation into the certificate.
+
+**Runtime (`scripts/rs_pruning_prototype.py`).** `prune_trace` gains an opt-in
+`decisive_indices`. The designation is part of the receipt payload (so the digest
+covers it), and a unique survivor that would prune any decisive coordinate yields
+a `decisive-source-pruned` **quarantine** instead of an accept. `verify_receipt`
+re-checks that an accepted receipt prunes no decisive coordinate. Demonstrated by
+`scripts/decisive_gate_fix.py` (+ frozen test, 6 cases):
+
+```
+[A] ungated=accept (dropped decisive=True)  gated=quarantine reason=decisive-source-pruned   FIX_HOLDS=True
+[B] safe=accept (verifies=True)  decisive=quarantine reason=decisive-source-pruned  digests_differ=True   FIX_HOLDS=True
+[C] non-vacuity: designating kept cells still accepts + verifies                                          FIX_HOLDS=True
+VERDICT: fix_closes_falsifier=True
+```
+
+Leg A: the same corpus now quarantines once the decisive cell is designated. Leg
+B: the once-shared receipt splits — the safe reading accepts, the decisive reading
+quarantines, with different digests. Non-vacuity (C): designating cells the
+survivor already keeps still accepts, so the gate is not a blanket refusal. The
+fix is **opt-in and honest**: with no designation the receipt is still numerically
+blind and the falsifier still fires on that path (it cannot know which minority
+cell is decisive unless told) — what is guaranteed is that, *given* a designation,
+the drop is impossible.
+
+**Lean (`Sundogcert/AgenticTrace.lean`, axiom-clean, in the `AxiomAudit` gate).**
+A decisive gate `DecisiveKept S f y D := D ⊆ agree S f y`, and:
+
+| Lemma | Content |
+|---|---|
+| `decisive_kept` | accepted gate ⇒ the survivor reproduces `y` at every decisive coordinate (content preservation — what the count bound `branch_count_le_budget` could not give) |
+| `decisive_pruned_not_kept` | a survivor disagreeing with a decisive coordinate ⇒ the gate cannot pass (no accepted receipt drops the decisive source) |
+| `decisive_receipt_safe_and_preserving` | headline: an accepted decisive-gated receipt is BOTH RS-safe AND decisive-preserving, in one statement |
+
+All three depend on exactly `[propext, Classical.choice, Quot.sound]` (no `sorry`,
+no `native_decide`), build-enforced. `lake build` green (3533 jobs); the full
+Python suite is green (44 tests, excluding the pre-existing self-exiting
+`test_upstream_gate_check.py`).
+
+**Honesty note.** The Lean proofs are short — they are definitional consequences of
+the gate `D ⊆ agree`. As elsewhere in this repo (cf. HS7), the content is in the
+*statement* (accept is now bound to decisive-content preservation), not proof
+length. The imported wall is unchanged: *which* coordinates are decisive is a
+caller-supplied designation, not derived by the certificate. What is proved is the
+conditional — given the designation, the drop cannot happen.
+
+**Slate effect.** H-I's falsifier-gate (decisive-source binding + a Lean
+content-preservation lemma) is **cleared**. H-I can re-attempt promotion against
+the remaining (still-imported) walls: live state measurement and the λ cliff.
+
+### §8 reproduce
+
+```sh
+python scripts/decisive_gate_fix.py
+python -m pytest scripts/test_decisive_gate_fix.py -q
+lake build Sundogcert.AxiomAudit
+```

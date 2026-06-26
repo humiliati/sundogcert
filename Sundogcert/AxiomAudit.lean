@@ -319,6 +319,21 @@ set_option linter.style.longLine false in
 #guard_msgs in
 #print axioms Sundog.AgenticTrace.not_branch_count_gt_budget
 
+/-! ### Decisive-source binding -- the H-I falsifier fix (content preservation) -/
+
+/-- info: 'Sundog.AgenticTrace.decisive_kept' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AgenticTrace.decisive_kept
+
+/-- info: 'Sundog.AgenticTrace.decisive_pruned_not_kept' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AgenticTrace.decisive_pruned_not_kept
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.AgenticTrace.decisive_receipt_safe_and_preserving' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AgenticTrace.decisive_receipt_safe_and_preserving
+
 /-! ## DiscreteHolonomy -- finite gauge zero-out for closed trace loops -/
 
 /-- info: 'Sundog.DiscreteHolonomy.sum_discreteDiff_eq_endpoint' depends on axioms: [propext, Classical.choice, Quot.sound] -/
