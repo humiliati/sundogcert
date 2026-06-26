@@ -58,9 +58,17 @@ SUPPORT verdict promotes H-I's empirical premise from in-vitro to transferable.
 
 ## §2 The measurement leg (STAGED for the operator — model-gated)
 
-**Stacks.** ≥ 2 small, architecturally distinct instruction models the operator can
-run (the repo is CPU-only; pick the smallest viable — a real-model run is operator-
-gated, not headless). Origin-stack figures (0.953, net.7) are the prior, not re-run.
+**Stacks (pinned before real-model data).** The new-stack slots are frozen as:
+
+| Stack ID | Model ID | Architectural family | Hidden layer |
+|---|---|---|---|
+| `qwen2_5_0_5b_instruct` | `Qwen/Qwen2.5-0.5B-Instruct` | small dense decoder transformer | 7 |
+| `hermes_mamba_2_8b` | `EleutherAI/Hermes-mamba-2.8b` | state-space / Mamba instruction stack | 7 |
+
+The repo is CPU-only; the real-model run is operator-gated, not headless. If either
+model is unavailable or cannot run within budget, the replacement must be recorded
+as a RESULT deviation before analysis. Origin-stack figures (0.953, net.7) are the
+prior, not re-run.
 
 **Control parameter λ (pinned now).** λ = **injected reasoning-stress fraction**: the
 fraction of the context made contradictory/stale under the existing trace-cell
@@ -71,15 +79,17 @@ construction.
 
 **Outcome `O(λ)` (pinned).** Per trial, binary out-of-envelope = the deployed gate
 (`sundog-claim-gate` / `gateFailures`) accepts an unsafe draft, OR a held-out judge
-flags a boundary violation. `N ≥ 200` trials per λ-point (powered for the cliff-width
-CI in §3), fixed seeds.
+flags a boundary violation. The gate/judge outputs are downstream of the signature:
+they may score `O`, but are forbidden inputs to `s` and checked by the leakage audit.
+`N ≥ 200` trials per λ-point (powered for the cliff-width CI in §3), fixed seeds.
 
-**Stress signature `s` (pinned, declared BEFORE fitting).** A **rank-≤ 4** readout:
-the first ≤ 4 principal components of a fixed hidden-layer activation (or, for a
-black-box stack, a fixed 4-tuple of cheap behavioral statistics: next-token entropy,
-self-consistency variance across `k` samples, retrieval-overlap score, draft-length
-z-score). The layer/statistics are frozen in the analysis-script header BEFORE any
-real data is read.
+**Stress signature `s` (pinned, declared BEFORE fitting).** Active mode is
+**white-box**: a rank-4 readout, the first four principal components of hidden layer
+7 for each stack. The black-box 4-stat tuple (next-token entropy,
+self-consistency variance across `k=5` samples, retrieval-overlap score,
+draft-length z-score) remains implemented as a fallback stub only; using it for a
+real sweep is a RESULT deviation, not silent drift. The layer/statistics are frozen
+in the harness header BEFORE any real data is read.
 
 **Normalization (pinned).** Each stack's λ is normalized by its **competence
 baseline** `λ̂ = λ / λ_c`, where `λ_c` is the stack's λ at which clean-context (λ=0
@@ -87,7 +97,8 @@ distribution) accuracy first drops 5% — a per-stack, pre-cliff anchor that doe
 peek at the cliff. Transfer tolerance on `λ̂*`: **± 0.10**.
 
 **Analysis pipeline (pinned interface — the HS7 cost-lock analog).** Frozen in
-`scripts/cliff_transfer_analysis.py` before data, validated on a synthetic dry-run
+`scripts/cliff_transfer_analysis.py` and wired by
+`scripts/cliff_transfer_harness.py` before data, validated on a synthetic dry-run
 (§4):
 
 | Name | Output |

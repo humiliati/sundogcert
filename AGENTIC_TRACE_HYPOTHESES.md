@@ -347,9 +347,12 @@ model receipt, out of scope for the deductive core); trace-extraction reduced to
 commitment-timing operational note. The empirical artifact is now **pre-registered**
 (`AGENTIC_TRACE_H1_CLIFF_TRANSFER_PREREG.md`): a forward-generated, attribution-gated
 cliff-transfer test across ≥ 2 stacks, analysis frozen on a synthetic dry-run first,
-the real-model sweep operator-gated. The next headless build step is its synthetic
-analysis-pipeline validator (§4.1); the model sweep waits on the operator. Reed-Solomon
-soundness, unique decoding, and Tauroctony noninterference remain in place and intact.
+the real-model sweep operator-gated. The headless harness/validator now lives in
+`scripts/cliff_transfer_analysis.py` and `scripts/cliff_transfer_harness.py`: it
+generates the λ-graded corpus, emits `(λ, s, O)` rows, runs `analyze_stack`, and
+checks `transfer_verdict` on synthetic support/null fixtures. The model sweep still
+waits on the operator. Reed-Solomon soundness, unique decoding, and Tauroctony
+noninterference remain in place and intact.
 
 Hypothesis IV (generic branch-budget receipt) is unaffected and can still run in
 parallel, but the cap-set language should stay reserved until a real finite-field

@@ -159,6 +159,14 @@ five-point finite-difference jets and emits `accept`, `structural-zero`, or
 verifier-checkable `quarantine`; it does not claim that any vector-memory system
 has already been mapped to a Whitney cusp.
 
+The H-I cliff-transfer empirical leg is pre-registered in
+[`AGENTIC_TRACE_H1_CLIFF_TRANSFER_PREREG.md`](AGENTIC_TRACE_H1_CLIFF_TRANSFER_PREREG.md).
+Its headless lock lives in
+[`scripts/cliff_transfer_analysis.py`](scripts/cliff_transfer_analysis.py) and
+[`scripts/cliff_transfer_harness.py`](scripts/cliff_transfer_harness.py): fixture
+mode builds the lambda-graded corpus, emits `(lambda, s, O)` rows, and validates
+the SUPPORT/K1/K2 controls without making model calls.
+
 ## Scope
 
 This repository is about a verification *methodology* — a cheap check whose validity anyone can reproduce
