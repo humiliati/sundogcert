@@ -123,6 +123,15 @@ Thresholds declared now, before data:
 `ablation_auc ≤ 0.65`, `monitor_lead ≥ 0`, and pairwise `|λ̂* − λ̂*'| ≤ 0.10`, with all
 §4 controls green.
 
+**Refinement (found 2026-06-25 while building the validator):** the SUPPORT gate has
+two conditions — `monitor_lead ≥ 0` (the monitor must lead, not lag) and the pairwise
+`λ̂*` spread — that the K-list above does not assign to any kill. A stack with a sharp,
+attributable cliff whose monitor *lags*, or two stacks whose cliffs don't align, is
+neither K1 nor K2 nor K3. `transfer_verdict` returns a distinct **`NO_SUPPORT`** verdict
+(with the specific reason) for these, so they are surfaced rather than mis-bucketed. A
+`NO_SUPPORT` is a non-promoting outcome that says "a cliff and signature exist, but they
+are not gate-usable as specified" — recorded, not hidden.
+
 **Honesty note pinned in advance:** the prior probability of a clean SUPPORT across
 ≥ 2 distinct stacks is modest — transfer nulls are the lane's base rate (NSE,
 mesa H1.3/H1.4). A K1/K2 result is the *expected* and still-valuable outcome; it
@@ -130,13 +139,17 @@ converts the imported wall into a measured bound.
 
 ## §4 Controls / honesty constraints
 
-1. **Synthetic dry-run FIRST (cheap, deterministic, headless).** Before any real model:
-   `scripts/cliff_transfer_analysis.py` is validated against a synthetic generator
-   with a *planted* cliff and a *planted* rank-1 signature (and a no-cliff / no-signature
-   control), confirming `fit_cliff` recovers the planted `λ*`/`w`, `signature_auc` is
-   high only when a signature is planted, and `ablation_auc` collapses it. This freezes
-   the analysis before it can be tuned to real data — the pre-registration's teeth.
-   This leg obeys the ~10-min rule and ships with a frozen test.
+1. **Synthetic dry-run FIRST (cheap, deterministic, headless) — BUILT & GREEN 2026-06-25.**
+   `scripts/cliff_transfer_analysis.py` (stdlib-only, seeded → reproducible) is validated
+   against a synthetic generator with a *planted* cliff and a *planted* signature (sharing
+   the trial-level jitter that drives `O`, so it predicts `O` inside the window) plus a
+   no-cliff and a no-signature control. Measured on the dry-run: `fit_cliff` recovers
+   `λ*` 0.50→0.501 and `w` 0.049→0.051; `signature_auc` = 0.99 when planted vs 0.50 for
+   pure noise; `ablation_auc` collapses to 0.50; `monitor_lead` recovers the planted
+   +0.03 lead; the no-cliff control reads `w` = 1.84 (> 0.10) and the no-signature control
+   reads `signature_auc` = 0.50. `transfer_verdict` routes them to **SUPPORT / K1 / K2**.
+   Frozen as `scripts/test_cliff_transfer_analysis.py` (9 tests, ~4 s). This freezes the
+   analysis before it can be tuned to real data — the pre-registration's teeth.
 2. **Shuffled-signature null** (the K2 attribution control): `ablation_auc` must be
    near chance when a real cliff is present — required for any SUPPORT.
 3. **Leakage audit** (K3): `s` is computed from state STRICTLY upstream of `O`; the
@@ -173,5 +186,8 @@ structure that converts H-I's imported empirical wall into a measured bound eith
 reasons) if any, and the measured/extrapolated compute. `AGENTIC_TRACE_H1_WALLS.md`
 §3 and the slate's H-I status get a one-line update only AFTER the receipt is banked.
 
-The first concrete build step (headless, this repo): `scripts/cliff_transfer_analysis.py`
-+ its synthetic dry-run + frozen test (§4.1). The real-model sweep is operator-gated.
+The first concrete build step (headless, this repo) is **DONE** (2026-06-25):
+`scripts/cliff_transfer_analysis.py` + its synthetic dry-run + frozen test (§4.1) — the
+analysis pipeline is now frozen. The remaining steps are operator-gated: pick the ≥ 2
+stacks, run the λ sweep, feed the per-stack trials through `analyze_stack` /
+`transfer_verdict`, and bank `AGENTIC_TRACE_H1_CLIFF_TRANSFER_RESULT.md`.
