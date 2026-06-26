@@ -95,10 +95,26 @@ Falsifier:
   while dropping the decisive source, or where the same receipt is accepted for
   two semantically incompatible resolutions.
 
+Falsifier outcome (2026-06-25): **FIRES.** Both forms are satisfied by a runnable,
+receipt-checkable counterexample against the live prototype — see
+`AGENTIC_TRACE_H1_FALSIFIER_RESULT.md` and
+`scripts/h1_decisive_source_falsifier.py` (+ frozen test). RS majority decoding
+prunes a decisive *minority* source exactly as it prunes noise, and the receipt
+payload excludes labels, so one byte-identical accepted receipt covers two
+safety-incompatible readings. The RS core is intact (the control confirms the
+*numeric* two-survivor attack is impossible in-radius — `rs_receipt_unique`); the
+break is the unproven semantics-to-signature measurement map, the gap
+`signature_noninterference` relocates rather than deletes.
+
 Promotion status:
 
-- best first candidate. The repo already has the RS machinery and the
-  noninterference theorem needed for a small prototype.
+- **falsifier-gated** (was: best first candidate). The RS machinery and the
+  noninterference theorem are present, but promotion now requires *binding the
+  decisive source into the signature* — a receipt that prunes a designated
+  decisive/authoritative cell must `quarantine`, not `accept` — plus a Lean
+  content-preservation lemma (an accepted prune preserves every designated
+  decisive coordinate), not only the existing count bound. Until then H-I is not
+  the lead candidate.
 
 ## Hypothesis II: Whitney A3 Cusp for Context Decay
 
@@ -296,9 +312,16 @@ A hypothesis graduates from slate to roadmap when it has all of:
 
 ## Recommended Next Move
 
-Promote Hypothesis I first. It is the only candidate where the formal pieces are
-already mostly present: Reed-Solomon receipt soundness, unique decoding,
-Tauroctony noninterference, and the existing axiom-audited certificate style.
-Hypothesis IV can run in parallel as a generic branch-budget receipt, but the
-cap-set language should stay reserved until a real finite-field projection
-exists.
+**Updated 2026-06-25 after the H-I falsifier fired.** H-I was the lead candidate,
+but its pre-registered falsifier fires (`AGENTIC_TRACE_H1_FALSIFIER_RESULT.md`):
+the RS receipt certifies numeric low-degree agreement, not decisiveness, so an
+accepted prune can drop the decisive source. The next move on H-I is therefore the
+*decisive-source-binding* fix — make a prune of any designated decisive cell
+`quarantine` rather than `accept`, and state the Lean content-preservation lemma —
+before any promotion. Reed-Solomon soundness, unique decoding, and Tauroctony
+noninterference remain in place and intact; what is missing is the
+semantics-to-signature binding the falsifier exposed.
+
+Hypothesis IV (generic branch-budget receipt) is unaffected by the falsifier and
+can still run in parallel, but the cap-set language should stay reserved until a
+real finite-field projection exists.
