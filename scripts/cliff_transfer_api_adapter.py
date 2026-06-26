@@ -24,12 +24,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import sys
 import time
 import urllib.error
 import urllib.request
 from dataclasses import dataclass, field
 
+import cliff_transfer_analysis as cta
 import cliff_transfer_harness as harness
 import cliff_transfer_keyring as keyring
 
@@ -84,6 +86,7 @@ class Sample:
     prompt_tokens: int
     completion_tokens: int
     http_status: int
+    entropy: float = 0.0  # first-token entropy (nats) from logprobs; 0 if unavailable
 
 
 def _post_json(url, headers, payload, timeout, opener):
@@ -93,20 +96,50 @@ def _post_json(url, headers, payload, timeout, opener):
         return int(resp.status), resp.read()
 
 
+def _first_token_entropy(choice: dict) -> float:
+    """Entropy (nats) of the first generated token from OpenAI-style logprobs.
+
+    Uses the visible top_logprobs, renormalized over what is returned (the tail is
+    unseen), as an uncertainty proxy: high near the cliff where the model is
+    unstable. Returns 0.0 if logprobs are absent (e.g. provider/model without them).
+    """
+    lp = (choice or {}).get("logprobs") or {}
+    content = lp.get("content") or []
+    if not content:
+        return 0.0
+    tops = content[0].get("top_logprobs") or []
+    probs = [math.exp(t["logprob"]) for t in tops if "logprob" in t]
+    z = sum(probs)
+    if z <= 0.0:
+        return 0.0
+    return -sum((p / z) * math.log(p / z) for p in probs if p > 0.0)
+
+
 def chat_once(provider, model, prompt, *, key, temperature=0.7, max_tokens=24,
               timeout=30, opener=keyring._default_open) -> Sample:
     """One chat completion. `opener` is injectable so tests run offline."""
     if provider in _OPENAI_COMPATIBLE:
         headers = {"Authorization": f"Bearer {key}", "Content-Type": "application/json",
                    "Accept": "application/json", "User-Agent": _UA}
-        payload = {"model": model, "temperature": temperature, "max_tokens": max_tokens,
-                   "messages": [{"role": "user", "content": prompt}]}
-        status, body = _post_json(_CHAT_URL[provider], headers, payload, timeout, opener)
+        base = {"model": model, "temperature": temperature, "max_tokens": max_tokens,
+                "messages": [{"role": "user", "content": prompt}]}
+        try:
+            status, body = _post_json(_CHAT_URL[provider], headers,
+                                      {**base, "logprobs": True, "top_logprobs": 5}, timeout, opener)
+        except urllib.error.HTTPError as exc:
+            # Some providers/models 400 on the logprobs param (Groq/Mistral). Fall
+            # back to no-logprobs (entropy will be 0) rather than crash the run.
+            if exc.code == 400:
+                status, body = _post_json(_CHAT_URL[provider], headers, base, timeout, opener)
+            else:
+                raise
         obj = json.loads(body.decode("utf-8"))
-        text = obj["choices"][0]["message"]["content"]
+        choice = obj["choices"][0]
+        text = choice["message"]["content"]
         usage = obj.get("usage", {}) or {}
         return Sample(text, int(usage.get("prompt_tokens", 0)),
-                      int(usage.get("completion_tokens", 0)), status)
+                      int(usage.get("completion_tokens", 0)), status,
+                      entropy=_first_token_entropy(choice))
     if provider == "anthropic":
         headers = {"x-api-key": key, "anthropic-version": "2023-06-01",
                    "Content-Type": "application/json", "Accept": "application/json",
@@ -131,7 +164,7 @@ class ApiModelAdapter:
     temperature: float = 0.7
     max_tokens: int = 24
     delay: float = 0.4
-    timeout: int = 30
+    timeout: int = 60
     budget: CallBudget = field(default_factory=lambda: CallBudget(60))
     key_dir: object = None
     opener: object = keyring._default_open
@@ -147,7 +180,7 @@ class ApiModelAdapter:
             raise RuntimeError(f"no key for {self.provider} (source={src})")
         object.__setattr__(self, "_key", key)  # held in memory only, never logged
 
-    def _sample(self, prompt, max_retries=3) -> Sample:
+    def _sample(self, prompt, max_retries=5) -> Sample:
         for attempt in range(max_retries + 1):
             self.budget.spend(1)
             try:
@@ -161,17 +194,34 @@ class ApiModelAdapter:
                     time.sleep(self.delay)
                 return s
             except urllib.error.HTTPError as exc:
-                if exc.code == 429 and attempt < max_retries:
-                    time.sleep(2.0 * (2 ** attempt))
+                # Retry rate limits (429) and transient server errors (5xx).
+                if (exc.code == 429 or 500 <= exc.code < 600) and attempt < max_retries:
+                    time.sleep(min(30.0, 2.0 * (2 ** attempt)))
+                    continue
+                raise
+            except (TimeoutError, urllib.error.URLError) as exc:
+                # Transient network errors (read timeout, connection reset) WILL
+                # happen over thousands of calls; a long run must not die on one.
+                if attempt < max_retries:
+                    time.sleep(min(30.0, 2.0 * (2 ** attempt)))
                     continue
                 raise
 
     def generate(self, stack, example, sample_index: int = 0) -> harness.ModelOutput:
         samples = [self._sample(example.prompt) for _ in range(self.k_samples)]
         drafts = tuple(s.text for s in samples)
+        # O is the MAJORITY vote across the k samples (stable per-trial outcome):
+        # pick a draft from the majority class so score_outcome sees the consensus.
+        n_unsafe = sum(1 for d in drafts if "UNSAFE_DRAFT" in d.upper())
+        majority_unsafe = n_unsafe * 2 > len(drafts)
+        draft = next((d for d in drafts
+                      if ("UNSAFE_DRAFT" in d.upper()) == majority_unsafe), drafts[0])
+        # The signature's scalar alarm score s[0] = mean first-token entropy over the
+        # k samples (the AUC driver; revived from the dead 0.0 of the smoke).
+        mean_entropy = sum(s.entropy for s in samples) / len(samples)
         return harness.ModelOutput(
-            draft=drafts[0],
-            next_token_entropy=0.0,  # logprob-entropy is a per-provider enhancement
+            draft=draft,
+            next_token_entropy=mean_entropy,
             retrieval_labels=(),
             hidden_signature=None,
             alternate_drafts=drafts,
@@ -195,9 +245,13 @@ def api_stack(provider: str, model: str) -> harness.StackSpec:
     )
 
 
-def smoke(provider="groq", model=None, *, lambdas=(0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
-          n_trials=2, k_samples=3, max_calls=60, delay=0.4, allow_paid=False,
-          key_dir=None, opener=keyring._default_open) -> dict:
+_FULL_GRID = tuple(i / 20 for i in range(21))  # 0.00 .. 1.00 step 0.05 (prereg §2)
+
+
+def run_stack(provider, model=None, *, lambdas=_FULL_GRID, n_trials=20, k_samples=3,
+              max_calls=2000, delay=0.4, allow_paid=False, key_dir=None,
+              opener=keyring._default_open) -> dict:
+    """Run ONE stack's sweep on a hosted model; return its per-stack analysis + usage."""
     if provider not in FREE_PROVIDERS and not allow_paid:
         raise SystemExit(f"{provider} is a paid provider; pass allow_paid=True to spend budget.")
     model = model or DEFAULT_MODEL[provider]
@@ -206,8 +260,9 @@ def smoke(provider="groq", model=None, *, lambdas=(0.0, 0.2, 0.4, 0.6, 0.8, 1.0)
                               opener=opener)
     stack = api_stack(provider, model)
     t0 = time.time()
-    # fixture_lambda_c=1.0 skips the competence sweep (a smoke simplification; the
-    # real run computes lambda_c). Underpowered at this scale by design.
+    # fixture_lambda_c=1.0 skips the competence sweep (lambda_c=1, i.e. no per-stack
+    # normalization). Documented simplification: it does not affect per-stack K1/K2,
+    # only the cross-stack lambda* alignment, which is reported with that caveat.
     sweep = harness.run_sweep(adapter=adapter, stacks=(stack,), lambda_grid=lambdas,
                               trials_per_lambda=n_trials, signature_mode="black-box",
                               fixture_lambda_c=1.0)
@@ -218,13 +273,46 @@ def smoke(provider="groq", model=None, *, lambdas=(0.0, 0.2, 0.4, 0.6, 0.8, 1.0)
         o_by_lambda.setdefault(r["lambda_fraction"], []).append(r["O"])
     return {
         "version": API_ADAPTER_VERSION,
-        "provider": provider, "model": model,
+        "provider": provider, "model": model, "stack_id": stack.stack_id,
         "calls": adapter.calls, "prompt_tokens": adapter.prompt_tokens,
         "completion_tokens": adapter.completion_tokens, "usd_estimate": adapter.usd_estimate(),
         "wall_s": wall,
         "O_by_lambda": sorted((lam, sum(v) / len(v)) for lam, v in o_by_lambda.items()),
         "per_stack": sweep["per_stack"][0],
-        "transfer_verdict": sweep["transfer_verdict"],
+    }
+
+
+def smoke(provider="groq", model=None, *, lambdas=(0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
+          n_trials=2, k_samples=3, max_calls=60, delay=0.4, allow_paid=False,
+          key_dir=None, opener=keyring._default_open) -> dict:
+    r = run_stack(provider, model, lambdas=lambdas, n_trials=n_trials, k_samples=k_samples,
+                  max_calls=max_calls, delay=delay, allow_paid=allow_paid, key_dir=key_dir,
+                  opener=opener)
+    # single stack: a verdict needs >=2, so this reports K0-DEFERRED by construction
+    r["transfer_verdict"] = cta.transfer_verdict([r["per_stack"]]).to_dict()
+    return r
+
+
+def two_stack_run(specs, *, n_trials=20, k_samples=3, max_calls=2000, delay=0.4,
+                  allow_paid=False, key_dir=None, opener=keyring._default_open) -> dict:
+    """Run two architecturally distinct stacks and adjudicate the transfer verdict.
+
+    `specs` = [(provider, model), (provider, model)]. Each stack runs on its own
+    keyed adapter; the two per-stack analyses feed the preregistered
+    `transfer_verdict` (K1/K2/K3/SUPPORT). lambda_c is 1.0 here (see run_stack).
+    """
+    t0 = time.time()
+    stacks = [run_stack(p, m, n_trials=n_trials, k_samples=k_samples, max_calls=max_calls,
+                        delay=delay, allow_paid=allow_paid, key_dir=key_dir, opener=opener)
+              for (p, m) in specs]
+    decision = cta.transfer_verdict([s["per_stack"] for s in stacks])
+    return {
+        "version": API_ADAPTER_VERSION,
+        "stacks": stacks,
+        "transfer_verdict": decision.to_dict(),
+        "total_usd_estimate": sum(s["usd_estimate"] for s in stacks),
+        "total_calls": sum(s["calls"] for s in stacks),
+        "wall_s": time.time() - t0,
     }
 
 
@@ -296,10 +384,29 @@ def _caps() -> bool:
         return True
 
 
+def format_two_stack(r: dict) -> str:
+    lines = [f"CLIFF-TRANSFER 2-STACK RUN {r['version']}",
+             f"  total_calls={r['total_calls']} total_usd~={r['total_usd_estimate']:.4f} "
+             f"wall={r['wall_s']:.1f}s"]
+    for s in r["stacks"]:
+        ps = s["per_stack"]
+        lines.append(f"  [{s['provider']}/{s['model']}] calls={s['calls']} usd~={s['usd_estimate']:.4f}")
+        lines.append("     O(lambda): " + "  ".join(f"{lam:.2f}:{o:.2f}" for lam, o in s["O_by_lambda"]))
+        lines.append(f"     fit: lambda*={ps['lambda_star']:.3f} w={ps['w']:.3f} "
+                     f"sig_auc={ps['signature_auc']:.3f} abl={ps['ablation_auc']:.3f} "
+                     f"lead={ps['monitor_lead']:.3f} controls_pass={ps['controls_pass']}")
+    lines.append(f"  VERDICT: {r['transfer_verdict']['verdict']} — {r['transfer_verdict']['reason']}")
+    return "\n".join(lines)
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description="Black-box API adapter for the cliff-transfer harness.")
     p.add_argument("--selftest", action="store_true")
     p.add_argument("--smoke", action="store_true")
+    p.add_argument("--two-stack", action="store_true",
+                   help="run two stacks (--specs) and adjudicate the transfer verdict")
+    p.add_argument("--specs", default="openai:gpt-4o-mini,groq:llama-3.1-8b-instant",
+                   help="comma-separated provider:model pairs for --two-stack")
     p.add_argument("--provider", default="groq", choices=sorted(DEFAULT_MODEL))
     p.add_argument("--model", default=None)
     p.add_argument("--max-calls", type=int, default=60)
@@ -310,16 +417,23 @@ def main(argv=None):
     p.add_argument("--json", action="store_true")
     args = p.parse_args(argv)
 
-    if args.selftest or not args.smoke:
-        result = selftest()
-        print(json.dumps(result, indent=2) if args.json else
-              "selftest ok=%s\n%s" % (result["ok"], "\n".join(
-                  f"  {'PASS' if v else 'FAIL'}  {k}" for k, v in result["checks"].items())))
+    if args.two_stack:
+        specs = [tuple(s.split(":", 1)) for s in args.specs.split(",")]
+        result = two_stack_run(specs, n_trials=args.n_trials, k_samples=args.k_samples,
+                               max_calls=args.max_calls, delay=args.delay, allow_paid=args.allow_paid)
+        print(json.dumps(result, indent=2) if args.json else format_two_stack(result))
         return result
 
-    result = smoke(args.provider, args.model, n_trials=args.n_trials, k_samples=args.k_samples,
-                   max_calls=args.max_calls, delay=args.delay, allow_paid=args.allow_paid)
-    print(json.dumps(result, indent=2) if args.json else format_smoke(result))
+    if args.smoke:
+        result = smoke(args.provider, args.model, n_trials=args.n_trials, k_samples=args.k_samples,
+                       max_calls=args.max_calls, delay=args.delay, allow_paid=args.allow_paid)
+        print(json.dumps(result, indent=2) if args.json else format_smoke(result))
+        return result
+
+    result = selftest()
+    print(json.dumps(result, indent=2) if args.json else
+          "selftest ok=%s\n%s" % (result["ok"], "\n".join(
+              f"  {'PASS' if v else 'FAIL'}  {k}" for k, v in result["checks"].items())))
     return result
 
 

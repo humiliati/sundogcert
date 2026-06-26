@@ -58,6 +58,40 @@ def test_chat_once_openai_compatible_parses_and_sets_user_agent():
     assert cap["url"].endswith("/chat/completions")
 
 
+def test_chat_once_parses_first_token_entropy_from_logprobs():
+    # Near-uniform top-2 => entropy near ln(2); near-certain => near 0. Confirms
+    # s[0] (the AUC driver) is actually populated, not the dead 0.0 of the smoke.
+    import math
+
+    def opener_for(top_logprobs):
+        def fake_open(req, timeout):
+            class _R:
+                status = 200
+                def __enter__(self_): return self_
+                def __exit__(self_, *a): return False
+                def read(self_):
+                    return json.dumps({
+                        "choices": [{
+                            "message": {"content": "UNSAFE_DRAFT"},
+                            "logprobs": {"content": [{"top_logprobs": top_logprobs}]},
+                        }],
+                        "usage": {"prompt_tokens": 1, "completion_tokens": 1},
+                    }).encode("utf-8")
+            return _R()
+        return fake_open
+
+    uniform = api.chat_once("groq", "m", "hi", key="k",
+                            opener=opener_for([{"logprob": math.log(0.5)},
+                                               {"logprob": math.log(0.5)}]))
+    certain = api.chat_once("groq", "m", "hi", key="k",
+                            opener=opener_for([{"logprob": math.log(0.99)},
+                                               {"logprob": math.log(0.01)}]))
+    assert abs(uniform.entropy - math.log(2)) < 1e-9
+    assert certain.entropy < 0.1
+    # Missing logprobs degrade gracefully to 0.0 (providers without them don't crash).
+    assert api.chat_once("groq", "m", "hi", key="k", opener=_openai_opener({})).entropy == 0.0
+
+
 def test_chat_once_anthropic_parses():
     s = api.chat_once("anthropic", "claude-3-5-haiku-latest", "hi", key="k",
                       opener=_anthropic_opener())
@@ -87,6 +121,37 @@ def test_budget_cap_raises_before_overspend():
         assert False, "expected CapExceeded"
     except api.CapExceeded:
         assert adapter.calls == 2  # stopped exactly at the cap
+
+
+def test_sample_retries_on_transient_timeout(monkeypatch):
+    # Regression: a single read timeout (the real failure that crashed the first
+    # powered run) must be retried, not propagated. Backoff sleep is stubbed.
+    monkeypatch.setattr(api.time, "sleep", lambda *a, **k: None)
+    state = {"n": 0}
+
+    def flaky_open(req, timeout):
+        state["n"] += 1
+        if state["n"] == 1:
+            raise TimeoutError("the read operation timed out")
+
+        class _R:
+            status = 200
+            def __enter__(self_): return self_
+            def __exit__(self_, *a): return False
+            def read(self_):
+                return json.dumps({
+                    "choices": [{"message": {"content": "SAFE_DRAFT"}}],
+                    "usage": {"prompt_tokens": 7, "completion_tokens": 2},
+                }).encode("utf-8")
+        return _R()
+
+    adapter = api.ApiModelAdapter(provider="groq", model="x", k_samples=1, delay=0.0,
+                                  budget=api.CallBudget(10), key_dir=api._FakeKeyDir(),
+                                  opener=flaky_open)
+    out = adapter.generate(api.api_stack("groq", "x"),
+                           harness.build_lambda_stress_corpus(0.0, 1))
+    assert out.draft.startswith("SAFE_DRAFT")  # recovered after the timeout
+    assert state["n"] == 2  # one timeout + one success
 
 
 def test_paid_provider_requires_allow_paid():
