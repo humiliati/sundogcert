@@ -344,10 +344,12 @@ H-I's walls are now classified (`AGENTIC_TRACE_H1_WALLS.md`): content preservati
 CLOSED; the "derive decisiveness" residual RESOLVED as a necessary import
 (machine-checked); the live-state / λ-cliff wall is empirical by design (needs a
 model receipt, out of scope for the deductive core); trace-extraction reduced to a
-commitment-timing operational note. The next concrete artifact for H-I is the
-*empirical* one — a pre-registered cliff-transfer measurement when a real model is
-in hand — not more deductive work. Reed-Solomon soundness, unique decoding, and
-Tauroctony noninterference remain in place and intact.
+commitment-timing operational note. The empirical artifact is now **pre-registered**
+(`AGENTIC_TRACE_H1_CLIFF_TRANSFER_PREREG.md`): a forward-generated, attribution-gated
+cliff-transfer test across ≥ 2 stacks, analysis frozen on a synthetic dry-run first,
+the real-model sweep operator-gated. The next headless build step is its synthetic
+analysis-pipeline validator (§4.1); the model sweep waits on the operator. Reed-Solomon
+soundness, unique decoding, and Tauroctony noninterference remain in place and intact.
 
 Hypothesis IV (generic branch-budget receipt) is unaffected and can still run in
 parallel, but the cap-set language should stay reserved until a real finite-field

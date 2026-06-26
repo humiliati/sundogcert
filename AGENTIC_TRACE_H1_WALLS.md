@@ -74,8 +74,11 @@ possible:
   signature exists in a given model, and *that* its critical value sits near
   λ≈0.953 and transfers across stacks. Discharging this needs a measurement
   receipt on a real model (a held-out cliff-transfer experiment), not a proof.
-  Pre-registration of that experiment is the right next artifact when a model is
-  in hand; it is out of scope for the deductive core.
+  **This experiment is now pre-registered:** `AGENTIC_TRACE_H1_CLIFF_TRANSFER_PREREG.md`
+  (frozen forward-generated metrics + kill criteria; a clean null is a SUCCESS that
+  bounds H-I; analysis frozen on a synthetic dry-run before any real data; the
+  real-model sweep is operator-gated, CPU-only repo). It is out of scope for the
+  deductive core.
 
 ## 4. Trace-extraction tamper-resistance — REDUCED to commitment timing
 
