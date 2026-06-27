@@ -187,16 +187,33 @@ def run_stack_v2(provider, model=None, *, lambdas=_FULL_GRID, n_trials=30, k_sam
     }
 
 
-def two_stack_v2(specs, **kw) -> dict:
-    """Run two v2 stacks and adjudicate the preregistered transfer verdict."""
-    stacks = [run_stack_v2(p, m, **kw) for (p, m) in specs]
+def _write_json(path: str, obj: dict) -> None:
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(obj, fh, indent=2)
+
+
+def two_stack_v2(specs, *, out=None, **kw) -> dict:
+    """Run two v2 stacks and adjudicate the preregistered transfer verdict.
+
+    If `out` is given, a checkpoint is written to disk after EACH stack completes,
+    so a session teardown mid-run cannot wipe an already-finished stack (long
+    background jobs here can die on session/auto-update boundaries).
+    """
+    stacks = []
+    for (p, m) in specs:
+        stacks.append(run_stack_v2(p, m, **kw))
+        if out:
+            _write_json(out, {"version": TASK_V2_VERSION, "stacks": stacks, "complete": False})
     decision = cta.transfer_verdict([s["per_stack"] for s in stacks])
-    return {
+    result = {
         "version": TASK_V2_VERSION, "stacks": stacks,
         "transfer_verdict": decision.to_dict(),
         "total_usd_estimate": sum(s["usd_estimate"] for s in stacks),
-        "total_calls": sum(s["calls"] for s in stacks),
+        "total_calls": sum(s["calls"] for s in stacks), "complete": True,
     }
+    if out:
+        _write_json(out, result)
+    return result
 
 
 def format_run(r: dict) -> str:
@@ -253,12 +270,13 @@ def main(argv=None):
     p.add_argument("--k-samples", type=int, default=3)
     p.add_argument("--max-calls", type=int, default=3000)
     p.add_argument("--delay", type=float, default=0.2)
+    p.add_argument("--out", default=None, help="checkpoint JSON path (written after each stack)")
     p.add_argument("--json", action="store_true")
     args = p.parse_args(argv)
 
     if args.run:
         specs = [tuple(s.split(":", 1)) for s in args.specs.split(",")]
-        r = two_stack_v2(specs, n_trials=args.n_trials, k_samples=args.k_samples,
+        r = two_stack_v2(specs, out=args.out, n_trials=args.n_trials, k_samples=args.k_samples,
                          max_calls=args.max_calls, delay=args.delay)
         print(json.dumps(r, indent=2) if args.json else format_run(r))
         return r

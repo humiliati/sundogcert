@@ -49,9 +49,10 @@ on the imported definability machinery.
 * **Linear gate COUNT needs a DAG.** The exact identity `max p q = q + relu (p − q)`
   shares the operand `q`. A *tree*-shaped circuit duplicates it, so nested `max`/`min`
   (a deep min-plus circuit) blows up gate count; only a **DAG** (wire fan-out) keeps the
-  count linear. This module proves the linear **depth** bound (tree-stable); the
-  *gate-count* linearity is a DAG/sharing statement — named here, not proved (a clean
-  next increment, a compiler-correctness proof with wire-index refinement).
+  count linear. This module now proves the local sharing receipt (`appendMax_eval`):
+  once `p` and `q` are existing wires, the ReLU max gadget appends exactly four gates and
+  reuses `q` by index. The full recursive source-DAG → target-DAG compiler remains the
+  next wall.
 * **Trainability.** This is an *existence* result: it bounds the size of a network that
   *can* compute the circuit. That SGD *finds* those weights is imported, never proved —
   the same wall the whole development carries.
@@ -200,6 +201,120 @@ theorem compile_depth_le (e : Trop n) : (compile e).depth ≤ 4 * e.depth := by
       simp only [compile, Net.depth, Trop.depth, Nat.max_def]
       split_ifs <;> omega
 
+/-! ## Sharing-aware DAG gate count -/
+
+/-- A wire program gate whose operands may reference either the `n` external inputs or
+one of the `m` already-built gates. The `Fin (n + m)` index is the acyclicity discipline:
+new gates cannot point to future gates. -/
+inductive RGate (n : ℕ) : ℕ → Type where
+  | const {m : ℕ} : ℝ → RGate n m
+  | add   {m : ℕ} : Fin (n + m) → Fin (n + m) → RGate n m
+  | scale {m : ℕ} : ℝ → Fin (n + m) → RGate n m
+  | relu  {m : ℕ} : Fin (n + m) → RGate n m
+
+/-- A straight-line ReLU DAG with `m` internal gates. Fan-out is free: later gates may
+reuse any earlier wire by index. -/
+inductive RProg (n : ℕ) : ℕ → Type where
+  | nil : RProg n 0
+  | snoc {m : ℕ} : RProg n m → RGate n m → RProg n (m + 1)
+
+/-- The gate count of a typed straight-line DAG is carried by its index. -/
+def RProg.gateCount {n m : ℕ} (_ : RProg n m) : ℕ := m
+
+@[simp] theorem RProg.gateCount_snoc {n m : ℕ} (p : RProg n m) (g : RGate n m) :
+    (p.snoc g).gateCount = p.gateCount + 1 := rfl
+
+/-- Reinterpret an existing wire inside a larger program extension. -/
+def widenWire {n m extra : ℕ} (w : Fin (n + m)) : Fin (n + (m + extra)) :=
+  ⟨w.val, by omega⟩
+
+/-- The wire produced by appending the next gate to a program with `m` internal gates. -/
+def lastWire (n m : ℕ) : Fin (n + (m + 1)) :=
+  ⟨n + m, by omega⟩
+
+/-- Extend an environment by one newly computed gate value. -/
+def extendEnv {k : ℕ} (env : Fin k → ℝ) (v : ℝ) : Fin (k + 1) → ℝ :=
+  fun i => if h : i.val < k then env ⟨i.val, h⟩ else v
+
+@[simp] theorem extendEnv_widen {n m : ℕ} (env : Fin (n + m) → ℝ) (v : ℝ)
+    (w : Fin (n + m)) :
+    extendEnv env v (widenWire (extra := 1) w) = env w := by
+  unfold extendEnv widenWire
+  simp [w.isLt]
+
+@[simp] theorem extendEnv_last {k : ℕ} (env : Fin k → ℝ) (v : ℝ) :
+    extendEnv env v ⟨k, by omega⟩ = v := by
+  simp [extendEnv]
+
+/-- Evaluate one DAG gate against the current wire environment. -/
+def RGate.eval {n m : ℕ} (g : RGate n m) (env : Fin (n + m) → ℝ) : ℝ :=
+  match g with
+  | .const c => c
+  | .add a b => env a + env b
+  | .scale c a => c * env a
+  | .relu a => Max.max (env a) 0
+
+/-- Evaluate a straight-line ReLU DAG, returning the value of every available wire. -/
+def RProg.eval {n m : ℕ} (p : RProg n m) (x : Fin n → ℝ) : Fin (n + m) → ℝ :=
+  match p with
+  | .nil => fun i =>
+      have h : i.val < n := i.isLt
+      x ⟨i.val, h⟩
+  | .snoc p g =>
+      let env := p.eval x
+      extendEnv env (g.eval env)
+
+@[simp] theorem RProg.eval_snoc_old {n m : ℕ} (p : RProg n m) (g : RGate n m)
+    (x : Fin n → ℝ) (w : Fin (n + m)) :
+    (RProg.snoc p g).eval x (widenWire (extra := 1) w) = p.eval x w := by
+  exact extendEnv_widen (p.eval x) (g.eval (p.eval x)) w
+
+@[simp] theorem RProg.eval_snoc_last {n m : ℕ} (p : RProg n m) (g : RGate n m)
+    (x : Fin n → ℝ) :
+    (RProg.snoc p g).eval x (lastWire n m) = g.eval (p.eval x) := by
+  simp [RProg.eval, lastWire]
+
+/-- Append the shared-wire ReLU gadget
+`max a b = b + relu(a - b)` to an existing DAG. The input wire `b` is used twice by
+fan-out; it is not duplicated as a subtree. -/
+def RProg.appendMax {n m : ℕ} (p : RProg n m) (a b : Fin (n + m)) : RProg n (m + 4) :=
+  let a1 : Fin (n + (m + 1)) := widenWire (extra := 1) a
+  let b1 : Fin (n + (m + 1)) := widenWire (extra := 1) b
+  let b2 : Fin (n + (m + 2)) := widenWire (extra := 1) b1
+  let b3 : Fin (n + (m + 3)) := widenWire (extra := 1) b2
+  let p1 : RProg n (m + 1) := p.snoc (.scale (-1) b)
+  let p2 : RProg n (m + 2) :=
+    p1.snoc (.add a1 (lastWire n m))
+  let p3 : RProg n (m + 3) := p2.snoc (.relu (lastWire n (m + 1)))
+  p3.snoc (.add b3 (lastWire n (m + 2)))
+
+/-- The output wire of `appendMax`. -/
+def RProg.appendMaxOut (n m : ℕ) : Fin (n + (m + 4)) :=
+  lastWire n (m + 3)
+
+/-- The local sharing-aware gate-count receipt: a tropical `max` needs exactly four new
+ReLU DAG gates (`scale`, `add`, `relu`, `add`) when existing operands are wires. -/
+theorem appendMax_gate_count {n m : ℕ} (p : RProg n m) (a b : Fin (n + m)) :
+    (p.appendMax a b).gateCount = p.gateCount + 4 := rfl
+
+/-- Correctness of the shared-wire `max` gadget. This is the local lemma that the
+tree-shaped compiler was missing for gate-count accounting: the operand `b` is reused
+as a wire, and the four appended gates compute `max a b`. -/
+theorem appendMax_eval {n m : ℕ} (p : RProg n m) (a b : Fin (n + m)) (x : Fin n → ℝ) :
+    (p.appendMax a b).eval x (RProg.appendMaxOut n m) =
+      Max.max (p.eval x a) (p.eval x b) := by
+  simp only [RProg.appendMax, RProg.appendMaxOut]
+  simp only [RProg.eval_snoc_last, RProg.eval_snoc_old, RGate.eval]
+  rcases le_total (p.eval x a) (p.eval x b) with h | h
+  · rw [max_eq_right h]
+    have hle : p.eval x a + (-1) * p.eval x b ≤ 0 := by linarith
+    rw [max_eq_right hle]
+    ring_nf
+  · rw [max_eq_left h]
+    have hge : (0 : ℝ) ≤ p.eval x a + (-1) * p.eval x b := by linarith
+    rw [max_eq_left hge]
+    ring_nf
+
 /-! ## Derived min-plus gates (the APSP / Cor 5.1 building blocks), each proved exact -/
 
 /-- Negation as a derived gate: `neg a = (-1) · a`. -/
@@ -271,4 +386,5 @@ end Sundog.CircuitNet
 -- (`propext`, `Classical.choice`, `Quot.sound`) — NO `sorryAx`, NO `native_decide`.
 #print axioms Sundog.CircuitNet.compile_eval
 #print axioms Sundog.CircuitNet.compile_depth_le
+#print axioms Sundog.CircuitNet.appendMax_eval
 #print axioms Sundog.CircuitNet.bellmanStep_compiles_exactly
