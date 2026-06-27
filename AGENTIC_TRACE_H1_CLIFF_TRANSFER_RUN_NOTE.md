@@ -116,3 +116,36 @@ on 4o-mini) — i.e. it does not transfer cleanly across the two stacks. Next: w
 v2 through the analysis pipeline and run powered (n≥30) to test whether the cliff
 carries a predictive entropy signature (AUC ≥ 0.80, ablation collapse) and to bank
 the formal transfer verdict.
+
+## v2 powered single-stack run — cliff is REAL, the monitor is BLIND (K2)
+
+gpt-3.5-turbo, focused 12-pt grid around the cliff, n=15, k=3 (540 calls, $0.02; the
+2-stack background runs were killed by Claude-process auto-update teardowns, so this
+ran foreground/short — the cliff stack is the load-bearing one):
+
+- **O(λ):** 0,0,0,0, 0.07, **0.53, 0.73, 1.00**, 1.00, 0.93, 1.00, 1.00 across
+  λ=0…1.0. Cliff fit **λ\* = 0.596** (the majority-crossover), width 0.128 (just over
+  the 0.10 "sharp" bar — n=15 noise; the transition itself is clean over λ∈[0.55,0.70]).
+- **Signature FAILS.** First-token entropy AUC = **0.452** (ablation 0.456, no alarm
+  crossing → lead −∞). A follow-up cliff-window comparison (360 calls, $0.01) tested
+  the obvious alternative too: **entropy AUC 0.324, self-consistency AUC 0.456** — both
+  ≤ chance.
+
+**Verdict: K2 (SIGNATURE_NULL), robustly.** The volume cliff is genuine, but **no
+cheap behavioural monitor anticipates it**: gpt-3.5-turbo overrides the decisive
+source *confidently and consistently* per prompt, so neither within-generation
+uncertainty (entropy) nor cross-sample disagreement (self-consistency) carries a
+warning. The cliff's variance is across prompts, not within one.
+
+**Cross-level mirror (the load-bearing insight).** This empirically reproduces the
+formal H-I result. The Lean `no_word_function_determines_decisive` proved the
+decisive designation is **not a function of the observable**; here the live model
+shows the same thing — the override leaves **no signature in the cheap observable**.
+So H-I's syndrome-gating cannot rest on a learned cheap monitor: the decisive source
+must be **externally bound** (the `decisive_indices` fix), exactly as the deductive
+core requires. The empirical campaign and the proof agree: decisiveness is imported,
+not detected.
+
+**Bounded result.** Cliff EXISTS (real, mechanistic, majority-crossover) on a
+capability-dependent stack; cheap-monitor syndrome-gating does NOT (K2). H-I's
+empirical premise is bounded, and the bound matches the theorem.
