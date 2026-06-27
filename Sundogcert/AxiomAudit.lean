@@ -308,6 +308,15 @@ set_option linter.style.longLine false in
 #guard_msgs in
 #print axioms Sundog.CircuitNet.compile_depth_le
 
+set_option linter.style.longLine false in
+/-- info: 'Sundog.CircuitNet.compileToDag_gate_count' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.CircuitNet.compileToDag_gate_count
+
+/-- info: 'Sundog.CircuitNet.compileToDag_eval' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.CircuitNet.compileToDag_eval
+
 /-- info: 'Sundog.CircuitNet.appendMax_eval' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.CircuitNet.appendMax_eval

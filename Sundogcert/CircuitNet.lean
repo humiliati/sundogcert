@@ -405,10 +405,10 @@ def widenLe {n a b : ℕ} (h : a ≤ b) (w : Fin (n + a)) : Fin (n + b) :=
 the new gate count `m'`, a proof the program only grew (`m ≤ m'`), the extended program,
 and the output wire computing the tree. -/
 structure CompileRes (n m : ℕ) where
-  m'   : ℕ
-  hle  : m ≤ m'
+  m' : ℕ
+  hle : m ≤ m'
   prog : RProg n m'
-  out  : Fin (n + m')
+  out : Fin (n + m')
 
 /-- **The recursive sharing compiler.** Fold the `appendMax` gadget (and single-gate
 appends) over a tropical tree, threading the running DAG. Each subtree is compiled once
@@ -457,6 +457,120 @@ theorem compileToDag_gate_count {n : ℕ} :
       simp only [compileToDag, Trop.nodeCount]
       omega
 
+/-- Evaluating a `snoc`-extended program at any wire *strictly below* the new gate is the
+same as evaluating the original program there — the new gate cannot disturb earlier wires.
+This is the `.val`-level preservation primitive (the first branch of `extendEnv`). -/
+theorem RProg.eval_snoc_lt {n m : ℕ} (p : RProg n m) (g : RGate n m) (x : Fin n → ℝ)
+    (i : Fin (n + (m + 1))) (hi : i.val < n + m) :
+    (p.snoc g).eval x i = p.eval x ⟨i.val, hi⟩ := by
+  simp only [RProg.eval, extendEnv]
+  exact dif_pos hi
+
+/-- **Preservation.** Compiling a tropical tree onto a DAG `p` never changes the value of
+`p`'s existing wires: any output wire `w'` whose index equals an original wire `w`'s index
+evaluates the same. Proved by induction on the tree, peeling each appended gate with
+`eval_snoc_lt`. -/
+theorem compileToDag_preserves {n : ℕ} (x : Fin n → ℝ) (e : Trop n) :
+    ∀ {m : ℕ} (p : RProg n m) (w : Fin (n + m))
+      (w' : Fin (n + (compileToDag p e).m')),
+      w'.val = w.val → (compileToDag p e).prog.eval x w' = p.eval x w := by
+  induction e with
+  | var i =>
+      intro m p w w' hval
+      simp only [compileToDag] at w' ⊢
+      exact congrArg _ (Fin.ext hval)
+  | const c =>
+      intro m p w w' hval
+      simp only [compileToDag] at w' ⊢
+      have hi : w'.val < n + m := by have := w.isLt; omega
+      rw [RProg.eval_snoc_lt p _ x w' hi]
+      exact congrArg _ (Fin.ext hval)
+  | scale c a ih =>
+      intro m p w w' hval
+      simp only [compileToDag] at w' ⊢
+      have hmono := (compileToDag p a).hle
+      have hi : w'.val < n + (compileToDag p a).m' := by have := w.isLt; omega
+      rw [RProg.eval_snoc_lt _ _ x w' hi]
+      exact ih p w ⟨w'.val, hi⟩ hval
+  | add a b iha ihb =>
+      intro m p w w' hval
+      simp only [compileToDag] at w' ⊢
+      have hma := (compileToDag p a).hle
+      have hmb := (compileToDag (compileToDag p a).prog b).hle
+      have hi : w'.val < n + (compileToDag (compileToDag p a).prog b).m' := by
+        have := w.isLt; omega
+      rw [RProg.eval_snoc_lt _ _ x w' hi]
+      have hia := ihb (compileToDag p a).prog ⟨w.val, by have := w.isLt; omega⟩
+        ⟨w'.val, hi⟩ hval
+      rw [hia]
+      exact iha p w ⟨w.val, by have := w.isLt; omega⟩ rfl
+  | max a b iha ihb =>
+      intro m p w w' hval
+      simp only [compileToDag] at w' ⊢
+      have hma := (compileToDag p a).hle
+      have hmb := (compileToDag (compileToDag p a).prog b).hle
+      have hi : w'.val < n + (compileToDag (compileToDag p a).prog b).m' := by
+        have := w.isLt; omega
+      -- appendMax preserves all four-below wires; peel via eval_snoc_lt on its expansion
+      simp only [RProg.appendMax]
+      have h4 : w'.val < n + ((compileToDag (compileToDag p a).prog b).m' + 3) := by omega
+      have h3 : w'.val < n + ((compileToDag (compileToDag p a).prog b).m' + 2) := by omega
+      have h2 : w'.val < n + ((compileToDag (compileToDag p a).prog b).m' + 1) := by omega
+      rw [RProg.eval_snoc_lt _ _ x w' h4, RProg.eval_snoc_lt _ _ x ⟨w'.val, h4⟩ h3,
+        RProg.eval_snoc_lt _ _ x ⟨w'.val, h3⟩ h2, RProg.eval_snoc_lt _ _ x ⟨w'.val, h2⟩ hi]
+      have hib := ihb (compileToDag p a).prog ⟨w.val, by have := w.isLt; omega⟩
+        ⟨w'.val, hi⟩ hval
+      rw [hib]
+      exact iha p w ⟨w.val, by have := w.isLt; omega⟩ rfl
+
+/-- An input wire (index `< n`) always evaluates to the corresponding input, in any
+program — appended gates never touch the input wires. -/
+theorem RProg.eval_input {n : ℕ} (x : Fin n → ℝ) (i : Fin n) {m : ℕ} (p : RProg n m) :
+    ∀ (j : Fin (n + m)), j.val = i.val → p.eval x j = x i := by
+  induction p with
+  | nil =>
+      intro j hj
+      simp only [RProg.eval]
+      exact congrArg x (Fin.ext hj)
+  | snoc q g ih =>
+      intro j hj
+      rw [RProg.eval_snoc_lt q g x j (by have := i.isLt; omega)]
+      exact ih _ hj
+
+/-- **Output-wire correctness (Phase 2).** The output wire of the recursive sharing
+compiler evaluates to exactly the tropical tree's value. Together with
+`compileToDag_gate_count` this closes the gate-count wall: an `N`-node tropical tree
+compiles to a `≤ 4N`-gate ReLU DAG that computes it exactly. -/
+theorem compileToDag_eval {n : ℕ} (x : Fin n → ℝ) (e : Trop n) :
+    ∀ {m : ℕ} (p : RProg n m),
+      (compileToDag p e).prog.eval x (compileToDag p e).out = e.eval x := by
+  induction e with
+  | var i =>
+      intro m p
+      simp only [compileToDag, Trop.eval_var]
+      exact RProg.eval_input x i p _ rfl
+  | const c =>
+      intro m p
+      simp only [compileToDag, Trop.eval_const, RProg.eval_snoc_last, RGate.eval]
+  | scale c a ih =>
+      intro m p
+      simp only [compileToDag, Trop.eval_scale, RProg.eval_snoc_last, RGate.eval]
+      rw [ih p]
+  | add a b iha ihb =>
+      intro m p
+      simp only [compileToDag, Trop.eval_add, RProg.eval_snoc_last, RGate.eval]
+      rw [ihb (compileToDag p a).prog,
+        compileToDag_preserves x b (compileToDag p a).prog (compileToDag p a).out
+          (widenLe (compileToDag (compileToDag p a).prog b).hle (compileToDag p a).out) rfl,
+        iha p]
+  | max a b iha ihb =>
+      intro m p
+      simp only [compileToDag, Trop.eval_max]
+      rw [appendMax_eval,
+        compileToDag_preserves x b (compileToDag p a).prog (compileToDag p a).out
+          (widenLe (compileToDag (compileToDag p a).prog b).hle (compileToDag p a).out) rfl,
+        iha p, ihb (compileToDag p a).prog]
+
 end Sundog.CircuitNet
 
 -- Axiom audit: the deductive core depends only on mathlib's foundational axioms
@@ -465,4 +579,5 @@ end Sundog.CircuitNet
 #print axioms Sundog.CircuitNet.compile_depth_le
 #print axioms Sundog.CircuitNet.appendMax_eval
 #print axioms Sundog.CircuitNet.compileToDag_gate_count
+#print axioms Sundog.CircuitNet.compileToDag_eval
 #print axioms Sundog.CircuitNet.bellmanStep_compiles_exactly
