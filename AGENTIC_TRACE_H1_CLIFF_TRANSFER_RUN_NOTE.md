@@ -149,3 +149,32 @@ not detected.
 **Bounded result.** Cliff EXISTS (real, mechanistic, majority-crossover) on a
 capability-dependent stack; cheap-monitor syndrome-gating does NOT (K2). H-I's
 empirical premise is bounded, and the bound matches the theorem.
+
+## Hardened two-stack run (n=30, k=4) — REVISES the cliff to GRADED; K1 + dead signal
+
+Run in the operator's own PowerShell (survives the auto-update teardowns), full
+21-λ grid, both stacks, **5,040 calls, $0.19, ~75 min** (`v2_hardened_k2.json`):
+
+| stack | λ\* | width | entropy AUC | self-consistency AUC | reading |
+|---|---|---|---|---|---|
+| gpt-3.5-turbo | 0.582 | **0.188** (r²=0.97) | **0.497** | **0.440** | graded adoption, NO sharp cliff, signals dead |
+| gpt-4o-mini | 0.750 | ∞ | 0.748 | 0.483 | robust (O caps ~0.33), no cliff |
+
+**VERDICT: K1 — "no sharp cliff".**
+
+**Correction the hardening caught:** the n=15 single-stack run looked sharp (w=0.128);
+at n=30 the width is **0.188** with early partial adoption (λ=0.45–0.55 at ~0.10) and
+a non-monotone bump (0.60:0.73 → 0.65:0.60). So gpt-3.5-turbo's volume-override is
+**real and robust but GRADED — a smooth pressure gradient, not a knife-edge.** The
+"sharp cliff" was n=15 noise; higher power dissolved it.
+
+So H-I's syndrome-gating premise fails **two ways at once**, robustly:
+1. **No sharp boundary to gate** — the override is a gradient (w=0.188), not a cliff;
+2. **No signal to gate on** — entropy AUC 0.497 and self-consistency AUC 0.440 are
+   both at chance (2,520 calls/stack).
+
+This is a **stronger, cleaner banked null** than the n=15 read ("sharp cliff but blind
+monitor" → "graded transition AND blind monitor"). Per the prereg, K1 is a SUCCESS
+that bounds H-I. The cross-level mirror stands: the monitor's blindness reproduces
+`no_word_function_determines_decisive` — decisiveness is imported, not detected.
+Total empirical campaign spend ≈ $1.05 of the OpenAI budget.

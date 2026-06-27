@@ -49,6 +49,8 @@ import Sundogcert.AuditCost
 import Sundogcert.AgenticTrace
 import Sundogcert.DiscreteHolonomy
 import Sundogcert.CircuitNet
+import Sundogcert.StraightLineCost
+import Sundogcert.ShortestPathCert
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -95,6 +97,34 @@ import Sundogcert.CircuitNet
 /-- info: 'Sundog.Certificate.verifyCost_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.Certificate.verifyCost_le
+
+/-! ## StraightLineCost — shared op-count ledger for construction and checking -/
+
+/-- info: 'Sundog.StraightLineCost.compileToDag_cost_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.StraightLineCost.compileToDag_cost_le
+
+/-- info: 'Sundog.StraightLineCost.verifier_cost_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.StraightLineCost.verifier_cost_le
+
+/-- info: 'Sundog.StraightLineCost.shared_cost_instances' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.StraightLineCost.shared_cost_instances
+
+/-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
+
+/-- info: 'Sundog.ShortestPathCert.feasible_le_walk' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShortestPathCert.feasible_le_walk
+
+/-- info: 'Sundog.ShortestPathCert.cert_isLeast' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShortestPathCert.cert_isLeast
+
+/-- info: 'Sundog.ShortestPathCert.sp_verifier_cost_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ShortestPathCert.sp_verifier_cost_le
 
 /-! ## ShadowDecay — Debye–Waller decay and discrete determination -/
 

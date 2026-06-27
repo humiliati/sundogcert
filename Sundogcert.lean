@@ -6,6 +6,8 @@ import Sundogcert.Looseness
 import Sundogcert.CertWall
 import Sundogcert.Degradation
 import Sundogcert.CheckCost
+import Sundogcert.StraightLineCost
+import Sundogcert.ShortestPathCert
 import Sundogcert.ShadowDecay
 import Sundogcert.ShadowDecayGeneral
 import Sundogcert.ShadowDecayCauchy

@@ -46,13 +46,14 @@ on the imported definability machinery.
   ReLU-representable; the paper compiles them only **approximately** (`ε > 0`), and *that*
   is where o-minimality and Newton-iteration error analysis live. They are deliberately
   outside this exact core — the honest boundary of the piecewise-linear fragment.
-* **Linear gate COUNT needs a DAG.** The exact identity `max p q = q + relu (p − q)`
+* **Linear gate COUNT via a DAG.** The exact identity `max p q = q + relu (p − q)`
   shares the operand `q`. A *tree*-shaped circuit duplicates it, so nested `max`/`min`
   (a deep min-plus circuit) blows up gate count; only a **DAG** (wire fan-out) keeps the
-  count linear. This module now proves the local sharing receipt (`appendMax_eval`):
-  once `p` and `q` are existing wires, the ReLU max gadget appends exactly four gates and
-  reuses `q` by index. The full recursive source-DAG → target-DAG compiler remains the
-  next wall.
+  count linear. This module proves the sharing receipt end-to-end for the piecewise-linear
+  fragment: the local max gadget appends exactly four gates and reuses `q` by index
+  (`appendMax_gate_count`, `appendMax_eval`), and the recursive compiler
+  `compileToDag` yields a `≤ 4N`-gate ReLU DAG computing an `N`-node tropical tree
+  exactly (`compileToDag_gate_count`, `compileToDag_eval`).
 * **Trainability.** This is an *existence* result: it bounds the size of a network that
   *can* compute the circuit. That SGD *finds* those weights is imported, never proved —
   the same wall the whole development carries.
@@ -384,9 +385,8 @@ theorem bellmanStep_compiles_exactly (d0 : Trop n) (edges : List (Trop n × ℝ)
 
 The local `appendMax` gadget folds over an entire tropical *tree* to give a *sharing*
 compiler `compileToDag : Trop n → RProg n _`: each subtree is compiled once and reused by
-its output wire, so an `N`-node tree yields a `≤ 4N`-gate ReLU DAG — the linear gate count
-the tree-to-tree `compile` could not have (Phase 1: the construction + the gate-count
-bound; the eval-correctness of the output wire is the next increment). -/
+its output wire, so an `N`-node tree yields a `≤ 4N`-gate ReLU DAG computing the same
+function exactly — the linear gate count the tree-to-tree `compile` could not have. -/
 
 /-- Node count of a tropical tree — the source circuit's size. -/
 def Trop.nodeCount : Trop n → ℕ
