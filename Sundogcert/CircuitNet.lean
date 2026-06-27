@@ -380,6 +380,83 @@ theorem bellmanStep_compiles_exactly (d0 : Trop n) (edges : List (Trop n × ℝ)
       edges.foldl (fun acc e => Min.min acc (e.1.eval x + e.2)) (d0.eval x) := by
   rw [compile_eval, bellmanStep_eval]
 
+/-! ## Recursive tree → DAG compiler (the linear gate-count thread)
+
+The local `appendMax` gadget folds over an entire tropical *tree* to give a *sharing*
+compiler `compileToDag : Trop n → RProg n _`: each subtree is compiled once and reused by
+its output wire, so an `N`-node tree yields a `≤ 4N`-gate ReLU DAG — the linear gate count
+the tree-to-tree `compile` could not have (Phase 1: the construction + the gate-count
+bound; the eval-correctness of the output wire is the next increment). -/
+
+/-- Node count of a tropical tree — the source circuit's size. -/
+def Trop.nodeCount : Trop n → ℕ
+  | .var _     => 1
+  | .const _   => 1
+  | .add a b   => a.nodeCount + b.nodeCount + 1
+  | .scale _ a => a.nodeCount + 1
+  | .max a b   => a.nodeCount + b.nodeCount + 1
+
+/-- Reinterpret a wire in a program that has grown from `a` to `b ≥ a` gates. Absolute
+indices stay valid, so this is just the `.val`-preserving cast. -/
+def widenLe {n a b : ℕ} (h : a ≤ b) (w : Fin (n + a)) : Fin (n + b) :=
+  ⟨w.val, by omega⟩
+
+/-- The result of compiling a tropical tree onto an existing DAG `p` with `m` gates:
+the new gate count `m'`, a proof the program only grew (`m ≤ m'`), the extended program,
+and the output wire computing the tree. -/
+structure CompileRes (n m : ℕ) where
+  m'   : ℕ
+  hle  : m ≤ m'
+  prog : RProg n m'
+  out  : Fin (n + m')
+
+/-- **The recursive sharing compiler.** Fold the `appendMax` gadget (and single-gate
+appends) over a tropical tree, threading the running DAG. Each subtree is compiled once
+and handed back as a wire, so there is no subtree duplication. -/
+def compileToDag {n : ℕ} : {m : ℕ} → RProg n m → Trop n → CompileRes n m
+  | m, p, .var i     => ⟨m, le_refl m, p, ⟨i.val, by have := i.isLt; omega⟩⟩
+  | m, p, .const c   => ⟨m + 1, Nat.le_succ m, p.snoc (.const c), lastWire n m⟩
+  | _, p, .scale c a =>
+      let ra := compileToDag p a
+      ⟨ra.m' + 1, ra.hle.trans (Nat.le_succ ra.m'),
+        ra.prog.snoc (.scale c ra.out), lastWire n ra.m'⟩
+  | _, p, .add a b =>
+      let ra := compileToDag p a
+      let rb := compileToDag ra.prog b
+      ⟨rb.m' + 1, (ra.hle.trans rb.hle).trans (Nat.le_succ rb.m'),
+        rb.prog.snoc (.add (widenLe rb.hle ra.out) rb.out), lastWire n rb.m'⟩
+  | _, p, .max a b =>
+      let ra := compileToDag p a
+      let rb := compileToDag ra.prog b
+      ⟨rb.m' + 4, (ra.hle.trans rb.hle).trans (Nat.le_add_right rb.m' 4),
+        rb.prog.appendMax (widenLe rb.hle ra.out) rb.out, RProg.appendMaxOut n rb.m'⟩
+
+/-- **The recursive compiler is gate-count linear (Phase 1).** Compiling an `N`-node
+tropical tree onto a DAG with `m` gates yields a DAG with at most `m + 4N` gates —
+exactly the linear gate count the tree-to-tree `compile` could not achieve, because the
+shared-wire `max` gadget appends a constant (4) per source node with no duplication. -/
+theorem compileToDag_gate_count {n : ℕ} :
+    ∀ {m : ℕ} (p : RProg n m) (e : Trop n),
+      (compileToDag p e).m' ≤ m + 4 * e.nodeCount := by
+  intro m p e
+  induction e generalizing m p with
+  | var i => simp [compileToDag, Trop.nodeCount]
+  | const c => simp [compileToDag, Trop.nodeCount]
+  | scale c a ih =>
+      have h := ih p
+      simp only [compileToDag, Trop.nodeCount]
+      omega
+  | add a b iha ihb =>
+      have h1 := iha p
+      have h2 := ihb (compileToDag p a).prog
+      simp only [compileToDag, Trop.nodeCount]
+      omega
+  | max a b iha ihb =>
+      have h1 := iha p
+      have h2 := ihb (compileToDag p a).prog
+      simp only [compileToDag, Trop.nodeCount]
+      omega
+
 end Sundog.CircuitNet
 
 -- Axiom audit: the deductive core depends only on mathlib's foundational axioms
@@ -387,4 +464,5 @@ end Sundog.CircuitNet
 #print axioms Sundog.CircuitNet.compile_eval
 #print axioms Sundog.CircuitNet.compile_depth_le
 #print axioms Sundog.CircuitNet.appendMax_eval
+#print axioms Sundog.CircuitNet.compileToDag_gate_count
 #print axioms Sundog.CircuitNet.bellmanStep_compiles_exactly

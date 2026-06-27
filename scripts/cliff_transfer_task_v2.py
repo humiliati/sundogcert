@@ -174,6 +174,15 @@ def run_stack_v2(provider, model=None, *, lambdas=_FULL_GRID, n_trials=30, k_sam
             rows.append(row_from_samples(lam, samples, truth, trap))
     sid = f"v2_{provider}_{model}".replace("/", "_").replace(".", "_").replace("-", "_")
     ps = cta.analyze_stack(rows, stack_id=sid, lambda_c=1.0)
+    # Second-signature comparison: the pipeline scores s[0]=entropy, but the K2
+    # is only honest if the OTHER cheap monitor (self-consistency, s[1]) also
+    # fails. Score both over the same cliff window analyze_stack uses.
+    window = [r for r in rows if abs(r["lambda_fraction"] - ps.cliff.lambda_star)
+              <= cta.AUC_WINDOW_HALF_WIDTH]
+    if {r["O"] for r in window} != {0, 1}:
+        window = rows
+    entropy_auc = cta._auc_from_scores([(r["s"][0], r["O"]) for r in window])
+    self_consistency_auc = cta._auc_from_scores([(r["s"][1], r["O"]) for r in window])
     o_by = {}
     for r in rows:
         o_by.setdefault(r["lambda_fraction"], []).append(r["O"])
@@ -182,6 +191,8 @@ def run_stack_v2(provider, model=None, *, lambdas=_FULL_GRID, n_trials=30, k_sam
         "calls": adapter.calls, "prompt_tokens": adapter.prompt_tokens,
         "completion_tokens": adapter.completion_tokens, "usd_estimate": adapter.usd_estimate(),
         "wall_s": time.time() - t0, "malformed": sum(r["n_malformed"] for r in rows),
+        "entropy_auc": entropy_auc, "self_consistency_auc": self_consistency_auc,
+        "window_n": len(window),
         "O_by_lambda": sorted((l, sum(v) / len(v)) for l, v in o_by.items()),
         "per_stack": ps.to_dict(),
     }
@@ -224,8 +235,10 @@ def format_run(r: dict) -> str:
         lines.append(f"  [{s['provider']}/{s['model']}] calls={s['calls']} usd~={s['usd_estimate']:.4f} "
                      f"malformed={s['malformed']}")
         lines.append("     O(λ): " + "  ".join(f"{l:.2f}:{o:.2f}" for l, o in s["O_by_lambda"]))
-        lines.append(f"     fit: λ*={ps['lambda_star']:.3f} w={ps['w']:.3f} sig_auc={ps['signature_auc']:.3f} "
+        lines.append(f"     fit: λ*={ps['lambda_star']:.3f} w={ps['w']:.3f} "
                      f"abl={ps['ablation_auc']:.3f} lead={ps['monitor_lead']:.3f} controls_pass={ps['controls_pass']}")
+        lines.append(f"     signatures (window_n={s['window_n']}): entropy_auc={s['entropy_auc']:.3f} "
+                     f"self_consistency_auc={s['self_consistency_auc']:.3f}")
     lines.append(f"  VERDICT: {r['transfer_verdict']['verdict']} — {r['transfer_verdict']['reason']}")
     return "\n".join(lines)
 
