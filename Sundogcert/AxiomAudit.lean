@@ -53,6 +53,7 @@ import Sundogcert.CuspGerm
 import Sundogcert.RetrievalCusp
 import Sundogcert.CircuitNet
 import Sundogcert.CancellationFree
+import Sundogcert.DepthSeparation
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 
@@ -133,6 +134,20 @@ import Sundogcert.ShortestPathCert
 /-- info: 'Sundog.CancellationFree.decompile_eval' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.CancellationFree.decompile_eval
+
+/-! ## DepthSeparation -- exponential linear regions from linear tropical depth -/
+
+/-- info: 'Sundog.DepthSeparation.iterTent_eval' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.DepthSeparation.iterTent_eval
+
+/-- info: 'Sundog.DepthSeparation.iterTent_depth_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.DepthSeparation.iterTent_depth_le
+
+/-- info: 'Sundog.DepthSeparation.tent_iterate_dyadic' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.DepthSeparation.tent_iterate_dyadic
 
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 

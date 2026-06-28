@@ -215,16 +215,29 @@ for `a₀<0<a₁` the family `[3,1]` is a `ContextDecay.Decays` event
 (`retrieval_realizes_annihilation`, `retrieval_foldpair_witness`). Real-analysis → full
 triple, axiom-clean; full `lake build` green (3540 jobs).
 
+Empirical leg landed (2026-06-28): `scripts/h2_retrieval_whitebox.py` +
+`AGENTIC_TRACE_H2_RETRIEVAL_{PREREG,RUN_NOTE}.md` — the H-I-style white-box. Real
+Qwen2.5-0.5B mean-pooled embeddings as attractor patterns; modern-Hopfield retrieval
+energy along each memory pair; β (freshness) swept down; folds counted by the H-II
+`foldpair_detector`. **All 15 distinct memory pairs annihilate 3→1 (`structural-zero`)**
+— the `RetrievalCusp` prediction realized on real embeddings — and the **identical-pattern
+true null gives `accept`** (no barrier from nothing: instrument verified). The
+annihilation freshness **β\* is separation-graded** (distinct β\*=16, paraphrase β\*=128,
+identical none). Honest caveat: the pre-registered binary *control* fired **K-ARTIFACT**
+(a paraphrase, cosine 0.974, is not a true null — any non-identical pair forms a thin
+barrier at extreme β); diagnostic verdict = SUPPORT-separation-graded, carried by the
+true null + β\*. Bounds: one 0.5B model, anisotropic embeddings, modern-Hopfield energy
+imported.
+
 Promotion status:
 
 - **falsifier fired → fix landed → Lean core landed → germ grounding landed → mapping
-  landed** (was: second wave). End to end machine-checked: two stable memories + a
-  barrier → barrier decays → count drops 3→1 → that is a `ContextDecay` annihilation,
-  and the quarantine core says what it licenses. **The named import is now minimal and
-  is empirical, not deductive:** only "a real retrieval landscape is (locally) this
-  attractor energy with a decaying barrier" remains — testable (not provable) via
-  `scripts/foldpair_detector.py` on real retrieval-score curves over a freshness sweep
-  (the H-I-style empirical complement), the natural next move if H-II is pushed further.
+  landed → empirical realization landed** (was: second wave). The full chain runs end
+  to end: a real embedding memory realizes the proved annihilation. The remaining
+  imports are now honestly external: the modern-Hopfield energy itself (cited, not
+  re-derived) and any claim about *production* RAG decay (untested). H-II is the most
+  complete hypothesis in the slate — the proved model is instantiated by a real memory,
+  not merely internally consistent.
 
 ## Hypothesis III: Aharonov-Bohm Holonomy Filter
 
@@ -262,10 +275,28 @@ Falsifier:
   instruction hierarchy, or benign OOD queries that create persistent nonzero
   phase.
 
+Falsifier fired (2026-06-28): `scripts/h3_holonomy_filter_falsifier.py` +
+`AGENTIC_TRACE_H3_FALSIFIER_RESULT.md`. The discrete theorem is done
+(`DiscreteHolonomy.closed_gauge_sum_zero`) and the runtime filter
+(`discrete_holonomy_receipt.py`) flags when the observed loop circulation `≠ 0` — but
+that very zero-out theorem is the blind spot. A loop circulation sees only the
+non-conservative (curl) component; the instruction hierarchy is the conservative
+(gradient/potential) component, which contributes **zero to every loop**. Three legs,
+all fire: **A** — a gradient-encoded hierarchy hijack (top authority flipped
+`system→injected`) gives the *same* `accept`/zero receipt as benign (gauge invariance
+`A→A+grad χ` is the attack's cloak); **B** — benign curl `(1,1,1)` is flagged
+`structural-zero` (false positive); **control** — a curl-type attack `(5,5,5)` IS caught
+(detector not dead). Mis-specification, not a threshold (curl ⊥ gradient Hodge
+components; the loop integral is a functional of curl alone). 5-case frozen test.
+
 Promotion status:
 
-- promising but measurement-heavy. Do the discrete theorem before claiming the
-  ML filter.
+- **falsifier fired → fix-gated** (was: promising but measurement-heavy). The fix
+  direction is named (re-spec around the **endpoint potential difference / gradient
+  component** — `gauge_sum_eq_endpoint`, the part that carries the hierarchy — not the
+  loop sum; a Hodge split certifying both curl-zero AND ranking-unviolated). Mirrors the
+  H-I (bind decisive indices) / H-II (re-spec the detector) cadence: falsify first, then
+  build the fix on go-ahead. The trace→holonomy measurement map remains the named import.
 
 ## Hypothesis IV: Trace-Bounded Search Trees
 
