@@ -179,13 +179,30 @@ false-negatives on the genuine cusp germ `x³` sampled off-center. Root cause: i
 reads only the second difference (curvature), never the first (slope / critical
 points), and a single 1-D jet cannot witness a control-parameter event.
 
+Fix landed (2026-06-27): the re-specified `scripts/foldpair_detector.py`
+(`AGENTIC_TRACE_H2_FALSIFIER_RESULT.md` §7) measures the **fold count** (first
+difference / interior extrema) across a **two-parameter family**, and declares a
+fold-pair annihilation when the count drops by 2. It closes all three legs: monotone
+fold-free curves now `accept`, the `x³ − e·x` unfolding is `structural-zero`
+(annihilation witnessed, fold count 2 → 0), and off-center cusp germs are caught.
+
+Lean core landed (2026-06-27): `Sundogcert/ContextDecay.lean` (`§8` of the result
+doc) pins what an annihilation receipt licenses — `decay_earned`, `foldfree_no_decay`
+(leg A, formalized), `stable_no_decay`, the headline `decays_iff_foldpair`
+(soundness ∧ completeness), and `annihilation_budget` (the `branch_count_le_budget`
+analog: `2·#annihilations ≤ initial fold count`). All five are axiom-clean
+(`[propext, Quot.sound]` — a subset of the foundational triple), enforced by
+`#guard_msgs` in `AxiomAudit.lean`; full `lake build` green (3538 jobs).
+
 Promotion status:
 
-- **falsifier-gated** (was: second wave). The detector spec is falsified and is a
-  *mis-specification*, not a tunable threshold — no `c2`/`c3` setting fixes legs A–C.
-  Promotion now requires **re-specifying the detector** around the first-difference /
-  interior-extrema (fold) structure and the **two-parameter unfolding** (watch the
-  folds merge as the control parameter varies), before any Lean quarantine theorem.
+- **falsifier fired → fix landed → Lean core landed** (was: second wave). The
+  detector is re-specified and faithful, and its quarantine rule has a machine-checked
+  deductive core. The remaining imported wall is unchanged and now precisely named:
+  the vector-memory → A3-cusp mapping, and the cusp-germ root-count grounding
+  (critical-point count = 3 for `a<0`, 1 for `a≥0`, i.e. `x³−a·x` realizes the count
+  drop) that would connect `ContextDecay` to the actual catastrophe germ — the analog
+  of grounding H-I's `decisive_*` in the RS `agree`/`Polynomial` structure.
 
 ## Hypothesis III: Aharonov-Bohm Holonomy Filter
 

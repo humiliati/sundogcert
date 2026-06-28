@@ -48,6 +48,7 @@ import Sundogcert.SATReductionMain
 import Sundogcert.AuditCost
 import Sundogcert.AgenticTrace
 import Sundogcert.DiscreteHolonomy
+import Sundogcert.ContextDecay
 import Sundogcert.CircuitNet
 import Sundogcert.CancellationFree
 import Sundogcert.StraightLineCost
@@ -441,3 +442,28 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.DiscreteHolonomy.gauge_sum_path_independent' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.DiscreteHolonomy.gauge_sum_path_independent
+
+-- ContextDecay: the fold-pair annihilation quarantine rule (H-II deductive core).
+-- The runtime detector is scripts/foldpair_detector.py; these pin what an
+-- annihilation receipt licenses, the way the AgenticTrace.decisive_* lemmas pinned
+-- the H-I fix. All within the foundational triple (here a subset: no Classical.choice).
+
+/-- info: 'Sundog.ContextDecay.decay_earned' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ContextDecay.decay_earned
+
+/-- info: 'Sundog.ContextDecay.foldfree_no_decay' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ContextDecay.foldfree_no_decay
+
+/-- info: 'Sundog.ContextDecay.stable_no_decay' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ContextDecay.stable_no_decay
+
+/-- info: 'Sundog.ContextDecay.decays_iff_foldpair' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ContextDecay.decays_iff_foldpair
+
+/-- info: 'Sundog.ContextDecay.annihilation_budget' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ContextDecay.annihilation_budget

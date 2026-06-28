@@ -1,11 +1,13 @@
 # H-II FALSIFIER — the cusp detector detects inflections, not fold-pair annihilations
 
 **Frozen:** 2026-06-27, repo HEAD `86621ff` (master).
-**Status:** **FALSIFIER FIRES** — H-II's own pre-registered falsifier (both forms)
-is satisfied by a runnable, receipt-checkable counterexample against the live
-`scripts/cusp_detector.py`. A fired falsifier on a **second-wave** hypothesis is a
-banked SUCCESS: it is caught before any Lean work, and it localizes the exact
-re-spec the detector needs.
+**Status:** **FALSIFIER FIRES → FIX LANDED (§7) → LEAN CORE LANDED (§8).** H-II's
+own pre-registered falsifier (both forms) was satisfied by a runnable counterexample
+against the live `scripts/cusp_detector.py`; the re-specified fold-pair detector in
+§7 closes all three legs; the §8 Lean module pins the quarantine rule's deductive
+core, axiom-clean. A fired falsifier on a **second-wave** hypothesis is a banked
+SUCCESS: caught before any Lean work, it localized the exact re-spec — and the re-spec is
+done.
 **Lane:** sundogcert agentic-trace slate, Hypothesis II (Whitney A3 Cusp for
 Context Decay).
 
@@ -107,3 +109,67 @@ python -m pytest scripts/test_h2_cusp_detector_falsifier.py -q
 - The detector is not trivially broken (the control discriminates parabola from the
   demo cusp); the legs are deliberate fold-free / annihilating / off-center
   constructions, all deterministic and test-pinned.
+
+## §7 FIX LANDED — the re-specified fold-pair detector (2026-06-27)
+
+`scripts/foldpair_detector.py` measures the right object on both axes the c2 spec
+ignored:
+
+- **first difference (slope) → fold count.** `count_interior_extrema` counts the
+  sign-changes of the first difference (the interior extrema = *folds*) of each
+  curve. A monotone curve has 0 folds, so it can never be a cusp.
+- **two-parameter family → annihilation.** The detector takes curves ordered by
+  increasing control (staleness); a fold-pair annihilation is a clean drop of the
+  fold count **by 2** between adjacent controls. A single 1-D jet cannot witness
+  this; the family can.
+
+Outcomes: `structural-zero` (an annihilation occurred → decay/quarantine),
+`accept` (no annihilation), `quarantine` (malformed: < 2 curves, < 5 evenly spaced
+samples, non-increasing control, or an *unpaired* fold-count change — odd or
+`|Δ|>2` — i.e. the sweep is too coarse to assert one clean fold pair). Receipts are
+exact `Fraction`s and re-verifiable, matching `cusp_detector`'s shape.
+
+**It closes the three falsifier legs** (`scripts/test_foldpair_detector.py`, the
+legs re-cast as the families they should have been):
+
+| leg | old `cusp_detector` | new `foldpair_detector` |
+|---|---|---|
+| A monotone fold-free S-curve | `structural-zero` (false positive) | **`accept`** (fold_counts all 0) |
+| B `x³ − e·x` unfolding | invariant `structural-zero` (blind) | **`structural-zero`**, annihilation witnessed (fold count 2 → 0) |
+| C cusp germ sampled off-center | `accept` (missed) | **`structural-zero`** (fold count is robust to centering — in fact resolves the shallow folds better off-center) |
+
+```
+demo annihilation (x^3 - e*x, e:3->0): fold_counts=[2,2,0,0] annihilations=(1->2) -> structural-zero
+demo monotone:                          fold_counts=[0,0,0]   annihilations=none   -> accept
+```
+
+**What it does not claim.** It is a faithful *detector* of a fold-pair annihilation
+in a sampled 2-parameter family; it is **not** the vector-memory → A3-cusp mapping
+(still the imported wall — now testable on synthetic families without being
+mislabelled). 20 tests pass (8 fold-pair fix + 5 falsifier + 7 existing cusp).
+
+## §8 LEAN CORE — what an annihilation receipt licenses (2026-06-27)
+
+`Sundogcert/ContextDecay.lean` pins the deductive content of the quarantine rule, the
+way `AgenticTrace.decisive_*` pinned the H-I fix. The fold family is `FoldCounts :=
+List ℕ` (fold count per curve, increasing-control order); `Decays cs` ⟺ some adjacent
+pair drops by exactly two (the A3 event). Five theorems, all `omega`/`simp`-only, all
+inside the foundational triple — in fact a **subset**: `[propext, Quot.sound]`, no
+`Classical.choice`, no `sorryAx`, no `native_decide`. Enforced by `#guard_msgs` in
+`Sundogcert/AxiomAudit.lean`; the full `lake build` is green (3538 jobs).
+
+| theorem | content | H-I analog |
+|---|---|---|
+| `decay_earned` | a flagged decay exhibits a genuine fold pair (≥ 2 folds) that is annihilated | `decisive_kept` |
+| `foldfree_no_decay` | a fold-free family (all counts 0) is **never** flagged — leg A, formalized | (the no-false-positive direction) |
+| `stable_no_decay` | a constant fold count is never flagged | — |
+| `decays_iff_foldpair` | **headline:** decay is licensed *iff* a fold pair (≥ 2) annihilates — soundness ∧ completeness | `decisive_receipt_safe_and_preserving` |
+| `annihilation_budget` | along a pure annihilation chain, `2 · (#annihilations) ≤ initial fold count` — you can't annihilate more pairs than you have | `branch_count_le_budget` |
+
+**What the Lean does not claim** (the named wall, unchanged): it formalizes what an
+annihilation *receipt* licenses, on the abstract fold-count family. It does **not**
+prove the vector-memory → A3-cusp mapping, nor that the canonical cusp family
+`x³ − a·x` realizes the count drop (critical-point count = 3 for `a < 0`, 1 for
+`a ≥ 0`). That root-count grounding — connecting `ContextDecay` to the actual
+catastrophe germ — is the next deductive step, the analog of grounding H-I's
+`decisive_*` in the RS `agree`/`Polynomial` structure.
