@@ -192,17 +192,26 @@ doc) pins what an annihilation receipt licenses — `decay_earned`, `foldfree_no
 (soundness ∧ completeness), and `annihilation_budget` (the `branch_count_le_budget`
 analog: `2·#annihilations ≤ initial fold count`). All five are axiom-clean
 (`[propext, Quot.sound]` — a subset of the foundational triple), enforced by
-`#guard_msgs` in `AxiomAudit.lean`; full `lake build` green (3538 jobs).
+`#guard_msgs` in `AxiomAudit.lean`; full `lake build` green.
+
+Grounding landed (2026-06-27): `Sundogcert/CuspGerm.lean` (`§9` of the result doc)
+grounds the abstract rule in the real germ — the cubic score curve `f_a(x) = x³ − a·x`
+has fold count (critical points = real roots of `3x² − a`) **2 for `a>0`, 0 for
+`a<0`**, so for `a₀<0<a₁` the family `[2,0]` is a `ContextDecay.Decays` event
+(`cubic_realizes_annihilation`, `cubic_foldpair_witness`). (Count correction: 2→0 for
+the *score curve*; the 3→1 figure is the degree-4 *potential* — both detector and
+`ContextDecay` key on the drop-by-2, so the cubic is the faithful witness.) These four
+are real-analysis (`Real.sqrt`, `Set.ncard`) → the full triple `[propext,
+Classical.choice, Quot.sound]`, axiom-clean; full `lake build` green (3539 jobs).
 
 Promotion status:
 
-- **falsifier fired → fix landed → Lean core landed** (was: second wave). The
-  detector is re-specified and faithful, and its quarantine rule has a machine-checked
-  deductive core. The remaining imported wall is unchanged and now precisely named:
-  the vector-memory → A3-cusp mapping, and the cusp-germ root-count grounding
-  (critical-point count = 3 for `a<0`, 1 for `a≥0`, i.e. `x³−a·x` realizes the count
-  drop) that would connect `ContextDecay` to the actual catastrophe germ — the analog
-  of grounding H-I's `decisive_*` in the RS `agree`/`Polynomial` structure.
+- **falsifier fired → fix landed → Lean core landed → germ grounding landed** (was:
+  second wave). The detector is re-specified and faithful, its quarantine rule has a
+  machine-checked deductive core, and the canonical catastrophe germ is proved to
+  realize that rule. The named wall is now narrow: only the vector-memory → cubic-germ
+  *mapping* remains an import (that the germ realizes the rule is proved) — the analog
+  of grounding H-I's `decisive_*` in the RS `agree`/`Polynomial` structure, now done.
 
 ## Hypothesis III: Aharonov-Bohm Holonomy Filter
 

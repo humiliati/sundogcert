@@ -166,10 +166,36 @@ inside the foundational triple — in fact a **subset**: `[propext, Quot.sound]`
 | `decays_iff_foldpair` | **headline:** decay is licensed *iff* a fold pair (≥ 2) annihilates — soundness ∧ completeness | `decisive_receipt_safe_and_preserving` |
 | `annihilation_budget` | along a pure annihilation chain, `2 · (#annihilations) ≤ initial fold count` — you can't annihilate more pairs than you have | `branch_count_le_budget` |
 
-**What the Lean does not claim** (the named wall, unchanged): it formalizes what an
-annihilation *receipt* licenses, on the abstract fold-count family. It does **not**
-prove the vector-memory → A3-cusp mapping, nor that the canonical cusp family
-`x³ − a·x` realizes the count drop (critical-point count = 3 for `a < 0`, 1 for
-`a ≥ 0`). That root-count grounding — connecting `ContextDecay` to the actual
-catastrophe germ — is the next deductive step, the analog of grounding H-I's
-`decisive_*` in the RS `agree`/`Polynomial` structure.
+**What the Lean does not claim** (the named wall): it formalizes what an annihilation
+*receipt* licenses, on the abstract fold-count family. It does **not** prove the
+vector-memory → A3-cusp mapping. (The root-count grounding — that the cubic germ
+actually realizes the count drop — is now landed in §9.)
+
+## §9 CUSP-GERM GROUNDING — the cubic realizes the annihilation (2026-06-27)
+
+`Sundogcert/CuspGerm.lean` grounds the abstract rule in the real catastrophe germ,
+the way `AgenticTrace.decisive_*` is grounded in the RS `agree`/`Polynomial`
+structure. The canonical fold-catastrophe **score curve** is `f_a(x) = x³ − a·x`; its
+folds are the critical points = real roots of `f_a'(x) = 3x² − a`:
+
+| theorem | content |
+|---|---|
+| `critSet_pos` / `critCount_pos` | `a > 0` → critical points are `±√(a/3)`, **fold count = 2** (a genuine max+min pair) |
+| `critSet_neg` / `critCount_neg` | `a < 0` → `3x² − a > 0` everywhere, **fold count = 0** (monotone, the `accept` side) |
+| `cubic_realizes_annihilation` | for `a₀ < 0 < a₁`, `[critCount a₁, critCount a₀] = [2, 0]` is a `ContextDecay.Decays` event — the germ produces the abstract drop-by-two |
+| `cubic_foldpair_witness` | read through the `decays_iff_foldpair` headline: a genuine fold pair (≥ 2) annihilates |
+
+> **Count correction.** For the *score curve* `x³ − a·x` the fold count is **2 for
+> `a > 0`, 0 for `a < 0`** (a single fold pair born/annihilated). The "3 → 1" figure
+> belongs to the degree-4 *potential* `x⁴/4 + a·x²/2`; the runtime detector and
+> `ContextDecay` both key on the drop-**by-2** of the score curve, so the cubic germ
+> is the faithful witness. The cusp point `a = 0` is the degenerate annihilation
+> locus (the pair has merged into an inflection, `critSet` = `{0}`, no sign change);
+> the annihilation is witnessed strictly between `a₁ > 0` and `a₀ < 0`, so the proof
+> never leans on `a = 0`.
+
+These four are real-analysis (`Real.sqrt`, `Set.ncard`) so they sit in the **full**
+foundational triple `[propext, Classical.choice, Quot.sound]` — no `sorryAx`, no
+`native_decide` — enforced by `#guard_msgs` in `AxiomAudit.lean`; full `lake build`
+green (3539 jobs). The named wall is now narrower: only the vector-memory → cubic-germ
+*mapping* remains an import; that the germ realizes the rule is proved.

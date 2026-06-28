@@ -49,6 +49,7 @@ import Sundogcert.AuditCost
 import Sundogcert.AgenticTrace
 import Sundogcert.DiscreteHolonomy
 import Sundogcert.ContextDecay
+import Sundogcert.CuspGerm
 import Sundogcert.CircuitNet
 import Sundogcert.CancellationFree
 import Sundogcert.StraightLineCost
@@ -467,3 +468,24 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.ContextDecay.annihilation_budget' depends on axioms: [propext, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.ContextDecay.annihilation_budget
+
+-- CuspGerm: the cubic fold-catastrophe germ x³−a·x realizes a ContextDecay annihilation
+-- (fold count 2 for a>0, 0 for a<0). Grounds the abstract rule in the real germ, the
+-- way AgenticTrace.decisive_* is grounded in RS agree/Polynomial. Real-analysis germ
+-- (Real.sqrt, Set.ncard) ⇒ the full foundational triple, no sorryAx / native_decide.
+
+/-- info: 'Sundog.CuspGerm.critCount_neg' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.CuspGerm.critCount_neg
+
+/-- info: 'Sundog.CuspGerm.critCount_pos' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.CuspGerm.critCount_pos
+
+/-- info: 'Sundog.CuspGerm.cubic_realizes_annihilation' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.CuspGerm.cubic_realizes_annihilation
+
+/-- info: 'Sundog.CuspGerm.cubic_foldpair_witness' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.CuspGerm.cubic_foldpair_witness
