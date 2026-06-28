@@ -289,14 +289,23 @@ all fire: **A** — a gradient-encoded hierarchy hijack (top authority flipped
 (detector not dead). Mis-specification, not a threshold (curl ⊥ gradient Hodge
 components; the loop integral is a functional of curl alone). 5-case frozen test.
 
+Fix landed (2026-06-28): `scripts/hierarchy_holonomy_receipt.py` (`§7` of the result
+doc) — a Hodge-split receipt that keys the injection verdict on the **gradient /
+hierarchy** component (potential ordering vs a declared `must_dominate` reference,
+supplied externally — the H-III analog of H-I's `decisive_indices`), reporting the curl
+residual but not flagging it. Closes both legs: **A** the zero-circulation gradient
+hijack is now `structural-zero` (`hierarchy-violation`) where the loop filter was blind;
+**B** benign curl is `accept` (`hierarchy-intact`) where the loop filter false-positived.
+8-test fix-verification vs the old filter.
+
 Promotion status:
 
-- **falsifier fired → fix-gated** (was: promising but measurement-heavy). The fix
-  direction is named (re-spec around the **endpoint potential difference / gradient
-  component** — `gauge_sum_eq_endpoint`, the part that carries the hierarchy — not the
-  loop sum; a Hodge split certifying both curl-zero AND ranking-unviolated). Mirrors the
-  H-I (bind decisive indices) / H-II (re-spec the detector) cadence: falsify first, then
-  build the fix on go-ahead. The trace→holonomy measurement map remains the named import.
+- **falsifier fired → fix landed** (was: promising but measurement-heavy). The next
+  deductive step is the Lean quarantine theorem — the surface already exists
+  (`DiscreteHolonomy.gauge_sum_eq_endpoint`: the endpoint difference carries the
+  gradient/hierarchy, the loop sum the curl), mirroring H-II's `ContextDecay` core. The
+  trace→holonomy measurement map and the trusted reference hierarchy remain named
+  imports by design.
 
 ## Hypothesis IV: Trace-Bounded Search Trees
 

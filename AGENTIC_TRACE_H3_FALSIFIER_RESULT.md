@@ -1,12 +1,13 @@
 # H-III FALSIFIER — the holonomy filter detects loop curl, not the instruction hierarchy
 
 **Frozen:** 2026-06-28, repo HEAD `master`.
-**Status:** **FALSIFIER FIRES** — H-III's own pre-registered falsifier (both forms:
-an injection that preserves the zero receipt while changing the instruction hierarchy,
-AND a benign trace with persistent nonzero phase) is satisfied by runnable,
-receipt-checkable counterexamples against the live
-`scripts/discrete_holonomy_receipt.py`. A fired falsifier is a banked SUCCESS: it is
-caught before any ML-filter claim, and it localizes the exact re-spec the filter needs.
+**Status:** **FALSIFIER FIRES → FIX LANDED (§7).** H-III's own pre-registered
+falsifier (both forms: an injection that preserves the zero receipt while changing the
+instruction hierarchy, AND a benign trace with persistent nonzero phase) is satisfied
+by runnable, receipt-checkable counterexamples against the live
+`scripts/discrete_holonomy_receipt.py`; the re-specified Hodge-split receipt in §7
+closes both legs. A fired falsifier is a banked SUCCESS: caught before any ML-filter
+claim, it localized the exact re-spec — and the re-spec is done.
 **Lane:** sundogcert agentic-trace slate, Hypothesis III (Aharonov-Bohm Holonomy
 Filter).
 
@@ -84,3 +85,44 @@ claim.
 
 Artifacts: `scripts/h3_holonomy_filter_falsifier.py`,
 `scripts/test_h3_holonomy_filter_falsifier.py`.
+
+## §7 FIX LANDED — the Hodge-split hierarchy receipt (2026-06-28)
+
+`scripts/hierarchy_holonomy_receipt.py` measures both Hodge components and keys the
+injection verdict on the right one:
+
+- **gradient / hierarchy (conservative part):** check the potential ordering against a
+  declared reference `must_dominate` (a trusted node must out-rank an untrusted one).
+  This is the actual injection signal, and it is **supplied externally** — you cannot
+  read the hierarchy off a loop, you must be told it (the H-III analog of H-I's
+  `decisive_indices`: *reach inside or be told*).
+- **curl / residual (non-conservative part):** the observed loop circulation, reported
+  via `non_conservative(...)` for transparency but **not** an attack signal — benign
+  asymmetric reasoning is allowed.
+
+Outcomes: `structural-zero` (a `must_dominate` constraint is violated — a hierarchy
+hijack), `accept` (hierarchy intact, regardless of curl), `quarantine` (malformed, incl.
+a reference node absent or the gauge-telescope identity failing).
+
+**It closes both falsifier legs** (`scripts/test_hierarchy_holonomy_receipt.py`, each
+leg run against the old filter and the fix):
+
+| leg | old `discrete_holonomy_receipt` | new `hierarchy_holonomy_receipt` |
+|---|---|---|
+| A — gradient hijack (`injected` out-ranks `system`, circulation **0**) | `accept` (blind) | **`structural-zero`** — `hierarchy-violation`, caught at zero circulation |
+| B — benign curl `(1,1,1)`, hierarchy intact | `structural-zero` (false positive) | **`accept`** — `hierarchy-intact`, curl reported not flagged |
+| hijack **with** curl `(5,5,5)` | `structural-zero` (right answer, wrong reason) | **`structural-zero`** — keyed on the gradient (`hierarchy-violation`) |
+
+```
+intact   verdict=accept           reason=hierarchy-intact     circulation=0 violations=[]
+hijack   verdict=structural-zero  reason=hierarchy-violation  circulation=0 violations=[('system','injected')]
+```
+
+**What it does not claim** (the named wall, unchanged): it is a faithful receipt over a
+declared trace + reference hierarchy; it does **not** supply the trace→holonomy
+measurement map from real attention, nor derive the reference hierarchy (that is the
+trusted policy, imported by design). The deductive surface for a Lean quarantine theorem
+is already in the repo — `DiscreteHolonomy.gauge_sum_eq_endpoint` (the endpoint
+difference carries the gradient/hierarchy, the loop sum carries the curl) — the natural
+next step, mirroring H-II's `ContextDecay` core. 18 tests pass (8 fix + 5 falsifier +
+5 existing).

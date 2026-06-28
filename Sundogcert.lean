@@ -25,6 +25,8 @@ import Sundogcert.CircuitNet
 import Sundogcert.CancellationFree
 -- Depth separation: exponential linear regions from linear tropical depth.
 import Sundogcert.DepthSeparation
+-- Linear regions as an exact (realization-independent) tropical invariant.
+import Sundogcert.RegionCount
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard

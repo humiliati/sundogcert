@@ -54,6 +54,7 @@ import Sundogcert.RetrievalCusp
 import Sundogcert.CircuitNet
 import Sundogcert.CancellationFree
 import Sundogcert.DepthSeparation
+import Sundogcert.RegionCount
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 
@@ -148,6 +149,20 @@ import Sundogcert.ShortestPathCert
 /-- info: 'Sundog.DepthSeparation.tent_iterate_dyadic' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.DepthSeparation.tent_iterate_dyadic
+
+/-! ## RegionCount -- linear regions as an exact tropical invariant -/
+
+/-- info: 'Sundog.RegionCount.realize1_compile' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.RegionCount.realize1_compile
+
+/-- info: 'Sundog.RegionCount.max_two_not_affine' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.RegionCount.max_two_not_affine
+
+/-- info: 'Sundog.RegionCount.compiled_maxGate_not_affine' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.RegionCount.compiled_maxGate_not_affine
 
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 
