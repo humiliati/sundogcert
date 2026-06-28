@@ -49,6 +49,7 @@ import Sundogcert.AuditCost
 import Sundogcert.AgenticTrace
 import Sundogcert.DiscreteHolonomy
 import Sundogcert.CircuitNet
+import Sundogcert.CancellationFree
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 
@@ -111,6 +112,24 @@ import Sundogcert.ShortestPathCert
 /-- info: 'Sundog.StraightLineCost.shared_cost_instances' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.StraightLineCost.shared_cost_instances
+
+/-! ## CancellationFree -- the monotone fragment; the monotone-vs-general wall -/
+
+/-- info: 'Sundog.CancellationFree.monotone_of_isMono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.CancellationFree.monotone_of_isMono
+
+/-- info: 'Sundog.CancellationFree.abs_not_isMono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.CancellationFree.abs_not_isMono
+
+/-- info: 'Sundog.CancellationFree.monotone_transfer' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.CancellationFree.monotone_transfer
+
+/-- info: 'Sundog.CancellationFree.decompile_eval' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.CancellationFree.decompile_eval
 
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 

@@ -21,6 +21,8 @@ import Sundogcert.ShadowDecayLattice
 import Sundogcert.AuditCost
 -- Exact tropical-circuit → ReLU-network compilation (circuit-complexity / approx. theory).
 import Sundogcert.CircuitNet
+-- The cancellation-free (monotone) fragment: locating the monotone-vs-general wall.
+import Sundogcert.CancellationFree
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard

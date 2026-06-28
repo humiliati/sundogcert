@@ -178,3 +178,37 @@ monitor" → "graded transition AND blind monitor"). Per the prereg, K1 is a SUC
 that bounds H-I. The cross-level mirror stands: the monitor's blindness reproduces
 `no_word_function_determines_decisive` — decisiveness is imported, not detected.
 Total empirical campaign spend ≈ $1.05 of the OpenAI budget.
+
+## White-box cliff — the override is INTERNALLY legible, externally illegible
+
+`scripts/cliff_transfer_whitebox.py`: same v2 authority-vs-volume task on a LOCAL
+open-weight model (Qwen2.5-0.5B-Instruct, CPU, free), reading internals. At each
+trial we take the decision-time hidden state (last prompt token, fixed layer) and ask
+whether a cross-validated linear probe predicts O, vs the SAME-MODEL first-token
+entropy (computed free from the same forward pass — an apples-to-apples contrast,
+unlike the cross-model black-box runs). 108 generations:
+
+- O(λ) rises 0→0.83 — same graded override (w=∞ at this n, no sharp cliff). Even a
+  0.5B model exhibits the volume-override.
+- **Hidden-probe AUC by layer: L4 0.745 → L8 0.783 → L12 0.887 → L16 0.988 → L20 0.994.**
+- **Same-model entropy AUC = 0.537 (≈ chance).**
+
+**Result: white-box monitoring WORKS where black-box fails.** The override is
+near-perfectly linearly decodable from the hidden state at decision time (AUC 0.994,
+deeper layers crisper), but the model's *output* uncertainty carries no signal (0.537).
+No leakage: the probe uses only the pre-generation hidden state; O is the
+post-generation answer the representation already determines.
+
+**The synthesis (the whole arc closes).** The decisive-source override is **internally
+legible, externally illegible.** This is the exact complement of the Lean
+`no_word_function_determines_decisive`: decisiveness is NOT a function of the
+OBSERVABLE (entropy 0.54 ✓), but it IS present in the INTERNAL state (probe 0.99) —
+which is not "the observable" and so the theorem does not bound it. So H-I's
+syndrome-gating instrument is **not viable from outputs, but IS viable with white-box
+access** (a cheap linear probe), OR via the external `decisive_indices` binding. Proof
+and experiment converge on one statement: *to gate the decisive-source override you
+must reach inside or be told — you cannot read it off the output.*
+
+Caveats: 0.5B model, n=12/λ — the direction (hidden state encodes the impending
+decision) is robust and expected to strengthen on larger models; a higher-n / Mamba
+confirmation can be staged in the operator's PowerShell.
