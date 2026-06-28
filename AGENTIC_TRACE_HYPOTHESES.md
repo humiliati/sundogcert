@@ -204,14 +204,27 @@ the *score curve*; the 3→1 figure is the degree-4 *potential* — both detecto
 are real-analysis (`Real.sqrt`, `Set.ncard`) → the full triple `[propext,
 Classical.choice, Quot.sound]`, axiom-clean; full `lake build` green (3539 jobs).
 
+Mapping landed (2026-06-27): `Sundogcert/RetrievalCusp.lean` (`§10` of the result doc)
+takes the last step — a concrete, interpretable attractor-memory model and a proof it
+realizes the rule. The model is the Hopfield-style double-well energy
+`V_a(x) = x⁴/4 − a·x²/2` (control `a` = pattern separation / freshness): stored
+memories = minima. Critical points (memories + barrier) = roots of `V' = x³ − a·x`:
+**count 3 for `a>0`** (two memories `±√a` + barrier `0`; `memories_are_minima` proves
+`V''>0` at the memories, `V''<0` at the barrier) **→ 1 for `a<0`** (wells merged). So
+for `a₀<0<a₁` the family `[3,1]` is a `ContextDecay.Decays` event
+(`retrieval_realizes_annihilation`, `retrieval_foldpair_witness`). Real-analysis → full
+triple, axiom-clean; full `lake build` green (3540 jobs).
+
 Promotion status:
 
-- **falsifier fired → fix landed → Lean core landed → germ grounding landed** (was:
-  second wave). The detector is re-specified and faithful, its quarantine rule has a
-  machine-checked deductive core, and the canonical catastrophe germ is proved to
-  realize that rule. The named wall is now narrow: only the vector-memory → cubic-germ
-  *mapping* remains an import (that the germ realizes the rule is proved) — the analog
-  of grounding H-I's `decisive_*` in the RS `agree`/`Polynomial` structure, now done.
+- **falsifier fired → fix landed → Lean core landed → germ grounding landed → mapping
+  landed** (was: second wave). End to end machine-checked: two stable memories + a
+  barrier → barrier decays → count drops 3→1 → that is a `ContextDecay` annihilation,
+  and the quarantine core says what it licenses. **The named import is now minimal and
+  is empirical, not deductive:** only "a real retrieval landscape is (locally) this
+  attractor energy with a decaying barrier" remains — testable (not provable) via
+  `scripts/foldpair_detector.py` on real retrieval-score curves over a freshness sweep
+  (the H-I-style empirical complement), the natural next move if H-II is pushed further.
 
 ## Hypothesis III: Aharonov-Bohm Holonomy Filter
 

@@ -23,6 +23,8 @@ import Sundogcert.AuditCost
 import Sundogcert.CircuitNet
 -- The cancellation-free (monotone) fragment: locating the monotone-vs-general wall.
 import Sundogcert.CancellationFree
+-- Depth separation: exponential linear regions from linear tropical depth.
+import Sundogcert.DepthSeparation
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard
@@ -39,3 +41,4 @@ import Sundogcert.AgenticTrace
 import Sundogcert.DiscreteHolonomy
 import Sundogcert.ContextDecay
 import Sundogcert.CuspGerm
+import Sundogcert.RetrievalCusp

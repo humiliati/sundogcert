@@ -50,6 +50,7 @@ import Sundogcert.AgenticTrace
 import Sundogcert.DiscreteHolonomy
 import Sundogcert.ContextDecay
 import Sundogcert.CuspGerm
+import Sundogcert.RetrievalCusp
 import Sundogcert.CircuitNet
 import Sundogcert.CancellationFree
 import Sundogcert.StraightLineCost
@@ -489,3 +490,27 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.CuspGerm.cubic_foldpair_witness' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.CuspGerm.cubic_foldpair_witness
+
+-- RetrievalCusp: the attractor-memory energy landscape V_a = x⁴/4 − a·x²/2 realizes a
+-- ContextDecay annihilation (critical-point count 3 for a>0, 1 for a<0). The H-II
+-- mapping step — narrows the import to "real retrieval ≈ this attractor model".
+
+/-- info: 'Sundog.RetrievalCusp.critCountW_neg' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.RetrievalCusp.critCountW_neg
+
+/-- info: 'Sundog.RetrievalCusp.critCountW_pos' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.RetrievalCusp.critCountW_pos
+
+/-- info: 'Sundog.RetrievalCusp.memories_are_minima' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.RetrievalCusp.memories_are_minima
+
+/-- info: 'Sundog.RetrievalCusp.retrieval_realizes_annihilation' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.RetrievalCusp.retrieval_realizes_annihilation
+
+/-- info: 'Sundog.RetrievalCusp.retrieval_foldpair_witness' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.RetrievalCusp.retrieval_foldpair_witness

@@ -199,3 +199,39 @@ foundational triple `[propext, Classical.choice, Quot.sound]` — no `sorryAx`, 
 `native_decide` — enforced by `#guard_msgs` in `AxiomAudit.lean`; full `lake build`
 green (3539 jobs). The named wall is now narrower: only the vector-memory → cubic-germ
 *mapping* remains an import; that the germ realizes the rule is proved.
+
+## §10 MAPPING — the attractor-memory landscape realizes the rule (2026-06-27)
+
+`Sundogcert/RetrievalCusp.lean` takes the last H-II step: it does **not** prove a real
+vector database *is* a cusp (that stays the import), but it shrinks the import to a
+crisp, interpretable model and proves the model realizes `ContextDecay`. The model is
+the canonical associative/attractor memory — a Hopfield-style double-well energy whose
+minima are the stored patterns:
+
+  `V_a(x) = x⁴/4 − a·x²/2`,  `V_a'(x) = x³ − a·x = x(x² − a)`,  `V_a''(x) = 3x² − a`,
+
+with control `a` = pattern separation / freshness. Its critical points (the stored
+memories *and* the barrier between them) are the roots of `V_a'`:
+
+| theorem | content |
+|---|---|
+| `critCountW_pos` | `a > 0` → critical points `{0, ±√a}`: **count 3** (two memories `±√a` + a barrier `0`) |
+| `critCountW_neg` | `a < 0` → critical point `{0}`: **count 1** (barrier gone, wells merged) |
+| `memories_are_minima` | `a > 0` → `V'' > 0` at `±√a` (stable, retrievable **memories**) and `V'' < 0` at `0` (the **barrier**) |
+| `retrieval_realizes_annihilation` | for freshness `a₀ < 0 < a₁`, `[critCountW a₁, critCountW a₀] = [3, 1]` is a `ContextDecay.Decays` event — as freshness decays, two stored memories **merge** |
+| `retrieval_foldpair_witness` | through `decays_iff_foldpair`: a genuine fold pair (≥ 2) annihilates as freshness decays |
+
+So the structural story is fully machine-checked end to end: two stable memories +
+a barrier (`memories_are_minima`) → barrier decays → the count drops 3 → 1
+(`critCountW_*`) → that is a `ContextDecay` annihilation
+(`retrieval_realizes_annihilation`), and the quarantine rule's deductive core
+(`decays_iff_foldpair`, etc., §8) says what that licenses. Five theorems, real-analysis,
+full triple `[propext, Classical.choice, Quot.sound]`, axiom-clean; full `lake build`
+green (3540 jobs).
+
+**The named import, now minimal.** The only unproved bridge left is: *a real retrieval
+landscape is (locally) this attractor energy with a decaying barrier.* That is an
+empirical/modelling claim, not a deductive one — testable, not provable — and the
+natural test is `scripts/foldpair_detector.py` run on retrieval-score curves extracted
+from a real embedding memory over a freshness/staleness sweep (the H-I-style empirical
+complement). Everything from "given the model" onward is proved.
