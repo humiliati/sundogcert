@@ -51,6 +51,7 @@ import Sundogcert.DiscreteHolonomy
 import Sundogcert.ContextDecay
 import Sundogcert.CuspGerm
 import Sundogcert.RetrievalCusp
+import Sundogcert.HierarchyHolonomy
 import Sundogcert.CircuitNet
 import Sundogcert.CancellationFree
 import Sundogcert.DepthSeparation
@@ -544,3 +545,32 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.RetrievalCusp.retrieval_foldpair_witness' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.RetrievalCusp.retrieval_foldpair_witness
+
+-- HierarchyHolonomy: the H-III injection-quarantine core. The rule fires exactly on a
+-- hierarchy violation; the loop circulation provably cannot determine the hierarchy
+-- (the gauge zero-out is the blind spot); the gradient/endpoint carries it. Mirrors the
+-- H-II ContextDecay core; the runtime is scripts/hierarchy_holonomy_receipt.py.
+
+/-- info: 'Sundog.HierarchyHolonomy.intact_iff_not_hijacked' does not depend on any axioms -/
+#guard_msgs in
+#print axioms Sundog.HierarchyHolonomy.intact_iff_not_hijacked
+
+/-- info: 'Sundog.HierarchyHolonomy.hijack_witness' depends on axioms: [propext] -/
+#guard_msgs in
+#print axioms Sundog.HierarchyHolonomy.hijack_witness
+
+/-- info: 'Sundog.HierarchyHolonomy.authority_gap_along_path' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.HierarchyHolonomy.authority_gap_along_path
+
+/-- info: 'Sundog.HierarchyHolonomy.loopCirc_zero' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.HierarchyHolonomy.loopCirc_zero
+
+/--
+info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+-/
+#guard_msgs in
+#print axioms Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot

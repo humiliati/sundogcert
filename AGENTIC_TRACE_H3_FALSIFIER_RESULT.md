@@ -1,13 +1,14 @@
 # H-III FALSIFIER — the holonomy filter detects loop curl, not the instruction hierarchy
 
 **Frozen:** 2026-06-28, repo HEAD `master`.
-**Status:** **FALSIFIER FIRES → FIX LANDED (§7).** H-III's own pre-registered
-falsifier (both forms: an injection that preserves the zero receipt while changing the
-instruction hierarchy, AND a benign trace with persistent nonzero phase) is satisfied
-by runnable, receipt-checkable counterexamples against the live
-`scripts/discrete_holonomy_receipt.py`; the re-specified Hodge-split receipt in §7
-closes both legs. A fired falsifier is a banked SUCCESS: caught before any ML-filter
-claim, it localized the exact re-spec — and the re-spec is done.
+**Status:** **FALSIFIER FIRES → FIX LANDED (§7) → LEAN CORE LANDED (§8).** H-III's own
+pre-registered falsifier (both forms: an injection that preserves the zero receipt while
+changing the instruction hierarchy, AND a benign trace with persistent nonzero phase) is
+satisfied by runnable, receipt-checkable counterexamples against the live
+`scripts/discrete_holonomy_receipt.py`; the re-specified Hodge-split receipt in §7 closes
+both legs; the §8 Lean module pins the injection-quarantine core, axiom-clean. A fired
+falsifier is a banked SUCCESS: caught before any ML-filter claim, it localized the exact
+re-spec — and the re-spec, and its deductive core, are done.
 **Lane:** sundogcert agentic-trace slate, Hypothesis III (Aharonov-Bohm Holonomy
 Filter).
 
@@ -126,3 +127,32 @@ is already in the repo — `DiscreteHolonomy.gauge_sum_eq_endpoint` (the endpoin
 difference carries the gradient/hierarchy, the loop sum carries the curl) — the natural
 next step, mirroring H-II's `ContextDecay` core. 18 tests pass (8 fix + 5 falsifier +
 5 existing).
+
+## §8 LEAN CORE — what the hierarchy receipt licenses (2026-06-28)
+
+`Sundogcert/HierarchyHolonomy.lean` pins the deductive content of the fix, the way
+`ContextDecay` pinned the H-II fix. The hierarchy is the potential ordering; a reference
+list of dominance constraints `(hi, lo)` requires `potential lo < potential hi`. Five
+theorems, enforced by `#guard_msgs` in `Sundogcert/AxiomAudit.lean`; full `lake build`
+green (3543 jobs).
+
+| theorem | content | axioms | H-I/II analog |
+|---|---|---|---|
+| `intact_iff_not_hijacked` | the rule fires *exactly* on a hierarchy violation (accept ⟺ intact ⟺ not hijacked) | **none** | `decays_iff_foldpair` |
+| `hijack_witness` | a flagged hijack exhibits a concrete violated constraint | `[propext]` | `decay_earned` |
+| `authority_gap_along_path` | the **gradient carries the hierarchy**: the gauge sum along a path = the endpoint authority gap | triple | — |
+| `loopCirc_zero` | the loop circulation of a gauge field is identically **zero** (the blind spot) | triple | — |
+| `hierarchy_separates_what_loop_cannot` | **headline:** two potentials, *same* (zero) loop circulation, *opposite* hierarchy verdicts — the loop provably cannot determine the hierarchy | triple | `no_word_function_determines_decisive` |
+
+The headline is the formal blind spot: just as H-I's `no_word_function_determines_decisive`
+says decisiveness is not a function of the observable, `hierarchy_separates_what_loop_cannot`
+exhibits concrete witnesses (`χ₁ = −id`, `χ₂ = id` on a 3-vertex loop) with equal loop
+circulation but one intact and one hijacked — so the loop observable cannot separate them,
+and the gradient/hierarchy check is **strictly necessary**. `intact_iff_not_hijacked` is
+axiom-free; the loop lemmas inherit `DiscreteHolonomy`'s foundational triple. No `sorryAx`,
+no `native_decide`.
+
+**What the Lean does not claim** (the named wall, unchanged): it formalizes what the
+hierarchy *receipt* licenses, given a declared reference hierarchy and trace; it does not
+supply the trace→holonomy measurement map from real attention, nor derive the reference
+hierarchy. Those remain imports by design.

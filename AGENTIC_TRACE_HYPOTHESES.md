@@ -298,14 +298,24 @@ hijack is now `structural-zero` (`hierarchy-violation`) where the loop filter wa
 **B** benign curl is `accept` (`hierarchy-intact`) where the loop filter false-positived.
 8-test fix-verification vs the old filter.
 
+Lean core landed (2026-06-28): `Sundogcert/HierarchyHolonomy.lean` (`§8` of the result
+doc) pins what the hierarchy receipt licenses — `intact_iff_not_hijacked` (the rule
+fires exactly on a violation; **axiom-free**), `hijack_witness` (`[propext]`),
+`authority_gap_along_path` (the gradient carries the hierarchy), `loopCirc_zero` (the
+gauge loop is identically zero — the blind spot), and the headline
+`hierarchy_separates_what_loop_cannot` (two potentials, same zero loop circulation,
+opposite hierarchy verdicts — the loop provably cannot determine the hierarchy; the
+H-III analog of H-I's `no_word_function_determines_decisive`). Enforced by `#guard_msgs`
+in `AxiomAudit.lean`; full `lake build` green (3543 jobs).
+
 Promotion status:
 
-- **falsifier fired → fix landed** (was: promising but measurement-heavy). The next
-  deductive step is the Lean quarantine theorem — the surface already exists
-  (`DiscreteHolonomy.gauge_sum_eq_endpoint`: the endpoint difference carries the
-  gradient/hierarchy, the loop sum the curl), mirroring H-II's `ContextDecay` core. The
-  trace→holonomy measurement map and the trusted reference hierarchy remain named
-  imports by design.
+- **falsifier fired → fix landed → Lean core landed** (was: promising but
+  measurement-heavy). End to end machine-checked: the injection signal is the gradient
+  (hierarchy ordering), the loop circulation provably can't see it, and the rule fires
+  exactly on a violation. The trace→holonomy measurement map and the trusted reference
+  hierarchy remain named imports by design — the empirical leg (a real attention→loop
+  map) is the only remaining step if H-III is pushed to the end of the chain like H-II.
 
 ## Hypothesis IV: Trace-Bounded Search Trees
 
