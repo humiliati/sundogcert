@@ -167,9 +167,25 @@ Falsifier:
 - find stale-context failures with no cusp signature, or clean fresh-context
   retrievals that repeatedly trigger the cusp detector.
 
+Falsifier outcome (2026-06-27): **FIRES.** Both forms are satisfied against the live
+`cusp_detector` (`AGENTIC_TRACE_H2_FALSIFIER_RESULT.md`,
+`scripts/h2_cusp_detector_falsifier.py` + frozen test). The detector's signature —
+a `c2` (second-difference) sign-change with the center exactly 0 — detects an
+**inflection**, not the **fold-pair annihilation** an A3 cusp is. It (A) false-positives
+on a benign monotone, fold-free S-curve; (B) is **invariant** across the canonical
+unfolding `x³ − e·x` (identical `structural-zero` / `c2 = (-6,0,6)` for every `e`,
+even as the fold pair annihilates) — blind to the event it exists to find; (C)
+false-negatives on the genuine cusp germ `x³` sampled off-center. Root cause: it
+reads only the second difference (curvature), never the first (slope / critical
+points), and a single 1-D jet cannot witness a control-parameter event.
+
 Promotion status:
 
-- second wave. It needs a detector spec before Lean can do meaningful work.
+- **falsifier-gated** (was: second wave). The detector spec is falsified and is a
+  *mis-specification*, not a tunable threshold — no `c2`/`c3` setting fixes legs A–C.
+  Promotion now requires **re-specifying the detector** around the first-difference /
+  interior-extrema (fold) structure and the **two-parameter unfolding** (watch the
+  folds merge as the control parameter varies), before any Lean quarantine theorem.
 
 ## Hypothesis III: Aharonov-Bohm Holonomy Filter
 
@@ -312,10 +328,17 @@ Promotion status:
    negative thresholds, and sign changes outside the third-difference envelope
    emit verifier-checkable quarantine receipts. This is still only a sampled
    detector spec; the vector-memory-to-cusp measurement map remains an imported
-   wall.
+   wall. **FALSIFIED 2026-06-27** (`AGENTIC_TRACE_H2_FALSIFIER_RESULT.md`): the
+   `c2`-sign-change signature detects an inflection, not the fold-pair annihilation
+   — it false-positives on monotone fold-free curves, is invariant across the
+   `x³ − e·x` unfolding (blind to the annihilation), and misses off-center cusp
+   germs. Needs re-specifying around first-difference / interior-extrema (fold)
+   structure + the two-parameter unfolding before any Lean quarantine theorem.
 
    ```sh
    python -m pytest scripts/test_cusp_detector.py -q
+   python scripts/h2_cusp_detector_falsifier.py
+   python -m pytest scripts/test_h2_cusp_detector_falsifier.py -q
    ```
 
 ## Promotion Criteria
