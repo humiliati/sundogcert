@@ -56,6 +56,7 @@ import Sundogcert.CircuitNet
 import Sundogcert.CancellationFree
 import Sundogcert.DepthSeparation
 import Sundogcert.RegionCount
+import Sundogcert.FoldCancellation
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 
@@ -164,6 +165,20 @@ import Sundogcert.ShortestPathCert
 /-- info: 'Sundog.RegionCount.compiled_maxGate_not_affine' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.RegionCount.compiled_maxGate_not_affine
+
+/-! ## FoldCancellation -- folding needs cancellation (N-1 sharp form) -/
+
+/-- info: 'Sundog.FoldCancellation.isMono_no_fold' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.FoldCancellation.isMono_no_fold
+
+/-- info: 'Sundog.FoldCancellation.isMono_not_iterTentFun' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.FoldCancellation.isMono_not_iterTentFun
+
+/-- info: 'Sundog.FoldCancellation.isMono_not_iterTent' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.FoldCancellation.isMono_not_iterTent
 
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 
