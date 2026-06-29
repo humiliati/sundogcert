@@ -403,4 +403,33 @@ theorem lineBelow {f : ℝ → ℝ} (hf : ConvexOn ℝ Set.univ f) {s t p q : �
       rw [le_div_iff₀ htw, hft] at hsl
       nlinarith [hsl]
 
+/-- **(A) A convex `HasPieceCover`-`n` function is the max of `≤ n` lines.** Stated via the
+two halves of "`f = sup L`": every line in `L` is `≤ f` (supporting, `lineBelow`), and every
+point achieves some line of `L` (its piece line). The line set is the secants on the cut-set
+pieces. -/
+theorem convex_eq_sup_lines {f : ℝ → ℝ} {n : ℕ} (hf : ConvexOn ℝ Set.univ f)
+    (hpc : HasPieceCover f n) :
+    ∃ L : Finset (ℝ × ℝ), L.card ≤ n ∧
+      (∀ pr ∈ L, ∀ x, pr.1 * x + pr.2 ≤ f x) ∧
+      (∀ x, ∃ pr ∈ L, f x = pr.1 * x + pr.2) := by
+  classical
+  obtain ⟨S, hScard, hAff⟩ := hpc
+  rcases S.eq_empty_or_nonempty with hSe | hSne
+  · sorry
+  · -- smallest cut strictly above `a`, else `a + 1`
+    set nextCut : ℝ → ℝ :=
+      fun a => if h : (S.filter (a < ·)).Nonempty then (S.filter (a < ·)).min' h else a + 1
+      with hnc
+    -- secant of `f` on the piece `[a, nextCut a]`
+    set lineOf : ℝ → ℝ × ℝ :=
+      fun a => ((f (nextCut a) - f a) / (nextCut a - a),
+        f a - (f (nextCut a) - f a) / (nextCut a - a) * a) with hlo
+    refine ⟨(insert (S.min' hSne - 1) S).image lineOf, ?_, ?_, ?_⟩
+    · calc ((insert (S.min' hSne - 1) S).image lineOf).card
+            ≤ (insert (S.min' hSne - 1) S).card := Finset.card_image_le
+        _ ≤ S.card + 1 := Finset.card_insert_le _ _
+        _ ≤ n := by omega
+    · sorry
+    · sorry
+
 end Sundog.RegionPoly

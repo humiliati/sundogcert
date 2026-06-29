@@ -15,9 +15,9 @@ needs the whole history). A "finite-order statistic" is a partial parity
 * `partial_parity_underdetermines_total` — for any proper `A` (some `j ∉ A`) and any
   `b`, the flip produces `b'` with the SAME partial parity but the OPPOSITE total
   parity. The complementary parity is a free fair coin.
-* `partialParity_not_sufficient_for_total` — hence for `A ≠ univ` there exist two
-  inputs agreeing on the partial parity but disagreeing on the total: a partial
-  (finite-order) parity is **not a sufficient statistic** for the total parity.
+* `partial_not_sufficient` — hence for `A ≠ univ` there exist two inputs agreeing on
+  the partial parity but disagreeing on the total: a partial (finite-order) parity is
+  **not a sufficient statistic** for the total parity.
 
 ## The IMPORTED WALL (named, NOT proved; the toy's positive does NOT transfer)
 
@@ -81,12 +81,11 @@ theorem partial_parity_underdetermines_total (A : Finset (Fin n)) {j : Fin n} (h
 there are two inputs that agree on the partial parity over `A` yet disagree on the total
 parity. So a finite-order partial parity is not a sufficient statistic for the
 full-history total parity — the content of the parity barrier, proved on the toy. -/
-theorem partialParity_not_sufficient_for_total (A : Finset (Fin n)) (hA : A ≠ Finset.univ) :
+theorem partial_not_sufficient (A : Finset (Fin n)) (hA : A ≠ Finset.univ) :
     ∃ b b' : Fin n → ZMod 2, pS A b = pS A b' ∧ T b ≠ T b' := by
   obtain ⟨j, hj⟩ : ∃ j, j ∉ A := by
     by_contra h
-    push_neg at h
-    exact hA (Finset.eq_univ_iff_forall.mpr h)
+    exact hA (Finset.eq_univ_iff_forall.mpr (by simpa using h))
   refine ⟨0, 0 + Pi.single j 1, (pS_flip A hj 0).symm, ?_⟩
   rw [(partial_parity_underdetermines_total A hj 0).2]
   intro h

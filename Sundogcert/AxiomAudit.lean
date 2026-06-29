@@ -62,6 +62,7 @@ import Sundogcert.PieceCover
 import Sundogcert.RegionPoly
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
+import Sundogcert.ParityNoSufficientStat
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -653,3 +654,13 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 /-- info: 'Sundog.StructuralSlot.count_cannot_determine_structure' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.StructuralSlot.count_cannot_determine_structure
+
+/-! ## ParityNoSufficientStat — parity barrier (toy half): no finite-order sufficient stat -/
+
+/-- info: 'Sundog.ParityNoSufficientStat.parity_split' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ParityNoSufficientStat.parity_split
+
+/-- info: 'Sundog.ParityNoSufficientStat.partial_not_sufficient' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ParityNoSufficientStat.partial_not_sufficient

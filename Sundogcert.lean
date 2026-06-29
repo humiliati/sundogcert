@@ -52,3 +52,6 @@ import Sundogcert.CuspGerm
 import Sundogcert.RetrievalCusp
 import Sundogcert.HierarchyHolonomy
 import Sundogcert.StructuralSlot
+-- Parity barrier (toy half): a finite-order partial parity is not a sufficient statistic
+-- for the full-history total parity. Sarnak/Chowla named as the imported wall (P-1).
+import Sundogcert.ParityNoSufficientStat
