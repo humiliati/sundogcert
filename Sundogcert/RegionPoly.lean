@@ -415,7 +415,25 @@ theorem convex_eq_sup_lines {f : ℝ → ℝ} {n : ℕ} (hf : ConvexOn ℝ Set.u
   classical
   obtain ⟨S, hScard, hAff⟩ := hpc
   rcases S.eq_empty_or_nonempty with hSe | hSne
-  · sorry
+  · -- no cuts: `f` is a single global line
+    subst hSe
+    have hg : ∀ x, f x = (f 1 - f 0) * x + f 0 := by
+      intro x
+      have hle : min x 0 ≤ max x 1 := le_trans (min_le_left x 0) (le_max_left x 1)
+      obtain ⟨p, q, hpq⟩ := hAff (min x 0) (max x 1) hle (by simp)
+      have h0 : f 0 = p * 0 + q :=
+        hpq 0 ⟨min_le_right x 0, le_trans (by norm_num) (le_max_right x 1)⟩
+      have h1 : f 1 = p * 1 + q :=
+        hpq 1 ⟨le_trans (min_le_right x 0) (by norm_num), le_max_right x 1⟩
+      have hx : f x = p * x + q := hpq x ⟨min_le_left x 0, le_max_left x 1⟩
+      rw [hx, h0, h1]; ring
+    refine ⟨{(f 1 - f 0, f 0)}, ?_, ?_, ?_⟩
+    · rw [Finset.card_singleton]
+      simp only [Finset.card_empty] at hScard; omega
+    · intro pr hpr y
+      rw [Finset.mem_singleton] at hpr; subst hpr
+      exact le_of_eq (hg y).symm
+    · intro x; exact ⟨_, Finset.mem_singleton_self _, hg x⟩
   · -- smallest cut strictly above `a`, else `a + 1`
     set nextCut : ℝ → ℝ :=
       fun a => if h : (S.filter (a < ·)).Nonempty then (S.filter (a < ·)).min' h else a + 1
@@ -424,12 +442,216 @@ theorem convex_eq_sup_lines {f : ℝ → ℝ} {n : ℕ} (hf : ConvexOn ℝ Set.u
     set lineOf : ℝ → ℝ × ℝ :=
       fun a => ((f (nextCut a) - f a) / (nextCut a - a),
         f a - (f (nextCut a) - f a) / (nextCut a - a) * a) with hlo
+    -- `nextCut a` is strictly above `a`
+    have hlt : ∀ a, a < nextCut a := by
+      intro a; simp only [hnc]
+      by_cases h : (S.filter (a < ·)).Nonempty
+      · rw [dif_pos h]; exact (Finset.mem_filter.mp ((S.filter (a < ·)).min'_mem h)).2
+      · rw [dif_neg h]; linarith
+    -- no cut lies strictly inside the piece `(a, nextCut a)`
+    have hmissAt : ∀ a, ∀ s ∈ S, s ∉ Set.Ioo a (nextCut a) := by
+      intro a s hs hsin; simp only [hnc] at hsin
+      by_cases h : (S.filter (a < ·)).Nonempty
+      · rw [dif_pos h] at hsin
+        have hle := Finset.min'_le (S.filter (a < ·)) s (Finset.mem_filter.mpr ⟨hs, hsin.1⟩)
+        linarith [hsin.2, hle]
+      · exact h ⟨s, Finset.mem_filter.mpr ⟨hs, hsin.1⟩⟩
+    -- `f` equals its secant `lineOf a` on the piece `[a, nextCut a]`
+    have hpiece : ∀ a, ∀ y ∈ Set.Icc a (nextCut a),
+        f y = (lineOf a).1 * y + (lineOf a).2 := by
+      intro a y hy
+      obtain ⟨p, q, hpq⟩ := hAff a (nextCut a) (le_of_lt (hlt a)) (hmissAt a)
+      have hfa : f a = p * a + q := hpq a ⟨le_refl a, le_of_lt (hlt a)⟩
+      have hfn : f (nextCut a) = p * nextCut a + q := hpq (nextCut a) ⟨le_of_lt (hlt a), le_refl _⟩
+      have hfy : f y = p * y + q := hpq y hy
+      have hslope : (f (nextCut a) - f a) / (nextCut a - a) = p := by
+        rw [hfa, hfn, show p * nextCut a + q - (p * a + q) = p * (nextCut a - a) by ring,
+          mul_div_assoc, div_self (sub_ne_zero.mpr (ne_of_lt (hlt a)).symm), mul_one]
+      simp only [hlo]
+      rw [hslope, hfa, hfy]; ring
+    -- on the unbounded LEFT piece, `f` equals the secant `lineOf (min - 1)`
+    have hncm : nextCut (S.min' hSne - 1) = S.min' hSne := by
+      simp only [hnc]
+      have hne2 : (S.filter (S.min' hSne - 1 < ·)).Nonempty :=
+        ⟨S.min' hSne, Finset.mem_filter.mpr ⟨S.min'_mem hSne, by linarith⟩⟩
+      rw [dif_pos hne2]
+      apply le_antisymm
+      · exact Finset.min'_le _ _ (Finset.mem_filter.mpr ⟨S.min'_mem hSne, by linarith⟩)
+      · exact Finset.le_min' _ _ _ fun y hy => Finset.min'_le S y (Finset.mem_of_mem_filter y hy)
+    have hleftmost : ∀ x, x ≤ S.min' hSne →
+        f x = (lineOf (S.min' hSne - 1)).1 * x + (lineOf (S.min' hSne - 1)).2 := by
+      intro x hxm
+      have hlo_le : min x (S.min' hSne - 1) ≤ S.min' hSne :=
+        le_trans (min_le_right _ _) (by linarith)
+      have hmiss2 : ∀ s ∈ S, s ∉ Set.Ioo (min x (S.min' hSne - 1)) (S.min' hSne) :=
+        fun s hs hsin => by linarith [Finset.min'_le S s hs, hsin.2]
+      obtain ⟨p, q, hpq⟩ := hAff (min x (S.min' hSne - 1)) (S.min' hSne) hlo_le hmiss2
+      have hfm1 : f (S.min' hSne - 1) = p * (S.min' hSne - 1) + q :=
+        hpq _ ⟨min_le_right _ _, by linarith⟩
+      have hfm : f (S.min' hSne) = p * S.min' hSne + q := hpq _ ⟨hlo_le, le_refl _⟩
+      have hfx : f x = p * x + q := hpq x ⟨min_le_left _ _, hxm⟩
+      simp only [hlo, hncm]
+      rw [hfm1, hfm, hfx, show S.min' hSne - (S.min' hSne - 1) = 1 by ring]
+      simp only [div_one]; ring
+    -- on the unbounded RIGHT piece, `f` equals the secant `lineOf (max)`
+    have hncM : nextCut (S.max' hSne) = S.max' hSne + 1 := by
+      simp only [hnc]
+      rw [dif_neg]
+      rintro ⟨s, hs⟩
+      rw [Finset.mem_filter] at hs
+      linarith [Finset.le_max' S s hs.1, hs.2]
+    have hrightmost : ∀ x, S.max' hSne ≤ x →
+        f x = (lineOf (S.max' hSne)).1 * x + (lineOf (S.max' hSne)).2 := by
+      intro x hxM
+      have hM_le : S.max' hSne ≤ max x (S.max' hSne + 1) :=
+        le_trans (by linarith) (le_max_right _ _)
+      have hmiss2 : ∀ s ∈ S, s ∉ Set.Ioo (S.max' hSne) (max x (S.max' hSne + 1)) :=
+        fun s hs hsin => by linarith [Finset.le_max' S s hs, hsin.1]
+      obtain ⟨p, q, hpq⟩ := hAff (S.max' hSne) (max x (S.max' hSne + 1)) hM_le hmiss2
+      have hfM : f (S.max' hSne) = p * S.max' hSne + q := hpq _ ⟨le_refl _, hM_le⟩
+      have hfM1 : f (S.max' hSne + 1) = p * (S.max' hSne + 1) + q :=
+        hpq _ ⟨by linarith, le_max_right _ _⟩
+      have hfx : f x = p * x + q := hpq x ⟨hxM, le_max_left _ _⟩
+      simp only [hlo, hncM]
+      rw [hfM, hfM1, hfx, show S.max' hSne + 1 - S.max' hSne = 1 by ring]
+      simp only [div_one]; ring
     refine ⟨(insert (S.min' hSne - 1) S).image lineOf, ?_, ?_, ?_⟩
     · calc ((insert (S.min' hSne - 1) S).image lineOf).card
             ≤ (insert (S.min' hSne - 1) S).card := Finset.card_image_le
         _ ≤ S.card + 1 := Finset.card_insert_le _ _
         _ ≤ n := by omega
-    · sorry
-    · sorry
+    · intro pr hpr x
+      rw [Finset.mem_image] at hpr
+      obtain ⟨a, _, rfl⟩ := hpr
+      exact lineBelow hf (hlt a) (hpiece a) x
+    · intro x
+      by_cases hxm : x ≤ S.min' hSne
+      · exact ⟨lineOf (S.min' hSne - 1),
+          Finset.mem_image_of_mem _ (Finset.mem_insert_self _ _), hleftmost x hxm⟩
+      · have hmx : S.min' hSne < x := not_le.mp hxm
+        by_cases hxM : S.max' hSne ≤ x
+        · exact ⟨lineOf (S.max' hSne),
+            Finset.mem_image_of_mem _ (Finset.mem_insert_of_mem (S.max'_mem hSne)),
+            hrightmost x hxM⟩
+        · have hMx : x < S.max' hSne := not_le.mp hxM
+          have hfne : (S.filter (· ≤ x)).Nonempty :=
+            ⟨S.min' hSne, Finset.mem_filter.mpr ⟨S.min'_mem hSne, le_of_lt hmx⟩⟩
+          set a := (S.filter (· ≤ x)).max' hfne with ha
+          have ha_mem : a ∈ S := Finset.mem_of_mem_filter a (Finset.max'_mem _ hfne)
+          have ha_le : a ≤ x := (Finset.mem_filter.mp (Finset.max'_mem _ hfne)).2
+          have hcut_gt : ∀ c ∈ S, a < c → x < c := by
+            intro c hc hac
+            by_contra hcx; rw [not_lt] at hcx
+            exact absurd (Finset.le_max' _ c (Finset.mem_filter.mpr ⟨hc, hcx⟩)) (not_le.mpr hac)
+          have hx_lt : x < nextCut a := by
+            simp only [hnc]
+            by_cases h : (S.filter (a < ·)).Nonempty
+            · rw [dif_pos h]
+              have hmem := Finset.min'_mem (S.filter (a < ·)) h
+              rw [Finset.mem_filter] at hmem
+              exact hcut_gt _ hmem.1 hmem.2
+            · rw [dif_neg h]
+              have hMa : S.max' hSne ≤ a := by
+                by_contra hc; rw [not_le] at hc
+                exact h ⟨S.max' hSne, Finset.mem_filter.mpr ⟨S.max'_mem hSne, hc⟩⟩
+              linarith [hMx, hMa]
+          exact ⟨lineOf a, Finset.mem_image_of_mem _ (Finset.mem_insert_of_mem ha_mem),
+            hpiece a x ⟨ha_le, le_of_lt hx_lt⟩⟩
+
+/-- Every affine function is convex (used to keep the running envelope convex). -/
+theorem affineConvex (c d : ℝ) : ConvexOn ℝ Set.univ (fun x => c * x + d) := by
+  refine ⟨convex_univ, fun x _ y _ s t _ _ hst => ?_⟩
+  simp only [smul_eq_mul]
+  have heq : c * (s * x + t * y) + d = s * (c * x + d) + t * (c * y + d) := by
+    linear_combination (-d) * hst
+  linarith [heq]
+
+/-- **Convex-convex `max` is piece-additive.** Decompose `a` into its `≤ na` piece-lines (`A`),
+then fold the line-add linchpin into `b`: each line adds one piece, so `max a b` has `≤ na + nb`
+pieces. This is the gate that needed convexity (cut-based `max` would double). -/
+theorem hasPieceCover_max {a b : ℝ → ℝ} {na nb : ℕ}
+    (hca : ConvexOn ℝ Set.univ a) (hcb : ConvexOn ℝ Set.univ b)
+    (hpa : HasPieceCover a na) (hpb : HasPieceCover b nb) :
+    HasPieceCover (fun x => max (a x) (b x)) (na + nb) := by
+  classical
+  obtain ⟨La, hLcard, hLle, hLach⟩ := convex_eq_sup_lines hca hpa
+  -- folding `La` into `b`: `HasPieceCover` and convexity together
+  have key : ∀ L : Finset (ℝ × ℝ),
+      HasPieceCover (fun x => L.fold max (b x) (fun pr => pr.1 * x + pr.2)) (L.card + nb) ∧
+      ConvexOn ℝ Set.univ (fun x => L.fold max (b x) (fun pr => pr.1 * x + pr.2)) := by
+    intro L
+    induction L using Finset.induction with
+    | empty => exact ⟨by simpa using hpb, by simpa using hcb⟩
+    | @insert ℓ L hnotin ih =>
+      have hfold : (fun x => (insert ℓ L).fold max (b x) (fun pr => pr.1 * x + pr.2))
+          = fun x => max (ℓ.1 * x + ℓ.2) (L.fold max (b x) (fun pr => pr.1 * x + pr.2)) := by
+        funext x; rw [Finset.fold_insert hnotin]
+      rw [hfold, Finset.card_insert_of_notMem hnotin]
+      refine ⟨?_, (affineConvex ℓ.1 ℓ.2).sup ih.2⟩
+      exact hasPieceCover_mono_le (hasPieceCover_max_line ℓ.1 ℓ.2 ih.2 ih.1) (by omega)
+  -- `max a b` equals that fold (`a` is the sup of `La`)
+  have heq : (fun x => max (a x) (b x))
+      = fun x => La.fold max (b x) (fun pr => pr.1 * x + pr.2) := by
+    funext x
+    have hbase : ∀ (L : Finset (ℝ × ℝ)), b x ≤ L.fold max (b x) (fun pr => pr.1 * x + pr.2) := by
+      intro L
+      induction L using Finset.induction with
+      | empty => simp
+      | @insert ℓ L hnotin ih => rw [Finset.fold_insert hnotin]; exact le_max_of_le_right ih
+    have hmem : ∀ (L : Finset (ℝ × ℝ)), ∀ ℓ ∈ L,
+        ℓ.1 * x + ℓ.2 ≤ L.fold max (b x) (fun pr => pr.1 * x + pr.2) := by
+      intro L
+      induction L using Finset.induction with
+      | empty => simp
+      | @insert ℓ' L hnotin ih =>
+        intro ℓ hℓ
+        rw [Finset.fold_insert hnotin]
+        rw [Finset.mem_insert] at hℓ
+        rcases hℓ with rfl | hℓ
+        · exact le_max_left _ _
+        · exact le_max_of_le_right (ih ℓ hℓ)
+    have hub : ∀ (L : Finset (ℝ × ℝ)), (∀ ℓ ∈ L, ℓ.1 * x + ℓ.2 ≤ max (a x) (b x)) →
+        L.fold max (b x) (fun pr => pr.1 * x + pr.2) ≤ max (a x) (b x) := by
+      intro L
+      induction L using Finset.induction with
+      | empty => intro _; simp only [Finset.fold_empty]; exact le_max_right _ _
+      | @insert ℓ L hnotin ih =>
+        intro hall
+        rw [Finset.fold_insert hnotin]
+        refine max_le (hall ℓ (Finset.mem_insert_self _ _)) (ih ?_)
+        exact fun p hp => hall p (Finset.mem_insert_of_mem hp)
+    apply le_antisymm
+    · refine max_le ?_ (hbase La)
+      obtain ⟨ℓ, hℓmem, hℓeq⟩ := hLach x
+      rw [hℓeq]; exact hmem La ℓ hℓmem
+    · exact hub La (fun ℓ hℓ => le_max_of_le_left (hLle ℓ hℓ x))
+  rw [heq]
+  exact hasPieceCover_mono_le (key La).1 (by omega)
+
+/-- Number of leaves (`var`/`const` nodes) of a tropical circuit — a proxy for circuit size. -/
+def leafCount {n : ℕ} : Trop n → ℕ
+  | .var _ => 1
+  | .const _ => 1
+  | .add a b => leafCount a + leafCount b
+  | .scale _ a => leafCount a
+  | .max a b => leafCount a + leafCount b
+
+/-- **The payoff (N-1, circuit-level, TIGHT).** Every cancellation-free circuit's 1-D realization
+has a linear-region count **linear in the number of leaves** — polynomial in circuit size. The
+`max` gate is `n + m` (convex-merge, `hasPieceCover_max`), `add`/`scale` are `n + m` / `n`. Contrast
+`DepthSeparation`: the (cancellation-using) tent reaches `2^d` regions. So monotone depth is
+region-polynomial; cancellation depth is region-exponential — the complete N-1 dichotomy. -/
+theorem isMono_hasPieceCover :
+    ∀ {e : Trop 1}, IsMono e → HasPieceCover (realize1 e) (leafCount e) := by
+  intro e
+  induction e with
+  | var i => intro _; rw [realize1_var]; exact hasPieceCover_id
+  | const c => intro _; rw [realize1_const]; exact hasPieceCover_const c
+  | add a b iha ihb => intro h; rw [realize1_add]; exact hasPieceCover_add (iha h.1) (ihb h.2)
+  | scale c a ih => intro h; rw [realize1_scale]; exact hasPieceCover_smul c (ih h.2)
+  | max a b iha ihb =>
+    intro h; rw [realize1_max]
+    exact hasPieceCover_max (isMono_realize1_convexOn h.1) (isMono_realize1_convexOn h.2)
+      (iha h.1) (ihb h.2)
 
 end Sundog.RegionPoly

@@ -93,4 +93,50 @@ theorem partial_not_sufficient (A : Finset (Fin n)) (hA : A ≠ Finset.univ) :
     rw [add_zero]; exact h
   exact one_ne_zero (add_left_cancel h0).symm
 
+/-! ## The sufficient-statistic ORDER (σ): the parity latent needs all `n` coordinates -/
+
+/-- `A` is a **sufficient statistic** for the total parity if equal partial parities over
+`A` force equal totals. -/
+def IsSufficient (A : Finset (Fin n)) : Prop :=
+  ∀ b b' : Fin n → ZMod 2, pS A b = pS A b' → T b = T b'
+
+/-- The full tuple is sufficient: its partial parity *is* the total parity. -/
+theorem isSufficient_univ : IsSufficient (Finset.univ : Finset (Fin n)) := by
+  intro b b' h
+  simpa only [pS, T] using h
+
+/-- No proper subset is sufficient — the order form of `partial_not_sufficient`. -/
+theorem not_isSufficient_of_ne_univ {A : Finset (Fin n)} (hA : A ≠ Finset.univ) :
+    ¬ IsSufficient A := by
+  obtain ⟨b, b', hpS, hT⟩ := partial_not_sufficient A hA
+  exact fun hsuff => hT (hsuff b b' hpS)
+
+/-- A subset is sufficient for the total parity **iff** it is the full tuple. -/
+theorem isSufficient_iff_univ {A : Finset (Fin n)} : IsSufficient A ↔ A = Finset.univ := by
+  refine ⟨fun h => ?_, fun h => h ▸ isSufficient_univ⟩
+  by_contra hA
+  exact not_isSufficient_of_ne_univ hA h
+
+/-- The **sufficient-statistic order** σ of the total parity: the least size of a
+sufficient subset-parity. -/
+noncomputable def suffStatOrder (n : ℕ) : ℕ :=
+  sInf {k | ∃ A : Finset (Fin n), A.card = k ∧ IsSufficient A}
+
+/-- **σ(parity) = n.** The total parity's least sufficient statistic uses **all** `n`
+coordinates — the only sufficient subset is the full tuple. This is the *order* form of
+the barrier: σ grows without bound in `n`, so no fixed finite order ever suffices.
+`partial_not_sufficient` is the per-`A` statement; this packages it as one invariant. -/
+theorem suffStatOrder_eq (n : ℕ) : suffStatOrder n = n := by
+  have hset : {k | ∃ A : Finset (Fin n), A.card = k ∧ IsSufficient A} = {n} := by
+    ext k
+    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    constructor
+    · rintro ⟨A, hcard, hA⟩
+      rw [← hcard, isSufficient_iff_univ.mp hA, Finset.card_univ, Fintype.card_fin]
+    · rintro rfl
+      exact ⟨Finset.univ, by rw [Finset.card_univ, Fintype.card_fin], isSufficient_univ⟩
+  unfold suffStatOrder
+  rw [hset]
+  exact csInf_singleton n
+
 end Sundog.ParityNoSufficientStat

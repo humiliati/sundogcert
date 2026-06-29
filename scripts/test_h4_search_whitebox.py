@@ -39,3 +39,23 @@ def test_matched_admitted_size():
     struct_idx, _ = wb.struct_admit(branches)
     score_idx = wb.score_admit(branches, len(struct_idx))
     assert len(score_idx) == len(struct_idx)
+
+
+# --------------------------------------------- reasoning regime (scale re-run) ----
+
+def test_word_boundary_answer_match():
+    # the reasoning regime matches the integer answer as a standalone number, so "8" does
+    # NOT match inside "128" (the prior substring match would have).
+    assert wb._is_correct("the total is 28 pencils", "28", word_boundary=True)
+    assert not wb._is_correct("that gives 128 in the end", "8", word_boundary=True)
+    assert not wb._is_correct("the answer is 280", "28", word_boundary=True)
+    # the short regime keeps the substring behavior (back-compat).
+    assert wb._is_correct("the answer is 280", "28", word_boundary=False)
+
+
+def test_reasoning_tasks_wellformed():
+    assert len(wb.REASONING_TASKS) == 8
+    for prompt, answer in wb.REASONING_TASKS:
+        assert answer.isdigit() and int(answer) >= 10      # distinctive multi-digit answers
+        assert prompt.strip().endswith("A:")               # generation prompt
+    assert wb.MAX_NEW_REASONING > wb.MAX_NEW_SHORT          # longer branches than the short leg

@@ -8,6 +8,9 @@ import Sundogcert.Degradation
 import Sundogcert.CheckCost
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
+-- The find/check ledger as a general certificate theory + the max-flow/min-cut instance (N-3).
+import Sundogcert.Certifies
+import Sundogcert.MaxFlowMinCut
 import Sundogcert.ShadowDecay
 import Sundogcert.ShadowDecayGeneral
 import Sundogcert.ShadowDecayCauchy

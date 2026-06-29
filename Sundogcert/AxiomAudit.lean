@@ -62,6 +62,8 @@ import Sundogcert.PieceCover
 import Sundogcert.RegionPoly
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
+import Sundogcert.Certifies
+import Sundogcert.MaxFlowMinCut
 import Sundogcert.ParityNoSufficientStat
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -225,6 +227,18 @@ import Sundogcert.ParityNoSufficientStat
 #guard_msgs in
 #print axioms Sundog.RegionPoly.lineBelow
 
+/-- info: 'Sundog.RegionPoly.convex_eq_sup_lines' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.RegionPoly.convex_eq_sup_lines
+
+/-- info: 'Sundog.RegionPoly.hasPieceCover_max' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.RegionPoly.hasPieceCover_max
+
+/-- info: 'Sundog.RegionPoly.isMono_hasPieceCover' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.RegionPoly.isMono_hasPieceCover
+
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 
 /-- info: 'Sundog.ShortestPathCert.feasible_le_walk' depends on axioms: [propext, Classical.choice, Quot.sound] -/
@@ -238,6 +252,20 @@ import Sundogcert.ParityNoSufficientStat
 /-- info: 'Sundog.ShortestPathCert.sp_verifier_cost_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.ShortestPathCert.sp_verifier_cost_le
+
+/-! ## Certifies / MaxFlowMinCut -- LP-duality certificate theory; a cut certifies a flow (N-3) -/
+
+/-- info: 'Sundog.Certifies.weakDuality_tight' does not depend on any axioms -/
+#guard_msgs in
+#print axioms Sundog.Certifies.weakDuality_tight
+
+/-- info: 'Sundog.MaxFlowMinCut.weak_duality' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MaxFlowMinCut.weak_duality
+
+/-- info: 'Sundog.MaxFlowMinCut.maxflow_mincut' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MaxFlowMinCut.maxflow_mincut
 
 /-! ## ShadowDecay — Debye–Waller decay and discrete determination -/
 
@@ -664,3 +692,7 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 /-- info: 'Sundog.ParityNoSufficientStat.partial_not_sufficient' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.ParityNoSufficientStat.partial_not_sufficient
+
+/-- info: 'Sundog.ParityNoSufficientStat.suffStatOrder_eq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ParityNoSufficientStat.suffStatOrder_eq

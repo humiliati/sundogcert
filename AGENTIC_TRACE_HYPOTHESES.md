@@ -323,14 +323,25 @@ the 0.65 KILL line); most of the *naive* separation (vs short benign, AUC 0.95/0
 length confound the matched control removed; effect moderate / partial-recall on 0.5B; `φ`
 is a token-sum; attention-as-evidence contested.
 
+Scale re-run landed (2026-06-29): `AGENTIC_TRACE_H3_ATTENTION_SCALE_{PREREG,RUN_NOTE}.md`
++ harness V2 (`h3_attention_whitebox.py`, `--ladder`/`φ_mean`). The prior 0.5B leg was a
+*marginal* null (curl 0.653, a hair over the line); the scale re-run promotes it: on
+Qwen2.5-**1.5B** the dissociation **sharpens** — curl AUC **0.550** (cleanly below the 0.60
+bar), gradient 0.999, gap 0.45, fix flags 0 benign → **K-SUPPORT-SHARPENS**, with
+`curl_non_increasing` across 0.5B→1.5B (the loop's blindness *deepens* with scale; the
+clean-dissociation band also broadens and moves earlier). `φ_mean` is K-ARTIFACT at both
+scales (long-system-span per-token dilution inverts authority) — pre-registered secondary
+metric-sensitivity; `φ_sum` carries the verdict. (2-point ladder; a 3B third point is
+operator-stageable.)
+
 Promotion status:
 
-- **falsifier fired → fix landed → Lean core landed → empirical leg landed** (was:
-  promising but measurement-heavy). The full chain runs end to end on a real model: the
-  injection is a gradient (authority) move the loop circulation is near-blind to, and the
-  Hodge-split fix never false-flags benign while the loop receipt cannot discriminate.
-  H-III now matches H-II's completeness. Named imports (by design): the trusted reference
-  hierarchy, and the broader attention-as-trace interpretation.
+- **falsifier fired → fix landed → Lean core landed → empirical leg landed → scale re-run
+  confirmed (K-SUPPORT-SHARPENS @1.5B)** (was: promising but measurement-heavy). The full
+  chain runs end to end on real models, and the empirical effect — the injection is a
+  gradient (authority) move the loop circulation is blind to — is now **clean at scale**,
+  not just marginal at 0.5B, deepening as the model grows. Named imports (by design): the
+  trusted reference hierarchy and the broader attention-as-trace interpretation.
 
 ## Hypothesis IV: Trace-Bounded Search Trees
 

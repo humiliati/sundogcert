@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 
 import numpy as np
@@ -37,10 +38,12 @@ from structural_slot_receipt import (
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
-VERSION = "H4_SEARCH_WHITEBOX_V1"
+VERSION = "H4_SEARCH_WHITEBOX_V2"
 K = 8
 DIM = 3
 SEED = 0
+MAX_NEW_SHORT = 12
+MAX_NEW_REASONING = 96
 
 TASKS = [
     ("Q: What is 7 plus 8? Answer with just the number.\nA:", "15"),
@@ -61,6 +64,29 @@ HARD_TASKS = [
     ("Q: What is 144 divided by 12? Just the number.\nA:", "12"),
     ("Q: What is 9 times 13? Answer with just the number.\nA:", "117"),
 ]
+
+# Multi-step reasoning tasks (the scale re-run, AGENTIC_TRACE_H4_SEARCH_SCALE_PREREG.md):
+# longer branches (reasoning chains) on harder problems, so a larger model SAMPLES the
+# correct solution sometimes while mis-ranking it (the collapse regime), and the chains are
+# diverse enough that the F_3^3 cap map is not degenerate. Integer answers, matched as a
+# standalone number (\b<answer>\b).
+_REASON_SUFFIX = " Show your work step by step and end with the final number.\nA:"
+REASONING_TASKS = [
+    ("Q: Tom has 3 boxes with 12 pencils each and gives away 8 pencils. How many does he have left?" + _REASON_SUFFIX, "28"),
+    ("Q: A train travels 60 miles per hour for 3 hours, then 40 miles per hour for 2 hours. How many miles in total?" + _REASON_SUFFIX, "260"),
+    ("Q: A baker makes 12 dozen cookies. How many cookies is that in total?" + _REASON_SUFFIX, "144"),
+    ("Q: There are 9 crates with 13 oranges in each crate. How many oranges in total?" + _REASON_SUFFIX, "117"),
+    ("Q: An auditorium has 17 rows with 23 chairs in each row. How many chairs in total?" + _REASON_SUFFIX, "391"),
+    ("Q: A tank holds 200 liters of water and 125 liters are used. How many liters remain?" + _REASON_SUFFIX, "75"),
+    ("Q: Sam earns 15 dollars per hour for 8 hours and also gets a 25 dollar bonus. How much does he earn in total?" + _REASON_SUFFIX, "145"),
+    ("Q: A book has 320 pages. Maria reads 45 pages per day for 4 days. How many pages are left?" + _REASON_SUFFIX, "140"),
+]
+
+
+def _is_correct(text: str, answer: str, word_boundary: bool = False) -> bool:
+    if word_boundary:
+        return re.search(r"\b" + re.escape(answer) + r"\b", text) is not None
+    return answer.lower() in text.lower()
 
 
 # ------------------------------------------------------- coordinate map (F_3^n) ----
@@ -200,23 +226,25 @@ def dry_run() -> dict:
 
 # --------------------------------------------------------------- real search ----
 
-def load_model(name: str):
+def load_model(name: str, dtype: str = "float32"):
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
+    td = {"float32": torch.float32, "bfloat16": torch.bfloat16}[dtype]
     tok = AutoTokenizer.from_pretrained(name)
-    model = AutoModelForCausalLM.from_pretrained(name, dtype=torch.float32)
+    model = AutoModelForCausalLM.from_pretrained(name, dtype=td)
     model.eval()
     return tok, model
 
 
-def sample_branches(tok, model, prompt: str, answer: str) -> list[dict]:
+def sample_branches(tok, model, prompt: str, answer: str,
+                    max_new_tokens: int = MAX_NEW_SHORT, word_boundary: bool = False) -> list[dict]:
     import torch
     torch.manual_seed(SEED)
     enc = tok(prompt, return_tensors="pt")
     plen = enc["input_ids"].shape[1]
     with torch.no_grad():
         gen = model.generate(**enc, do_sample=True, num_return_sequences=K,
-                             max_new_tokens=12, temperature=0.9, top_p=0.95,
+                             max_new_tokens=max_new_tokens, temperature=0.9, top_p=0.95,
                              pad_token_id=tok.eos_token_id)
     branches = []
     for k in range(gen.shape[0]):
@@ -230,7 +258,7 @@ def sample_branches(tok, model, prompt: str, answer: str) -> list[dict]:
             lp += float(torch.log_softmax(logits[t], dim=-1)[full[t + 1]])
         emb = out.hidden_states[-1][0].mean(0).to(torch.float64).numpy()
         branches.append({"id": f"b{k}", "logprob": lp,
-                         "correct": answer.lower() in text.lower(),
+                         "correct": _is_correct(text, answer, word_boundary),
                          "text": text.strip(), "emb": emb})
     coords = quantize_to_f3([b["emb"] for b in branches])
     for b, c in zip(branches, coords):
@@ -238,36 +266,49 @@ def sample_branches(tok, model, prompt: str, answer: str) -> list[dict]:
     return branches
 
 
-def _run_task_set(tok, model, tasks) -> dict:
+def _run_task_set(tok, model, tasks, max_new_tokens=MAX_NEW_SHORT, word_boundary=False) -> dict:
     per_task = []
     for prompt, answer in tasks:
-        tm = task_metrics(sample_branches(tok, model, prompt, answer))
+        tm = task_metrics(sample_branches(tok, model, prompt, answer,
+                                          max_new_tokens, word_boundary))
         tm["answer"] = answer
         per_task.append(tm)
     return {"per_task": per_task, **analyze(per_task)}
 
 
-def real_run(model_name: str) -> dict:
-    tok, model = load_model(model_name)
+def real_run(model_name: str, dtype: str = "float32") -> dict:
+    tok, model = load_model(model_name, dtype)
     easy = _run_task_set(tok, model, TASKS)
     hard = _run_task_set(tok, model, HARD_TASKS)
-    return {"version": VERSION, "mode": "real", "model": model_name,
+    return {"version": VERSION, "mode": "real", "model": model_name, "dtype": dtype,
             "easy": easy, "hard": hard,
             "campaign_verdict": easy["campaign_verdict"],
             "hard_verdict": hard["campaign_verdict"]}
+
+
+def real_run_reasoning(model_name: str, dtype: str = "float32") -> dict:
+    """The scale re-run: multi-step reasoning tasks, longer branches, on a larger model."""
+    tok, model = load_model(model_name, dtype)
+    res = _run_task_set(tok, model, REASONING_TASKS,
+                        max_new_tokens=MAX_NEW_REASONING, word_boundary=True)
+    return {"version": VERSION, "mode": "real-reasoning", "model": model_name, "dtype": dtype,
+            "max_new_tokens": MAX_NEW_REASONING, "k": K, **res}
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="H-IV search white-box probe.")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--real", action="store_true")
+    ap.add_argument("--regime", choices=("short", "reasoning"), default="short")
     ap.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
+    ap.add_argument("--dtype", default="float32", choices=("float32", "bfloat16"))
     ap.add_argument("--json", default=None)
     args = ap.parse_args(argv)
 
     out = {"dry_run": dry_run()}
     if args.real:
-        out["real"] = real_run(args.model)
+        out["real"] = (real_run_reasoning(args.model, args.dtype) if args.regime == "reasoning"
+                       else real_run(args.model, args.dtype))
     text = json.dumps(out, indent=2)
     if args.json:
         with open(args.json, "w", encoding="utf-8") as fh:
