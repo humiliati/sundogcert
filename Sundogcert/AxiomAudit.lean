@@ -57,6 +57,7 @@ import Sundogcert.CancellationFree
 import Sundogcert.DepthSeparation
 import Sundogcert.RegionCount
 import Sundogcert.FoldCancellation
+import Sundogcert.PieceCover
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 
@@ -192,6 +193,16 @@ import Sundogcert.ShortestPathCert
 /-- info: 'Sundog.FoldCancellation.tent_superlevel_not_isUpperSet' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.FoldCancellation.tent_superlevel_not_isUpperSet
+
+/-! ## PieceCover -- monotone composition adds pieces (N-1 quantitative) -/
+
+/-- info: 'Sundog.PieceCover.hasPieceCover_comp_mono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.PieceCover.hasPieceCover_comp_mono
+
+/-- info: 'Sundog.PieceCover.hasPieceCover_iterate' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.PieceCover.hasPieceCover_iterate
 
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 

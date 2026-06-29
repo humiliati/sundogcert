@@ -29,6 +29,8 @@ import Sundogcert.DepthSeparation
 import Sundogcert.RegionCount
 -- Folding needs cancellation: the depth-separation witness is not cancellation-free (N-1).
 import Sundogcert.FoldCancellation
+-- Bounded piece certificate: monotone composition adds pieces (N-1 positive half, quantitative).
+import Sundogcert.PieceCover
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard

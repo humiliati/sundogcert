@@ -107,40 +107,42 @@ theorem hasPieceCover_comp_mono {g h : ℝ → ℝ} {n m : ℕ}
         have hlt_hab : h a < h b := lt_trans hβ1 hβ2
         have hpos : 0 < p := by
           have hpapb : p * a < p * b := by linarith [hha, hhb, hlt_hab]
-          by_contra hp; push_neg at hp
+          by_contra hp; rw [not_lt] at hp
           have hle : p * b ≤ p * a := mul_le_mul_of_nonpos_left (le_of_lt hab') hp
           linarith
         have hpne : p ≠ 0 := ne_of_gt hpos
         set c := (β - q) / p with hc
-        have hcval : p * c + q = β := by rw [hc]; field_simp
+        have hcval : p * c + q = β := by rw [hc]; field_simp; ring
         -- the crossing point c lies strictly inside (a,b)
         have hca : a < c := by
-          have : p * a < p * c := by linarith [hha, hβ1, hcval]
-          exact (mul_lt_mul_left hpos).mp this
+          have hlt2 : p * a < p * c := by linarith [hha, hβ1, hcval]
+          exact lt_of_mul_lt_mul_left hlt2 (le_of_lt hpos)
         have hcb : c < b := by
-          have : p * c < p * b := by linarith [hhb, hβ2, hcval]
-          exact (mul_lt_mul_left hpos).mp this
+          have hlt2 : p * c < p * b := by linarith [hhb, hβ2, hcval]
+          exact lt_of_mul_lt_mul_left hlt2 (le_of_lt hpos)
         -- monotonicity pins the super-level set to the ray [c, ∞)
         have hset : {x : ℝ | β ≤ h x} = Set.Ici c := by
           ext x; simp only [Set.mem_setOf_eq, Set.mem_Ici]
           constructor
           · intro hx
-            by_contra hlt; push_neg at hlt
+            by_contra hlt; rw [not_le] at hlt
             have hxlt : h x < β := by
-              rcases le_or_lt x a with hxa | hax
+              by_cases hxa : x ≤ a
               · linarith [hβ1, hmono hxa]
-              · have hxb : x ≤ b := le_of_lt (lt_trans hlt hcb)
+              · have hax : a < x := not_le.mp hxa
+                have hxb : x ≤ b := le_of_lt (lt_trans hlt hcb)
                 have hxline : h x = p * x + q := hline x ⟨le_of_lt hax, hxb⟩
-                have hmul : p * x < p * c := (mul_lt_mul_left hpos).mpr hlt
+                have hmul : p * x < p * c := mul_lt_mul_of_pos_left hlt hpos
                 linarith [hxline, hmul, hcval]
             linarith [hx, hxlt]
           · intro hx
-            rcases le_or_lt x b with hxb | hbx
+            by_cases hxb : x ≤ b
             · have hax : a ≤ x := le_of_lt (lt_of_lt_of_le hca hx)
               have hxline : h x = p * x + q := hline x ⟨hax, hxb⟩
-              have hmul : p * c ≤ p * x := (mul_le_mul_left hpos).mpr hx
+              have hmul : p * c ≤ p * x := mul_le_mul_of_nonneg_left hx (le_of_lt hpos)
               linarith [hxline, hmul, hcval]
-            · linarith [hβ2, hmono (le_of_lt hbx)]
+            · have hbx : b < x := not_le.mp hxb
+              linarith [hβ2, hmono (le_of_lt hbx)]
         -- so crossing h β = c, and c is a cut in (a,b) — contradicting hmiss
         have hcross : crossing h β = c := by unfold crossing; rw [hset]; exact csInf_Ici
         have hmem_c : c ∈ Set.Ioo a b := ⟨hca, hcb⟩

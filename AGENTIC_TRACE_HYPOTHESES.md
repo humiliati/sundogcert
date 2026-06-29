@@ -369,10 +369,36 @@ Falsifier:
   or where branch explosion occurs despite every emitted trace satisfying the
   generic budget check.
 
+Falsifier fired (2026-06-28): `scripts/h4_branch_budget_falsifier.py` +
+`AGENTIC_TRACE_H4_FALSIFIER_RESULT.md`. The runtime `branch_budget_receipt.py` admits the
+top-`budget` branches **by score** and refuses overflow — but a count-by-score cap is the
+opaque token budget the hook warned against, relabelled structural. Two legs, both fire:
+**A** — a low-score WINNER (the only solution-bearing branch) is refused, and the smallest
+budget that keeps it is the one that admits *everything* (no bound); **B** — each node
+emits `budget` branches so every per-node receipt is `accept`, yet a depth-8 tree has
+9840 ≥ 3⁸ nodes (the per-node cap does not bound the search); **control** — genuine breadth
+overflow is refused (detector not dead). Mis-specification, not a tunable budget (the
+solution location and total complexity are orthogonal to a score-ranked count). 4-case
+frozen test.
+
+Fix landed (2026-06-28): `scripts/structural_slot_receipt.py` (`§7` of the result doc) —
+admits on a STRUCTURAL line-free predicate, not score. Each branch carries an `F₃ⁿ`
+coordinate; admitted iff it keeps the admitted set a **cap** (no three distinct points
+`a+b+c≡0 mod 3`); the admitted set is bounded by the **cap-set capacity** of the space,
+independent of candidate count. Closes both legs: **A** a low-score winner whose coord
+completes a cap is **admitted** (`accept`) where the count cap refused it; **B** all 9
+points of `F₃²` → admits a cap of **≤4** (`CAP_CAPACITY[2]`), refuses 5 — bounded by
+capacity, not the `budget**depth` the count cap accepts. 8-test fix-verification vs the old
+receipt (incl. structural refusals and tamper).
+
 Promotion status:
 
-- useful immediately as a generic budget receipt; cap-set-specific claims need
-  a separate finite-field workbench.
+- **falsifier fired → fix landed** (was: useful as a generic budget receipt). The next
+  deductive step is the Lean quarantine theorem — surface `AgenticTrace.branch_count_le_budget`
+  (finite-injection core) plus a line-free predicate, mirroring H-II's `ContextDecay` and
+  H-III's `HierarchyHolonomy` cores. The branch→cap-set measurement map and the
+  Ellenberg–Gijswijt bound remain named imports by design. **All four slate hypotheses now
+  have a fired falsifier; H-I/H-II/H-III/H-IV all have a landed fix.**
 
 ## Deployment Sequence
 
