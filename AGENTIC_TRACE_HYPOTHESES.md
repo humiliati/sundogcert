@@ -444,17 +444,26 @@ m≈1–2); (ii) same-problem reasoning chains stay ~0.95-redundant in embedding
 `F₃³` map is still degenerate (diversity gap 0.007 ≪ 0.05). The synthetic pin still
 dissociates (instrument sound) → the null is the **map**, not the receipt.
 
+Fair-test re-run landed (2026-06-29): `AGENTIC_TRACE_H4_SLOTMAP_{PREREG,RUN_NOTE}.md` +
+harness V3 (`coords_for` whitened/answer maps, `recall@k`, dump/analyze split). Items 1&2
+from the scale note delivered — small-budget `recall@k` + faithful slot maps — on the same
+1.5B collapse branches: **K-SUPPORT-FAIRTEST.** Under the `whitened` (de-anisotropized)
+map, the diversity-constrained `struct@2` retains the solution on **4/6** collapse tasks vs
+count-by-score's **2/6** (gap@2 **+0.333** ≥ 0.25, beating the degenerate `embedding`
+baseline's +0.167). The fix is real once fairly measured — the prior scale null was the
+large matched budget + degenerate map, not the receptor. Surprise: `whitened` beat the
+`answer` near-ceiling (diversity-by-representation > diversity-by-conclusion, since the model
+samples several distinct *wrong* answers). Honest bounds: small n (6 collapse tasks), gain
+concentrated at k=2 (narrows to +0.167 at k=3 as score catches up), one 1.5B model.
+
 Promotion status:
 
-- **falsifier fired → fix landed → Lean core landed → empirical leg landed (0.5B null) →
-  scale re-run (1.5B: failure mode REAL, fix unrealized)** (was: useful as a generic budget
-  receipt). **The phenomenon is confirmed real at scale** (collapse 6/8 — count-by-score's
-  top choice prunes the sampled solution); **the cap-set *fix* is not realized on real
-  reasoning branches** (degenerate embedding→`F₃³` map + non-discriminating matched budget).
-  The deductive core (`StructuralSlot`) and falsifier stand; the open empirical item is a
-  *faithful, diversity-bearing slot map* + a small-budget (recall@1/2) metric — both named in
-  the run note for a future prereg. All four hypotheses now have falsifier + fix + Lean core
-  + empirical leg(s).
+- **falsifier → fix → Lean core → empirical (0.5B null) → scale (1.5B: failure mode REAL,
+  fix unrealized) → fair-test (whitened map + small budget: K-SUPPORT-FAIRTEST)** (was:
+  generic budget receipt). The full chain closes: the failure mode is real at scale, and the
+  structural fix **beats count-by-score at small budget under a faithful map**. `StructuralSlot`
+  + falsifier unchanged. **All four hypotheses now run falsifier + fix + Lean core + empirical
+  leg(s); H-IV's fix is now empirically supported, not just internally consistent.**
 
 ## Deployment Sequence
 
