@@ -180,6 +180,19 @@ import Sundogcert.ShortestPathCert
 #guard_msgs in
 #print axioms Sundog.FoldCancellation.isMono_not_iterTent
 
+-- positive half (qualitative core): monotone circuits never fold at any level
+/-- info: 'Sundog.FoldCancellation.isMono_realize1_monotone' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.FoldCancellation.isMono_realize1_monotone
+
+/-- info: 'Sundog.FoldCancellation.isMono_superlevel_isUpperSet' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.FoldCancellation.isMono_superlevel_isUpperSet
+
+/-- info: 'Sundog.FoldCancellation.tent_superlevel_not_isUpperSet' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.FoldCancellation.tent_superlevel_not_isUpperSet
+
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 
 /-- info: 'Sundog.ShortestPathCert.feasible_le_walk' depends on axioms: [propext, Classical.choice, Quot.sound] -/

@@ -31,10 +31,12 @@ piece-count function and a composition-additivity lemma over `RegionCount`. Name
 -/
 import Sundogcert.CancellationFree
 import Sundogcert.DepthSeparation
+import Sundogcert.RegionCount
+import Mathlib.Order.UpperLower.Basic
 
 namespace Sundog.FoldCancellation
 
-open Sundog.CircuitNet Sundog.CancellationFree Sundog.DepthSeparation
+open Sundog.CircuitNet Sundog.CancellationFree Sundog.DepthSeparation Sundog.RegionCount
 
 variable {e : Trop 1}
 
@@ -75,6 +77,46 @@ theorem isMono_not_iterTent (d : ℕ) (hd : 1 ≤ d) (hmono : IsMono e)
     (heq : ∀ x : Fin 1 → ℝ, e.eval x = (iterTent d).eval x) : False := by
   refine isMono_not_iterTentFun d hd hmono ?_
   intro x; rw [heq x, iterTent_eval]
+
+/-! ## The positive half (qualitative core): monotone circuits never fold, at any level
+
+The negative half above forbids the *specific* fold of `T^[d]`. The positive half says a
+cancellation-free circuit cannot oscillate *at all*: its 1-D realization is monotone, so
+every super-level set `{x | c ≤ f x}` is an **upper set** — once `f` reaches level `c` it
+stays `≥ c`, i.e. exactly one rising crossing per level, no fold-back anywhere. This is
+`isMono_no_fold` lifted from one witnessed fold to every level, and it is the structural
+reason monotone region counts stay small (pieces *add* under composition, they cannot
+*multiply*). The matching *quantitative* `O(d·w)` region-count bound needs a region-count
+definition over `RegionCount` and is the named remaining target. -/
+
+/-- The 1-D realization of a cancellation-free circuit is **monotone**. -/
+theorem isMono_realize1_monotone (hmono : IsMono e) : Monotone (realize1 e) := by
+  intro s t hst
+  exact monotone_of_isMono hmono (fun _ => hst)
+
+/-- **No fold at any level (the positive-half core).** For a cancellation-free circuit,
+every super-level set is an **upper set**: monotonicity means once `f` reaches `c` it never
+returns below it — no oscillation, exactly the opposite of folding. -/
+theorem isMono_superlevel_isUpperSet (hmono : IsMono e) (c : ℝ) :
+    IsUpperSet {x : ℝ | c ≤ realize1 e x} := by
+  intro a b hab ha
+  exact le_trans ha (isMono_realize1_monotone hmono hab)
+
+/-- **Contrast: the tent folds.** The depth-2 tent's super-level set `{x | 1/2 ≤ T^[2] x}`
+is **not** an upper set — `1/4` is in it (`T^[2](1/4) = 1`) and `1/4 ≤ 1/2`, yet `1/2` is
+not (`T^[2](1/2) = 0`). So no cancellation-free circuit has this level structure; folding is
+exactly the upper-set failure that `isMono_superlevel_isUpperSet` rules out. -/
+theorem tent_superlevel_not_isUpperSet :
+    ¬ IsUpperSet {x : ℝ | (1 : ℝ) / 2 ≤ (T^[2]) x} := by
+  intro hUp
+  have ha : ((1 : ℕ) : ℝ) / 2 ^ 2 ∈ {x : ℝ | (1 : ℝ) / 2 ≤ (T^[2]) x} := by
+    change (1 : ℝ) / 2 ≤ (T^[2]) (((1 : ℕ) : ℝ) / 2 ^ 2)
+    rw [tent_iterate_dyadic 2 1 (by norm_num), if_pos (by decide : Odd 1)]; norm_num
+  have hab : ((1 : ℕ) : ℝ) / 2 ^ 2 ≤ ((2 : ℕ) : ℝ) / 2 ^ 2 := by norm_num
+  have hb := hUp hab ha
+  have hcon : (1 : ℝ) / 2 ≤ (T^[2]) (((2 : ℕ) : ℝ) / 2 ^ 2) := hb
+  rw [tent_iterate_dyadic 2 2 (by norm_num), if_neg (by decide : ¬ Odd 2)] at hcon
+  norm_num at hcon
 
 end Sundog.FoldCancellation
 
