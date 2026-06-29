@@ -1,0 +1,123 @@
+{
+  "dry_run": {
+    "version": "H4_SEARCH_WHITEBOX_V2",
+    "mode": "synthetic",
+    "task": {
+      "m": 7,
+      "score_recall": 0,
+      "struct_recall": 1,
+      "score_redundancy": 0.6251646088597719,
+      "struct_redundancy": 0.5328444779142365,
+      "top_score_correct": 0,
+      "any_correct": 1,
+      "struct_is_cap": true
+    }
+  },
+  "real": {
+    "version": "H4_SEARCH_WHITEBOX_V2",
+    "mode": "real-reasoning",
+    "model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "dtype": "float32",
+    "max_new_tokens": 96,
+    "k": 8,
+    "per_task": [
+      {
+        "m": 7,
+        "score_recall": 1,
+        "struct_recall": 1,
+        "score_redundancy": 0.9500906559243644,
+        "struct_redundancy": 0.9500906559243644,
+        "top_score_correct": 0,
+        "any_correct": 1,
+        "struct_is_cap": true,
+        "answer": "28"
+      },
+      {
+        "m": 5,
+        "score_recall": 1,
+        "struct_recall": 1,
+        "score_redundancy": 0.9654818158720797,
+        "struct_redundancy": 0.9774180093624316,
+        "top_score_correct": 0,
+        "any_correct": 1,
+        "struct_is_cap": true,
+        "answer": "260"
+      },
+      {
+        "m": 6,
+        "score_recall": 1,
+        "struct_recall": 1,
+        "score_redundancy": 0.9922474713412731,
+        "struct_redundancy": 0.9908477816536415,
+        "top_score_correct": 0,
+        "any_correct": 1,
+        "struct_is_cap": true,
+        "answer": "144"
+      },
+      {
+        "m": 6,
+        "score_recall": 1,
+        "struct_recall": 1,
+        "score_redundancy": 0.9799940789444526,
+        "struct_redundancy": 0.9873766795538119,
+        "top_score_correct": 1,
+        "any_correct": 1,
+        "struct_is_cap": true,
+        "answer": "117"
+      },
+      {
+        "m": 6,
+        "score_recall": 1,
+        "struct_recall": 1,
+        "score_redundancy": 0.915012969840035,
+        "struct_redundancy": 0.8820455214678098,
+        "top_score_correct": 0,
+        "any_correct": 1,
+        "struct_is_cap": true,
+        "answer": "391"
+      },
+      {
+        "m": 6,
+        "score_recall": 1,
+        "struct_recall": 1,
+        "score_redundancy": 0.9507194132329102,
+        "struct_redundancy": 0.9489407380736712,
+        "top_score_correct": 1,
+        "any_correct": 1,
+        "struct_is_cap": true,
+        "answer": "75"
+      },
+      {
+        "m": 6,
+        "score_recall": 1,
+        "struct_recall": 1,
+        "score_redundancy": 0.9610597746552657,
+        "struct_redundancy": 0.9538414353222997,
+        "top_score_correct": 0,
+        "any_correct": 1,
+        "struct_is_cap": true,
+        "answer": "145"
+      },
+      {
+        "m": 6,
+        "score_recall": 1,
+        "struct_recall": 1,
+        "score_redundancy": 0.9811035752698517,
+        "struct_redundancy": 0.9488529728999566,
+        "top_score_correct": 0,
+        "any_correct": 1,
+        "struct_is_cap": true,
+        "answer": "140"
+      }
+    ],
+    "n_tasks": 8,
+    "n_usable": 8,
+    "n_collapse": 6,
+    "mean_score_redundancy": 0.961963719385029,
+    "mean_struct_redundancy": 0.9549267242822483,
+    "mean_score_recall_collapse": 1.0,
+    "mean_struct_recall_collapse": 1.0,
+    "all_struct_caps": true,
+    "campaign_verdict": "K-NULL-STRUCT-NOHELP-redundancy"
+  }
+}

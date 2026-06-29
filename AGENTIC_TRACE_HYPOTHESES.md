@@ -432,15 +432,29 @@ synthetic pin shows the receipts dissociate *when* a low-score correct branch is
 so the null is the data regime, not the instrument. Bounds H-IV: the targeted failure mode
 (a calibration/diversity failure) needs long multi-step search, not 0.5B short-answer tasks.
 
+Scale re-run landed (2026-06-29): `AGENTIC_TRACE_H4_SEARCH_SCALE_{PREREG,RUN_NOTE}.md` +
+harness V2 (`--regime reasoning`, REASONING_TASKS, 96-token chains). 1.5B on 8 multi-step
+problems: **the collapse regime AROSE — `n_collapse = 6/8`** (the model samples a correct
+solution but ranks a wrong branch top in 6 of 8 tasks; the 0.5B short run had 0). So the
+failure mode H-IV targets (a count-by-score top choice that prunes the mis-ranked solution)
+is **confirmed real at scale**. BUT the structural fix does not capitalize →
+**K-NULL-STRUCT-NOHELP-redundancy**: (i) at the cap-determined (large) matched size both
+admissions retain the solution (recall 1.0/1.0 — the discriminating regime is small budget,
+m≈1–2); (ii) same-problem reasoning chains stay ~0.95-redundant in embedding space, so the
+`F₃³` map is still degenerate (diversity gap 0.007 ≪ 0.05). The synthetic pin still
+dissociates (instrument sound) → the null is the **map**, not the receipt.
+
 Promotion status:
 
-- **falsifier fired → fix landed → Lean core landed → empirical leg landed (clean null)**
-  (was: useful as a generic budget receipt). H-IV is now level with H-II/H-III through the
-  full chain. The deductive core stands; the empirical leg honestly bounds the regime in
-  which the count-vs-structure gap appears (it does not, for a calibrated small model on
-  short branches). **All four slate hypotheses now have falsifier + fix + Lean core +
-  empirical leg.** A larger-model / longer-branch H-IV re-run and the larger-model H-III
-  re-run remain the open follow-ups (own preregs).
+- **falsifier fired → fix landed → Lean core landed → empirical leg landed (0.5B null) →
+  scale re-run (1.5B: failure mode REAL, fix unrealized)** (was: useful as a generic budget
+  receipt). **The phenomenon is confirmed real at scale** (collapse 6/8 — count-by-score's
+  top choice prunes the sampled solution); **the cap-set *fix* is not realized on real
+  reasoning branches** (degenerate embedding→`F₃³` map + non-discriminating matched budget).
+  The deductive core (`StructuralSlot`) and falsifier stand; the open empirical item is a
+  *faithful, diversity-bearing slot map* + a small-budget (recall@1/2) metric — both named in
+  the run note for a future prereg. All four hypotheses now have falsifier + fix + Lean core
+  + empirical leg(s).
 
 ## Deployment Sequence
 
