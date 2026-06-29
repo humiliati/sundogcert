@@ -5,7 +5,7 @@ Slate-2 hook **N-2** is a *retrospective*, not a reduction theorem: the reading 
 every wall the lane meets is the *same* wall — **cancellation** (the negative scale / the
 subtraction that makes a ReLU net a tropical *rational* map rather than a tropical
 *polynomial*). The full claim "every imported wall is cancellation-reducible" stays a typed
-conjecture (see `docs/ALGO_APPROX_N2_CANCELLATION_SPINE.md` for the honest PROVEN-vs-reading
+conjecture (see `docs/algo-approx/ALGO_APPROX_N2_CANCELLATION_SPINE.md` for the honest PROVEN-vs-reading
 split and the `WALL_WITHOUT_CANCELLATION` falsifier).
 
 This module records the part of that reading that *is* machine-checked, as a single statement.

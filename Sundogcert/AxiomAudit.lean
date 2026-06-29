@@ -61,6 +61,7 @@ import Sundogcert.FoldCancellation
 import Sundogcert.PieceCover
 import Sundogcert.RegionPoly
 import Sundogcert.CancellationSpine
+import Sundogcert.ExactRepr
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 import Sundogcert.Certifies
@@ -69,6 +70,7 @@ import Sundogcert.MatchingCover
 import Sundogcert.TwoSat
 import Sundogcert.PrattCert
 import Sundogcert.ParityNoSufficientStat
+import Sundogcert.OrderRelative
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -248,6 +250,12 @@ import Sundogcert.ParityNoSufficientStat
 /-- info: 'Sundog.CancellationSpine.isMono_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.CancellationSpine.isMono_tame
+
+/-! ## ExactRepr -- convex continuous-PL ⟹ exact ReLU net (S3-1, representability converse) -/
+
+/-- info: 'Sundog.ExactRepr.convexCPL_realizable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ExactRepr.convexCPL_realizable
 
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 
@@ -730,3 +738,29 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 /-- info: 'Sundog.ParityNoSufficientStat.suffStatOrder_eq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.ParityNoSufficientStat.suffStatOrder_eq
+
+/-! ## OrderRelative — the order-relative resolution law (the slate's one statement; schema, not scalar) -/
+
+/-- info: 'Sundog.OrderRelative.budget_monotone' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.budget_monotone
+
+/-- info: 'Sundog.OrderRelative.resolvable_iff_finite' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.resolvable_iff_finite
+
+/-- info: 'Sundog.OrderRelative.resists_iff_infinite' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.resists_iff_infinite
+
+/-- info: 'Sundog.OrderRelative.parityProblem_ord' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.parityProblem_ord
+
+/-- info: 'Sundog.OrderRelative.resistPole_resists' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.resistPole_resists
+
+/-- info: 'Sundog.OrderRelative.order_is_schema_not_scalar' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.order_is_schema_not_scalar

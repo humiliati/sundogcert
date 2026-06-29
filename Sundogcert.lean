@@ -42,6 +42,8 @@ import Sundogcert.PieceCover
 import Sundogcert.RegionPoly
 -- The cancellation spine: cancellation-free ⇒ uniformly tame (N-2 synthesis anchor).
 import Sundogcert.CancellationSpine
+-- Exact representability (S3-1): every convex continuous-PL function IS a finite ReLU net.
+import Sundogcert.ExactRepr
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard
@@ -64,3 +66,6 @@ import Sundogcert.StructuralSlot
 -- Parity barrier (toy half): a finite-order partial parity is not a sufficient statistic
 -- for the full-history total parity. Sarnak/Chowla named as the imported wall (P-1).
 import Sundogcert.ParityNoSufficientStat
+-- The Order-Relative Resolution Law: the slate's one statement (a schema, not a scalar) that the
+-- axes (search / pressure / repertoire / determination / find-check) instantiate (B).
+import Sundogcert.OrderRelative
