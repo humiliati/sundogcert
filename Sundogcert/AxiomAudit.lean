@@ -220,6 +220,10 @@ import Sundogcert.ShortestPathCert
 #guard_msgs in
 #print axioms Sundog.RegionPoly.hasPieceCover_max_line
 
+/-- info: 'Sundog.RegionPoly.lineBelow' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.RegionPoly.lineBelow
+
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 
 /-- info: 'Sundog.ShortestPathCert.feasible_le_walk' depends on axioms: [propext, Classical.choice, Quot.sound] -/

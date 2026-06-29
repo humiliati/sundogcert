@@ -25,6 +25,7 @@ import Sundogcert.RegionCount
 import Sundogcert.CancellationFree
 import Mathlib.Analysis.Convex.Function
 import Mathlib.Analysis.Convex.Continuous
+import Mathlib.Analysis.Convex.Slope
 
 namespace Sundog.RegionPoly
 
@@ -373,5 +374,33 @@ theorem hasPieceCover_max_line {h : ℝ → ℝ} {k : ℕ} (p q : ℝ)
     exact ⟨pp, qq, fun x hx => by
       change max (p * x + q) (h x) = pp * x + qq
       rw [max_eq_right (le_of_lt (hGne x)), hl x hx]⟩
+
+/-- **Supporting line.** A convex function lies above any line it equals on a (nondegenerate)
+interval `[s,t]` — the line of a piece is a global lower bound. (Convexity via slope
+monotonicity.) This is what lets a convex function be written as the `max` of its piece-lines. -/
+theorem lineBelow {f : ℝ → ℝ} (hf : ConvexOn ℝ Set.univ f) {s t p q : ℝ}
+    (hst : s < t) (hline : ∀ x ∈ Set.Icc s t, f x = p * x + q) (w : ℝ) :
+    p * w + q ≤ f w := by
+  have hfs : f s = p * s + q := hline s ⟨le_refl s, le_of_lt hst⟩
+  have hft : f t = p * t + q := hline t ⟨le_of_lt hst, le_refl t⟩
+  have hts : (0 : ℝ) < t - s := by linarith
+  have hp : (f t - f s) / (t - s) = p := by
+    rw [hfs, hft, show p * t + q - (p * s + q) = p * (t - s) by ring,
+      mul_div_assoc, div_self hts.ne', mul_one]
+  rcases lt_trichotomy w s with hws | hws | hws
+  · have hsl := ConvexOn.slope_mono_adjacent hf (Set.mem_univ w) (Set.mem_univ t) hws hst
+    rw [hp] at hsl
+    have hsw : (0 : ℝ) < s - w := by linarith
+    rw [div_le_iff₀ hsw, hfs] at hsl
+    nlinarith [hsl]
+  · subst hws; rw [hfs]
+  · by_cases hwt : w ≤ t
+    · rw [hline w ⟨le_of_lt hws, hwt⟩]
+    · have hwt' : t < w := not_le.mp hwt
+      have hsl := ConvexOn.slope_mono_adjacent hf (Set.mem_univ s) (Set.mem_univ w) hst hwt'
+      rw [hp] at hsl
+      have htw : (0 : ℝ) < w - t := by linarith
+      rw [le_div_iff₀ htw, hft] at hsl
+      nlinarith [hsl]
 
 end Sundog.RegionPoly
