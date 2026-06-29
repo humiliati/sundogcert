@@ -308,14 +308,29 @@ opposite hierarchy verdicts — the loop provably cannot determine the hierarchy
 H-III analog of H-I's `no_word_function_determines_decisive`). Enforced by `#guard_msgs`
 in `AxiomAudit.lean`; full `lake build` green (3543 jobs).
 
+Empirical leg landed (2026-06-28): `scripts/h3_attention_whitebox.py` +
+`AGENTIC_TRACE_H3_ATTENTION_{PREREG,RUN_NOTE}.md` — the H-I/H-II-style white-box. Real
+Qwen2.5-0.5B eager-attention Hodge-split into a gradient/authority potential
+`φ(v)` = answer-position attention to segment `v` and a curl `circ` = transitivity
+residual of attention flow; 81 prompts (3 systems × 3 queries × short-benign / **length-
+matched-benign** / injection slots), per-layer gradient-AUC vs curl-AUC. **Directional
+dissociation confirmed, length-controlled:** at the semantic middle layers {12,13,15,18,19}
+the gradient separates the injection from a *length-matched* benign (best L13 AUC 0.973)
+while the curl is near-blind (0.653) — a +0.32 gap; the Hodge-split hierarchy receipt flags
+**0/54 benign** (perfect precision) where the old loop receipt flags **all 81** (useless).
+Honest bounds: literal verdict **K-NULL-LOOP-ALSO-SEES** (best-layer curl 0.653 a hair over
+the 0.65 KILL line); most of the *naive* separation (vs short benign, AUC 0.95/0.78) was a
+length confound the matched control removed; effect moderate / partial-recall on 0.5B; `φ`
+is a token-sum; attention-as-evidence contested.
+
 Promotion status:
 
-- **falsifier fired → fix landed → Lean core landed** (was: promising but
-  measurement-heavy). End to end machine-checked: the injection signal is the gradient
-  (hierarchy ordering), the loop circulation provably can't see it, and the rule fires
-  exactly on a violation. The trace→holonomy measurement map and the trusted reference
-  hierarchy remain named imports by design — the empirical leg (a real attention→loop
-  map) is the only remaining step if H-III is pushed to the end of the chain like H-II.
+- **falsifier fired → fix landed → Lean core landed → empirical leg landed** (was:
+  promising but measurement-heavy). The full chain runs end to end on a real model: the
+  injection is a gradient (authority) move the loop circulation is near-blind to, and the
+  Hodge-split fix never false-flags benign while the loop receipt cannot discriminate.
+  H-III now matches H-II's completeness. Named imports (by design): the trusted reference
+  hierarchy, and the broader attention-as-trace interpretation.
 
 ## Hypothesis IV: Trace-Bounded Search Trees
 
