@@ -391,14 +391,38 @@ points of `F₃²` → admits a cap of **≤4** (`CAP_CAPACITY[2]`), refuses 5 �
 capacity, not the `budget**depth` the count cap accepts. 8-test fix-verification vs the old
 receipt (incl. structural refusals and tamper).
 
+Lean core landed (2026-06-28): `Sundogcert/StructuralSlot.lean` (`§8` of the result doc)
+pins what the structural receipt licenses — `refusal_earned` (a refusal exhibits a concrete
+line), `admit_preserves_lineFree` (admission keeps the admitted set a cap), `lineFree_card_
+le_univ` (the cap is bounded by the space, depth-independent; EG capacity = the named
+sharpening), and the headline `count_cannot_determine_structure` (two equal-cardinality sets,
+one a cap and one a line — a count budget is blind to line-freeness; the H-IV analog of
+`no_word_function_determines_decisive`). All axiom-clean (`[propext, Quot.sound]`; the
+decidable `F₃²` headline carries the full triple), enforced by `#guard_msgs`; full `lake
+build` green (3547 jobs).
+
+Empirical leg landed (2026-06-29): `scripts/h4_search_whitebox.py` +
+`AGENTIC_TRACE_H4_SEARCH_{PREREG,RUN_NOTE}.md` — the H-II/H-III-style white-box. Real
+Qwen2.5-0.5B sampled search (K=8 branches/task, sequence logprob + correctness, embeddings
+quantized PCA→tercile→`F₃³`); count-by-score vs structural line-free cap at matched size.
+**Clean pre-registered NULL — K-NULL-NOEXPLORE, double-confirmed (easy AND hard tasks):**
+on every usable task the correct branch, when sampled, is also top-score (`top_correct=1`,
+`n_collapse=0`), so count-by-score never prunes the solution and `score_recall ==
+struct_recall` throughout; redundancy is ≈0.95 for both (short answers → near-duplicate
+embeddings → the `F₃³` map is degenerate, the branch→cap-set import unrealized here). The
+synthetic pin shows the receipts dissociate *when* a low-score correct branch is present —
+so the null is the data regime, not the instrument. Bounds H-IV: the targeted failure mode
+(a calibration/diversity failure) needs long multi-step search, not 0.5B short-answer tasks.
+
 Promotion status:
 
-- **falsifier fired → fix landed** (was: useful as a generic budget receipt). The next
-  deductive step is the Lean quarantine theorem — surface `AgenticTrace.branch_count_le_budget`
-  (finite-injection core) plus a line-free predicate, mirroring H-II's `ContextDecay` and
-  H-III's `HierarchyHolonomy` cores. The branch→cap-set measurement map and the
-  Ellenberg–Gijswijt bound remain named imports by design. **All four slate hypotheses now
-  have a fired falsifier; H-I/H-II/H-III/H-IV all have a landed fix.**
+- **falsifier fired → fix landed → Lean core landed → empirical leg landed (clean null)**
+  (was: useful as a generic budget receipt). H-IV is now level with H-II/H-III through the
+  full chain. The deductive core stands; the empirical leg honestly bounds the regime in
+  which the count-vs-structure gap appears (it does not, for a calibrated small model on
+  short branches). **All four slate hypotheses now have falsifier + fix + Lean core +
+  empirical leg.** A larger-model / longer-branch H-IV re-run and the larger-model H-III
+  re-run remain the open follow-ups (own preregs).
 
 ## Deployment Sequence
 

@@ -52,12 +52,14 @@ import Sundogcert.ContextDecay
 import Sundogcert.CuspGerm
 import Sundogcert.RetrievalCusp
 import Sundogcert.HierarchyHolonomy
+import Sundogcert.StructuralSlot
 import Sundogcert.CircuitNet
 import Sundogcert.CancellationFree
 import Sundogcert.DepthSeparation
 import Sundogcert.RegionCount
 import Sundogcert.FoldCancellation
 import Sundogcert.PieceCover
+import Sundogcert.RegionPoly
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 
@@ -203,6 +205,20 @@ import Sundogcert.ShortestPathCert
 /-- info: 'Sundog.PieceCover.hasPieceCover_iterate' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.PieceCover.hasPieceCover_iterate
+
+/-! ## RegionPoly -- cancellation-free circuits are convex; cut-based gate lemmas (N-1 lift) -/
+
+/-- info: 'Sundog.RegionPoly.isMono_realize1_convexOn' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.RegionPoly.isMono_realize1_convexOn
+
+/-- info: 'Sundog.RegionPoly.hasPieceCover_add' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.RegionPoly.hasPieceCover_add
+
+/-- info: 'Sundog.RegionPoly.hasPieceCover_max_line' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.RegionPoly.hasPieceCover_max_line
 
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 
@@ -613,3 +629,23 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 -/
 #guard_msgs in
 #print axioms Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot
+
+-- StructuralSlot: the H-IV line-free (cap-set) trace-bound core. A refusal is earned;
+-- admission preserves the cap; the cap is bounded by the space (depth-independent); and a
+-- count cannot determine line-freeness (the blind spot). Runtime: structural_slot_receipt.py.
+
+/-- info: 'Sundog.StructuralSlot.refusal_earned' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.StructuralSlot.refusal_earned
+
+/-- info: 'Sundog.StructuralSlot.admit_preserves_lineFree' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.StructuralSlot.admit_preserves_lineFree
+
+/-- info: 'Sundog.StructuralSlot.lineFree_card_le_univ' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.StructuralSlot.lineFree_card_le_univ
+
+/-- info: 'Sundog.StructuralSlot.count_cannot_determine_structure' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.StructuralSlot.count_cannot_determine_structure

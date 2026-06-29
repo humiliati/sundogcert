@@ -1,13 +1,15 @@
 # H-IV FALSIFIER — the budget receipt bounds count-by-score, not the structural boundary
 
 **Frozen:** 2026-06-28, repo HEAD `master`.
-**Status:** **FALSIFIER FIRES → FIX LANDED (§7).** H-IV's own pre-registered falsifier
-(both forms: the structural bound cuts off the only successful branch, AND branch explosion
-despite every emitted trace satisfying the budget) is satisfied by runnable,
-receipt-checkable counterexamples against the live `scripts/branch_budget_receipt.py`; the
-re-specified line-free (cap-set) slot receipt in §7 closes both legs. A fired falsifier is
-a banked SUCCESS: caught before any cap-set / structural claim, it localized the exact
-re-spec — and the re-spec is done.
+**Status:** **FALSIFIER FIRES → FIX LANDED (§7) → LEAN CORE LANDED (§8).** H-IV's own
+pre-registered falsifier (both forms: the structural bound cuts off the only successful
+branch, AND branch explosion despite every emitted trace satisfying the budget) is
+satisfied by runnable, receipt-checkable counterexamples against the live
+`scripts/branch_budget_receipt.py`; the re-specified line-free (cap-set) slot receipt in
+§7 closes both legs; the §8 Lean module pins the trace-bound core, axiom-clean. A fired
+falsifier is a banked SUCCESS: caught before any cap-set / structural claim, it localized
+the exact re-spec — and the re-spec, and its deductive core, are done. **This brings H-IV
+level with H-II/H-III (falsifier → fix → Lean core).**
 **Lane:** sundogcert agentic-trace slate, Hypothesis IV (Trace-Bounded Search Trees). This
 completes the four-hypothesis slate — every hypothesis now has a fired falsifier.
 
@@ -128,3 +130,31 @@ structure; the capacity table is cited). The deductive surface for a Lean quaran
 theorem is `AgenticTrace.branch_count_le_budget` (the finite-injection core) plus a
 line-free predicate — the natural next step, mirroring H-II's `ContextDecay` and H-III's
 `HierarchyHolonomy` cores. 16 tests pass (8 fix + 4 falsifier + 4 existing).
+
+## §8 LEAN CORE — what the structural slot receipt licenses (2026-06-28)
+
+`Sundogcert/StructuralSlot.lean` pins the deductive content of the fix, the way
+`ContextDecay` (H-II) and `HierarchyHolonomy` (H-III) pinned theirs. A line (3-term AP) is
+`IsLine a b c := a ≠ b ∧ a ≠ c ∧ b ≠ c ∧ a + b + c = 0` over an `AddCommGroup`; `LineFree S`
+is a cap (no line); `FormsLine S c` is the refusal condition. Four theorems, enforced by
+`#guard_msgs` in `AxiomAudit.lean`; full `lake build` green (3547 jobs).
+
+| theorem | content | axioms | H-I/II/III analog |
+|---|---|---|---|
+| `refusal_earned` | a refused candidate exhibits a concrete line (two collinear admitted points) | `[propext, Quot.sound]` | `decay_earned` / `hijack_witness` |
+| `admit_preserves_lineFree` | if `S` is a cap and `c` forms no line, `insert c S` is still a cap — the fix's core correctness | `[propext, Quot.sound]` | the rule-soundness lemmas |
+| `lineFree_card_le_univ` | an admitted cap is bounded by the ambient space, **independent of how many candidates produced it** (depth-independent; EG capacity is the named sharpening) | `[propext, Quot.sound]` | — (Leg B) |
+| `count_cannot_determine_structure` | **headline:** two sets of *equal cardinality*, one a cap and one a line — a count budget cannot tell line-free from line | triple | `no_word_function_determines_decisive` / `hierarchy_separates_what_loop_cannot` |
+
+The headline is the formal blind spot: `count_cannot_determine_structure` exhibits concrete
+witnesses in `F₃²` — `{(0,0),(1,0),(0,1)}` (a cap) and `{(0,0),(1,0),(2,0)}` (a line) — of
+**equal cardinality**, so a cardinality/count budget is provably blind to line-freeness,
+exactly as the falsifier's Leg A showed the count-by-score cap blind to which branch solves.
+`refusal_earned`, `admit_preserves_lineFree`, and `lineFree_card_le_univ` are axiom-free of
+`Classical.choice` (`[propext, Quot.sound]`); the decidable `F₃²` headline carries the full
+triple. No `sorryAx`, no `native_decide`.
+
+**What the Lean does not claim** (the named wall, unchanged): it formalizes what the
+structural receipt licenses on a declared coordinate set; it does not justify mapping real
+agent branches into `F₃ⁿ`, nor reprove the Ellenberg–Gijswijt cap-capacity bound. Those
+remain imports by design.

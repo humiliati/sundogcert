@@ -31,6 +31,8 @@ import Sundogcert.RegionCount
 import Sundogcert.FoldCancellation
 -- Bounded piece certificate: monotone composition adds pieces (N-1 positive half, quantitative).
 import Sundogcert.PieceCover
+-- Cancellation-free circuits are convex; cut-based gate lemmas (N-1 circuit-level lift).
+import Sundogcert.RegionPoly
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard
@@ -49,3 +51,4 @@ import Sundogcert.ContextDecay
 import Sundogcert.CuspGerm
 import Sundogcert.RetrievalCusp
 import Sundogcert.HierarchyHolonomy
+import Sundogcert.StructuralSlot
