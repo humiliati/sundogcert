@@ -331,17 +331,24 @@ bar), gradient 0.999, gap 0.45, fix flags 0 benign → **K-SUPPORT-SHARPENS**, w
 `curl_non_increasing` across 0.5B→1.5B (the loop's blindness *deepens* with scale; the
 clean-dissociation band also broadens and moves earlier). `φ_mean` is K-ARTIFACT at both
 scales (long-system-span per-token dilution inverts authority) — pre-registered secondary
-metric-sensitivity; `φ_sum` carries the verdict. (2-point ladder; a 3B third point is
-operator-stageable.)
+metric-sensitivity; `φ_sum` carries the verdict. **3-point ladder completed in bf16
+(`ladder_full_bf16.json`): the phenomenon is robust — gradient AUC 0.97→0.99→0.985, curl
+0.65→0.55→0.55 (non-increasing), sharpening 0.5B→1.5B then plateauing at 3B. But at 3B the
+fixed-threshold receipt is K-ARTIFACT: recency makes benign slots out-rank the long system
+instruction in total attention, so the absolute "system>slot" rule over-flags benign (28/54)
+— a threshold mis-calibration, not a signal failure (gradient AUC still 0.985). The blind
+spot scales; the fix's fixed decision threshold needs per-scale calibration.**
 
 Promotion status:
 
 - **falsifier fired → fix landed → Lean core landed → empirical leg landed → scale re-run
-  confirmed (K-SUPPORT-SHARPENS @1.5B)** (was: promising but measurement-heavy). The full
-  chain runs end to end on real models, and the empirical effect — the injection is a
-  gradient (authority) move the loop circulation is blind to — is now **clean at scale**,
-  not just marginal at 0.5B, deepening as the model grows. Named imports (by design): the
-  trusted reference hierarchy and the broader attention-as-trace interpretation.
+  confirmed (K-SUPPORT-SHARPENS @1.5B; phenomenon robust to 3B)** (was: promising but
+  measurement-heavy). The blind-spot effect — the injection is a gradient (authority) move
+  the loop circulation is blind to — is **clean at 1.5B and stable to 3B** (curl plateaus
+  ~0.55). The remaining open item is detector-engineering: the fixed "system>slot" receipt
+  threshold mis-calibrates at 3B (recency) and needs a per-scale-calibrated cutoff — not a
+  failure of the phenomenon. Named imports (by design): trusted reference hierarchy + the
+  attention-as-trace interpretation.
 
 ## Hypothesis IV: Trace-Bounded Search Trees
 
