@@ -16,7 +16,7 @@ import Sundogcert.Certifies
 
 namespace Sundog.MatchingCover
 
-variable {V : Type*} [Fintype V] [DecidableEq V]
+variable {V : Type*}
 
 /-- A **matching** in `edges`: a sub-set of edges, pairwise vertex-disjoint (two matching
 edges that share any endpoint are equal). -/
@@ -34,16 +34,18 @@ matched edges share no vertex), so `|M| ≤ |C|`. A cover certifies an upper bou
 maximum matching, checked by scanning the edges. -/
 theorem matching_le_cover {edges : Finset (V × V)} {M : Finset (V × V)} {C : Finset V}
     (hM : IsMatching edges M) (hC : IsCover edges C) : M.card ≤ C.card := by
+  classical
   refine Finset.card_le_card_of_injOn (fun e => if e.1 ∈ C then e.1 else e.2) ?_ ?_
   · intro e he
-    rcases hC e (hM.1 he) with h1 | h2
-    · simp [h1]
-    · by_cases hc : e.1 ∈ C
-      · simp [hc]
-      · simp [hc]; exact h2
+    have hcov := hC e (hM.1 he)
+    dsimp only
+    split_ifs with hc
+    · exact hc
+    · exact hcov.resolve_left hc
   · intro e₁ he₁ e₂ he₂ heq
     refine hM.2 e₁ he₁ e₂ he₂ ?_
-    by_cases h1 : e₁.1 ∈ C <;> by_cases h2 : e₂.1 ∈ C <;> simp [h1, h2] at heq
+    dsimp only at heq
+    split_ifs at heq
     · exact Or.inl heq
     · exact Or.inr (Or.inl heq)
     · exact Or.inr (Or.inr (Or.inl heq))
@@ -67,7 +69,7 @@ theorem konig {edges : Finset (V × V)} {M : Finset (V × V)} {C : Finset V}
 /-! ## The verification cost — and the find/check ledger instance -/
 
 /-- A cover certificate's data: the edge set and the proposed cover. -/
-structure CoverCert (V : Type*) [Fintype V] [DecidableEq V] where
+structure CoverCert (V : Type*) where
   edges : Finset (V × V)
   C : Finset V
 

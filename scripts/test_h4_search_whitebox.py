@@ -59,3 +59,47 @@ def test_reasoning_tasks_wellformed():
         assert answer.isdigit() and int(answer) >= 10      # distinctive multi-digit answers
         assert prompt.strip().endswith("A:")               # generation prompt
     assert wb.MAX_NEW_REASONING > wb.MAX_NEW_SHORT          # longer branches than the short leg
+
+
+# ----------------------------------- slot-map fair test: small-budget recall@k (V3) ----
+
+def test_smallbudget_struct_beats_score_all_maps():
+    # the diversity-constrained struct@2 reaches the correct distinct slot where
+    # count-by-score@2 stays in the wrong near-duplicate cluster; recall@1 ties.
+    tm = wb.task_metrics_v3(wb.synthetic_branches_v3())
+    assert tm["top_score_correct"] == 0 and tm["any_correct"] == 1     # a collapse task
+    for m in wb.MAPS:
+        r = tm["maps"][m]
+        assert r["struct_is_cap"]
+        assert r["score_recall@1"] == r["struct_recall@1"]             # k=1 sanity floor (tie)
+        assert r["score_recall@2"] == 0                                # greedy wastes its 2nd slot
+        assert r["struct_recall@2"] == 1                               # diversity reaches the winner
+
+
+def test_f33_cap_is_line_free():
+    assert wb.is_cap(wb.F33_CAP)                                       # the answer-bucket cap
+    assert len(wb.F33_CAP) >= 8
+
+
+def test_answer_coords_bucket_by_conclusion():
+    branches = wb.synthetic_branches_v3()
+    coords = wb.coords_for(branches, "answer")
+    # same concluded integer -> same slot; distinct conclusion -> distinct slot.
+    assert coords[0] == coords[1]                                      # both "99"
+    assert coords[2] != coords[0]                                      # "42" distinct
+
+
+def test_whitened_map_valid_and_centers():
+    # whitening centers + standardizes before PCA->tercile; assert it runs and returns valid
+    # F_3^3 coords, and that on an anisotropic cluster (shared offset) it separates points the
+    # raw map collapses (the de-anisotropizing the prereg specifies).
+    embs = [b["emb"] for b in wb.synthetic_branches_v3()]
+    wc = wb.quantize_to_f3(embs, mode="whitened")
+    assert len(wc) == len(embs)
+    assert all(len(c) == 3 and all(x in (0, 1, 2) for x in c) for c in wc)
+    import numpy as _np
+    shared = _np.array([10.0, 10, 10, 10, 10, 10])         # large common (anisotropic) offset
+    aniso = [shared + 0.01 * _np.arange(6), shared + 0.02 * _np.arange(6),
+             shared - 0.01 * _np.arange(6), shared - 0.02 * _np.arange(6)]
+    assert len(set(wb.quantize_to_f3(aniso, mode="whitened"))) >= \
+        len(set(wb.quantize_to_f3(aniso, mode="embedding")))   # whitening separates >= raw

@@ -8,9 +8,13 @@ import Sundogcert.Degradation
 import Sundogcert.CheckCost
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
--- The find/check ledger as a general certificate theory + the max-flow/min-cut instance (N-3).
+-- The find/check ledger as a general certificate theory + its instances (N-3):
+-- max-flow/min-cut and König (LP-duality optimization), 2-SAT (decision), Pratt (primality).
 import Sundogcert.Certifies
 import Sundogcert.MaxFlowMinCut
+import Sundogcert.MatchingCover
+import Sundogcert.TwoSat
+import Sundogcert.PrattCert
 import Sundogcert.ShadowDecay
 import Sundogcert.ShadowDecayGeneral
 import Sundogcert.ShadowDecayCauchy
@@ -36,6 +40,8 @@ import Sundogcert.FoldCancellation
 import Sundogcert.PieceCover
 -- Cancellation-free circuits are convex; cut-based gate lemmas (N-1 circuit-level lift).
 import Sundogcert.RegionPoly
+-- The cancellation spine: cancellation-free ⇒ uniformly tame (N-2 synthesis anchor).
+import Sundogcert.CancellationSpine
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard

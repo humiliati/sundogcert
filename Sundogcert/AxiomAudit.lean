@@ -60,10 +60,14 @@ import Sundogcert.RegionCount
 import Sundogcert.FoldCancellation
 import Sundogcert.PieceCover
 import Sundogcert.RegionPoly
+import Sundogcert.CancellationSpine
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 import Sundogcert.Certifies
 import Sundogcert.MaxFlowMinCut
+import Sundogcert.MatchingCover
+import Sundogcert.TwoSat
+import Sundogcert.PrattCert
 import Sundogcert.ParityNoSufficientStat
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -239,6 +243,12 @@ import Sundogcert.ParityNoSufficientStat
 #guard_msgs in
 #print axioms Sundog.RegionPoly.isMono_hasPieceCover
 
+/-! ## CancellationSpine -- cancellation-free ⇒ uniformly tame (N-2 synthesis anchor) -/
+
+/-- info: 'Sundog.CancellationSpine.isMono_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.CancellationSpine.isMono_tame
+
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 
 /-- info: 'Sundog.ShortestPathCert.feasible_le_walk' depends on axioms: [propext, Classical.choice, Quot.sound] -/
@@ -266,6 +276,30 @@ import Sundogcert.ParityNoSufficientStat
 /-- info: 'Sundog.MaxFlowMinCut.maxflow_mincut' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.MaxFlowMinCut.maxflow_mincut
+
+/-- info: 'Sundog.MatchingCover.matching_le_cover' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MatchingCover.matching_le_cover
+
+/-- info: 'Sundog.MatchingCover.konig' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MatchingCover.konig
+
+/-- info: 'Sundog.TwoSat.check_correct' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TwoSat.check_correct
+
+/-- info: 'Sundog.TwoSat.cert_sound' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TwoSat.cert_sound
+
+/-- info: 'Sundog.PrattCert.cert_sound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.PrattCert.cert_sound
+
+/-- info: 'Sundog.PrattCert.prime_iff_witness' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.PrattCert.prime_iff_witness
 
 /-! ## ShadowDecay — Debye–Waller decay and discrete determination -/
 

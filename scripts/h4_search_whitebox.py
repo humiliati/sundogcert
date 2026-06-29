@@ -32,6 +32,7 @@ from branch_budget_receipt import SearchBranch, budget_search_branches
 from structural_slot_receipt import (
     StructuralBranch,
     is_cap,
+    is_line,
     make_structural_receipt,
 )
 
@@ -91,14 +92,21 @@ def _is_correct(text: str, answer: str, word_boundary: bool = False) -> bool:
 
 # ------------------------------------------------------- coordinate map (F_3^n) ----
 
-def quantize_to_f3(embeddings: np.ndarray, dim: int = DIM) -> list[tuple[int, ...]]:
-    """PCA the task-local embeddings to `dim` components and tercile each to {0,1,2}."""
+def quantize_to_f3(embeddings: np.ndarray, dim: int = DIM, mode: str = "embedding") -> list[tuple[int, ...]]:
+    """PCA the task-local embeddings to `dim` components and tercile each to {0,1,2}.
+    mode="whitened" first centers (subtract the task-mean, removing the dominant anisotropic
+    direction that pins same-problem chains together) and per-dimension standardizes."""
     from sklearn.decomposition import PCA
     X = np.asarray(embeddings, dtype=float)
+    if mode == "whitened":
+        X = X - X.mean(axis=0, keepdims=True)
+        X = X / (X.std(axis=0, keepdims=True) + 1e-8)
     k = min(dim, X.shape[0] - 1, X.shape[1])
     comps = PCA(n_components=max(k, 1)).fit_transform(X) if k >= 1 else X[:, :1]
     if comps.shape[1] < dim:                       # pad to `dim` with zeros (constant -> 0)
         comps = np.hstack([comps, np.zeros((comps.shape[0], dim - comps.shape[1]))])
+    comps = np.round(comps, 9)                     # snap SVD noise so identical embeddings
+    #                                                share a coord (no 1e-16 tercile flips)
     coords = []
     for row in comps:
         c = []
@@ -198,6 +206,111 @@ def _classify(o, usable, collapse) -> str:
     return "K-NULL-STRUCT-NOHELP-recall"
 
 
+# ------------------------------ V3: faithful slot maps + small-budget recall@k (slot-map prereg) ----
+
+MAPS = ("embedding", "whitened", "answer")
+
+
+def _f33_cap() -> list[tuple[int, int, int]]:
+    """A fixed greedy cap (line-free set) in F_3^3 — for the answer-bucket coordinate."""
+    cap: list[tuple[int, int, int]] = []
+    for p in [(a, b, c) for a in range(3) for b in range(3) for c in range(3)]:
+        if not any(is_line(cap[i], cap[j], p)
+                   for i in range(len(cap)) for j in range(i + 1, len(cap))):
+            cap.append(p)
+    return cap
+
+
+F33_CAP = _f33_cap()
+
+
+def coords_for(branches, mode: str) -> list[tuple[int, ...]]:
+    """Slot-map per the prereg. embedding/whitened: PCA->tercile of (whitened) embeddings;
+    answer: bucket by the integer the branch concludes (distinct -> distinct cap points),
+    diversity-by-conclusion computed with NO ground truth."""
+    if mode in ("embedding", "whitened"):
+        return quantize_to_f3([b["emb"] for b in branches], mode=mode)
+    if mode == "answer":
+        seen: dict[object, tuple] = {}
+        coords = []
+        for b in branches:
+            key = b.get("concluded")
+            if key not in seen:
+                seen[key] = F33_CAP[len(seen) % len(F33_CAP)]
+            coords.append(seen[key])
+        return coords
+    raise ValueError(mode)
+
+
+def slotmap_recall(branches, coords, dim: int = DIM) -> dict:
+    """Small-budget recall@k: count-by-score (top-k logprob) vs the structural
+    diversity-constrained top-k (best-logprob branch per distinct line-free slot)."""
+    for b, c in zip(branches, coords):
+        b["coord"] = c
+    struct_idx, _ = struct_admit(branches, dim)
+    struct_sorted = sorted(struct_idx, key=lambda i: -branches[i]["logprob"])
+    score_sorted = sorted(range(len(branches)), key=lambda i: (-branches[i]["logprob"], i))
+
+    def has_correct(idx):
+        return int(any(branches[i]["correct"] for i in idx))
+
+    out = {"m": len(struct_idx),
+           "struct_is_cap": is_cap(branches[i]["coord"] for i in struct_idx),
+           "struct_redundancy": redundancy([branches[i]["emb"] for i in struct_idx])}
+    for k in (1, 2, 3):
+        out[f"score_recall@{k}"] = has_correct(score_sorted[:k])
+        out[f"struct_recall@{k}"] = has_correct(struct_sorted[:k])
+    return out
+
+
+def task_metrics_v3(branches) -> dict:
+    top = sorted(range(len(branches)), key=lambda i: (-branches[i]["logprob"], i))[0]
+    return {"top_score_correct": int(branches[top]["correct"]),
+            "any_correct": int(any(b["correct"] for b in branches)),
+            "maps": {m: slotmap_recall(branches, coords_for(branches, m)) for m in MAPS}}
+
+
+def analyze_v3(per_task: list[dict]) -> dict:
+    usable = [t for t in per_task if t["any_correct"]]
+    collapse = [t for t in usable if not t["top_score_correct"]]
+
+    def cmean(fn, rows):
+        return float(np.mean([fn(t) for t in rows])) if rows else 0.0
+
+    maps = {}
+    for m in MAPS:
+        g = lambda t, k: t["maps"][m][f"struct_recall@{k}"] - t["maps"][m][f"score_recall@{k}"]
+        maps[m] = {
+            **{f"mean_struct_recall@{k}_collapse": cmean(lambda t: t["maps"][m][f"struct_recall@{k}"], collapse)
+               for k in (1, 2, 3)},
+            **{f"mean_score_recall@{k}_collapse": cmean(lambda t: t["maps"][m][f"score_recall@{k}"], collapse)
+               for k in (1, 2, 3)},
+            "gap@2": cmean(lambda t: g(t, 2), collapse),
+            "gap@3": cmean(lambda t: g(t, 3), collapse),
+            "mean_struct_redundancy": cmean(lambda t: t["maps"][m]["struct_redundancy"], usable),
+            "all_caps": all(t["maps"][m]["struct_is_cap"] for t in per_task),
+        }
+    out = {"n_tasks": len(per_task), "n_usable": len(usable), "n_collapse": len(collapse),
+           "maps": maps}
+    out["campaign_verdict"] = _classify_v3(out)
+    return out
+
+
+def _classify_v3(o) -> str:
+    if not all(o["maps"][m]["all_caps"] for m in MAPS):
+        return "K-ARTIFACT"
+    if o["n_usable"] > 0 and o["n_collapse"] < o["n_usable"] / 3:
+        return "K-NULL-NOEXPLORE-STILL"
+    base = max(o["maps"]["embedding"]["gap@2"], o["maps"]["embedding"]["gap@3"])
+    w = max(o["maps"]["whitened"]["gap@2"], o["maps"]["whitened"]["gap@3"])
+    a = max(o["maps"]["answer"]["gap@2"], o["maps"]["answer"]["gap@3"])
+    if w >= 0.25 and w > base:
+        return "K-SUPPORT-FAIRTEST"
+    if a >= 0.25 and a > base:
+        return "K-PARTIAL-ANSWER-ONLY"
+    return "K-NULL-NO-SMALLBUDGET-GAP"
+
+
 # --------------------------------------------------------------- synthetic pin ----
 
 def synthetic_branches() -> list[dict]:
@@ -219,9 +332,24 @@ def synthetic_branches() -> list[dict]:
     return branches
 
 
+def synthetic_branches_v3() -> list[dict]:
+    """Slot-map pin: two high-logprob WRONG branches that are IDENTICAL (one slot) plus a
+    medium-logprob CORRECT branch in a distinct slot. count-by-score@2 spends both slots on
+    the wrong cluster; the diversity-constrained struct@2 reaches the correct slot. Two
+    distinct slots only (no third point) so no cap line can spuriously form."""
+    base = np.zeros(6); base[0] = 1.0
+    return [
+        {"id": "dup0", "logprob": -1.0, "correct": False, "concluded": "99", "emb": base.copy()},
+        {"id": "dup1", "logprob": -1.1, "correct": False, "concluded": "99", "emb": base.copy()},
+        {"id": "WINNER", "logprob": -1.5, "correct": True, "concluded": "42",
+         "emb": np.array([0., 5, 0, 0, 0, 0])},
+    ]
+
+
 def dry_run() -> dict:
     tm = task_metrics(synthetic_branches())
-    return {"version": VERSION, "mode": "synthetic", "task": tm}
+    v3 = task_metrics_v3(synthetic_branches_v3())
+    return {"version": VERSION, "mode": "synthetic", "task": tm, "task_v3": v3}
 
 
 # --------------------------------------------------------------- real search ----
@@ -257,8 +385,10 @@ def sample_branches(tok, model, prompt: str, answer: str,
         for t in range(plen - 1, full.shape[0] - 1):
             lp += float(torch.log_softmax(logits[t], dim=-1)[full[t + 1]])
         emb = out.hidden_states[-1][0].mean(0).to(torch.float64).numpy()
+        ints = re.findall(r"-?\d+", text)
         branches.append({"id": f"b{k}", "logprob": lp,
                          "correct": _is_correct(text, answer, word_boundary),
+                         "concluded": (ints[-1] if ints else None),     # branch's own conclusion
                          "text": text.strip(), "emb": emb})
     coords = quantize_to_f3([b["emb"] for b in branches])
     for b, c in zip(branches, coords):
@@ -295,6 +425,42 @@ def real_run_reasoning(model_name: str, dtype: str = "float32") -> dict:
             "max_new_tokens": MAX_NEW_REASONING, "k": K, **res}
 
 
+def dump_reasoning_branches(model_name: str, out_path: str, dtype: str = "float32") -> dict:
+    """Run the reasoning regime ONCE and save raw branches (logprob, correctness, concluded
+    integer, embedding) so the slot-map analysis can iterate OFFLINE with no model."""
+    tok, model = load_model(model_name, dtype)
+    tasks_out = []
+    for prompt, answer in REASONING_TASKS:
+        branches = sample_branches(tok, model, prompt, answer,
+                                   max_new_tokens=MAX_NEW_REASONING, word_boundary=True)
+        tasks_out.append({"answer": answer, "branches": [
+            {"logprob": b["logprob"], "correct": b["correct"], "concluded": b["concluded"],
+             "text": b["text"], "emb": [float(x) for x in b["emb"]]} for b in branches]})
+    dump = {"version": VERSION, "mode": "dump", "model": model_name, "dtype": dtype,
+            "max_new_tokens": MAX_NEW_REASONING, "k": K, "tasks": tasks_out}
+    with open(out_path, "w", encoding="utf-8") as fh:
+        json.dump(dump, fh)
+    return {"dumped": out_path, "n_tasks": len(tasks_out)}
+
+
+def analyze_dump(path: str) -> dict:
+    """Offline slot-map re-analysis of a saved branch dump (no model needed)."""
+    with open(path, encoding="utf-8") as fh:
+        dump = json.load(fh)
+    per_task = []
+    for t in dump["tasks"]:
+        branches = [{"id": f"b{i}", "logprob": b["logprob"], "correct": b["correct"],
+                     "concluded": b["concluded"], "text": b.get("text", ""),
+                     "emb": np.asarray(b["emb"], dtype=float)}
+                    for i, b in enumerate(t["branches"])]
+        tm = task_metrics_v3(branches)
+        tm["answer"] = t["answer"]
+        per_task.append(tm)
+    return {"version": VERSION, "mode": "analyze-slotmap", "model": dump.get("model"),
+            "dtype": dump.get("dtype"), "source": path, "per_task": per_task,
+            **analyze_v3(per_task)}
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="H-IV search white-box probe.")
     ap.add_argument("--dry-run", action="store_true")
@@ -302,11 +468,19 @@ def main(argv=None):
     ap.add_argument("--regime", choices=("short", "reasoning"), default="short")
     ap.add_argument("--model", default="Qwen/Qwen2.5-0.5B-Instruct")
     ap.add_argument("--dtype", default="float32", choices=("float32", "bfloat16"))
+    ap.add_argument("--dump-branches", default=None,
+                    help="run the reasoning regime and SAVE raw branches for offline slot-map analysis")
+    ap.add_argument("--analyze", default=None,
+                    help="re-analyze a saved branch dump under the slot maps (no model)")
     ap.add_argument("--json", default=None)
     args = ap.parse_args(argv)
 
     out = {"dry_run": dry_run()}
-    if args.real:
+    if args.dump_branches:
+        out["dump"] = dump_reasoning_branches(args.model, args.dump_branches, args.dtype)
+    elif args.analyze:
+        out["slotmap"] = analyze_dump(args.analyze)
+    elif args.real:
         out["real"] = (real_run_reasoning(args.model, args.dtype) if args.regime == "reasoning"
                        else real_run(args.model, args.dtype))
     text = json.dumps(out, indent=2)
