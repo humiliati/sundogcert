@@ -131,3 +131,6 @@ import Sundogcert.OrderRelativeApproxGraded
 import Sundogcert.OrderRelativeApproxLadder
 -- The general k-breakpoint family Σ ReLU(x-i) at order exactly k+1 (the ladder is unbounded).
 import Sundogcert.OrderRelativeApproxLadderK
+-- The moment axis is join-homomorphic under the independent sum (= convolution): the lone
+-- analysis residual machine-checked (sum-integrable ⟹ both, via the product law + Fubini).
+import Sundogcert.OrderRelativeMomentConv

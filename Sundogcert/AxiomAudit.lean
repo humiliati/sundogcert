@@ -100,6 +100,7 @@ import Sundogcert.OrderRelativeApprox
 import Sundogcert.OrderRelativeApproxGraded
 import Sundogcert.OrderRelativeApproxLadder
 import Sundogcert.OrderRelativeApproxLadderK
+import Sundogcert.OrderRelativeMomentConv
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1253,3 +1254,9 @@ info: 'Sundog.OrderRelative.ApproxLadderK.sumRelu_hasPieceCover_iff' depends on 
 /-- info: 'Sundog.OrderRelative.ApproxLadderK.ladderK' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.ApproxLadderK.ladderK
+
+/-! ### OrderRelative — the moment axis is join-homo under convolution (the analysis residual) -/
+
+/-- info: 'Sundog.OrderRelative.MomentConv.indepFun_integrable_add_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.MomentConv.indepFun_integrable_add_iff
