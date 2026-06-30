@@ -19,6 +19,8 @@ import Sundogcert.PrattCert
 import Sundogcert.QueryGap
 -- The ledger's program-synthesis / abstraction instance (FC-1, find/check sufficiency lane).
 import Sundogcert.AbstractionCert
+-- The unconditional find/check separation for that abstraction family (FC-2, query model).
+import Sundogcert.AbstractionQueryGap
 import Sundogcert.ShadowDecay
 import Sundogcert.ShadowDecayGeneral
 import Sundogcert.ShadowDecayCauchy
@@ -56,6 +58,10 @@ import Sundogcert.AnalyticGate
 import Sundogcert.SawtoothApprox
 -- Toward the general analytic gate: an ε-multiplication gate at log depth (polarization on x²).
 import Sundogcert.MultiplyGate
+-- Iterating the multiply gate into monomials x^d at the polynomial rate O(d·log 1/ε) (Cor 5.1).
+import Sundogcert.MonomialEval
+-- General polynomials Σ aᵢ xⁱ in the monomial basis at the polynomial rate (Cor 5.1, full).
+import Sundogcert.PolyEval
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard

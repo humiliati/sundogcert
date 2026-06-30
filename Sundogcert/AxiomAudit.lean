@@ -66,6 +66,8 @@ import Sundogcert.GradedCancellation
 import Sundogcert.AnalyticGate
 import Sundogcert.SawtoothApprox
 import Sundogcert.MultiplyGate
+import Sundogcert.MonomialEval
+import Sundogcert.PolyEval
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 import Sundogcert.Certifies
@@ -75,6 +77,7 @@ import Sundogcert.TwoSat
 import Sundogcert.PrattCert
 import Sundogcert.QueryGap
 import Sundogcert.AbstractionCert
+import Sundogcert.AbstractionQueryGap
 import Sundogcert.ParityNoSufficientStat
 import Sundogcert.OrderRelative
 import Sundogcert.OrderRelativeMoment
@@ -332,6 +335,38 @@ import Sundogcert.OrderRelativeComposeLaw
 #guard_msgs in
 #print axioms Sundog.MultiplyGate.mult_polylog
 
+/-! ## MonomialEval -- iterating the multiply gate into monomials x^d at the polynomial rate -/
+
+/-- info: 'Sundog.MonomialEval.clamp01_contract' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MonomialEval.clamp01_contract
+
+/-- info: 'Sundog.MonomialEval.powTrop_approx' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MonomialEval.powTrop_approx
+
+/-- info: 'Sundog.MonomialEval.powTrop_depth' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MonomialEval.powTrop_depth
+
+/-- info: 'Sundog.MonomialEval.pow_poly_rate' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MonomialEval.pow_poly_rate
+
+/-! ## PolyEval -- general polynomials in the monomial basis at the polynomial rate (Cor 5.1) -/
+
+/-- info: 'Sundog.PolyEval.polyTrop_approx' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.PolyEval.polyTrop_approx
+
+/-- info: 'Sundog.PolyEval.polyTrop_depth' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.PolyEval.polyTrop_depth
+
+/-- info: 'Sundog.PolyEval.poly_polylog' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.PolyEval.poly_polylog
+
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 
 /-- info: 'Sundog.ShortestPathCert.feasible_le_walk' depends on axioms: [propext, Classical.choice, Quot.sound] -/
@@ -419,6 +454,24 @@ import Sundogcert.OrderRelativeComposeLaw
 /-- info: 'Sundog.AbstractionCert.cost_le' does not depend on any axioms -/
 #guard_msgs in
 #print axioms Sundog.AbstractionCert.cost_le
+
+/-! ## AbstractionQueryGap — the unconditional find/check separation for an abstraction family (FC-2) -/
+
+/-- info: 'Sundog.AbstractionQueryGap.cbit_eq_verify' depends on axioms: [propext] -/
+#guard_msgs in
+#print axioms Sundog.AbstractionQueryGap.cbit_eq_verify
+
+/-- info: 'Sundog.AbstractionQueryGap.cvec_rule' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AbstractionQueryGap.cvec_rule
+
+/-- info: 'Sundog.AbstractionQueryGap.find_ge' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AbstractionQueryGap.find_ge
+
+/-- info: 'Sundog.AbstractionQueryGap.abstraction_check_lt_find' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AbstractionQueryGap.abstraction_check_lt_find
 
 /-! ## ShadowDecay — Debye–Waller decay and discrete determination -/
 
