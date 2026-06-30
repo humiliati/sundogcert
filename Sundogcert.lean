@@ -72,6 +72,10 @@ import Sundogcert.SawtoothShared
 -- Slate-4 U-3 follow-on (the literal gate count): the explicit O(m)-gate shared sawtooth ReLU DAG
 -- (compileWith reads a wire; the iterated-tent chain) — x² to ε at O(log 1/ε) GATES.
 import Sundogcert.SawtoothDag
+-- Slate-4 U-1a/b (multivariate cube lift): products of coordinates, then multivariate polynomials
+-- Σ c·∏ xᵢ, as ReLU Net n on [0,1]ⁿ at the polynomial rate (constructive core).
+import Sundogcert.MvMonomial
+import Sundogcert.MvPolyEval
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard

@@ -72,6 +72,8 @@ import Sundogcert.UniversalApprox
 import Sundogcert.ApproxCost
 import Sundogcert.SawtoothShared
 import Sundogcert.SawtoothDag
+import Sundogcert.MvMonomial
+import Sundogcert.MvPolyEval
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 import Sundogcert.Certifies
@@ -432,6 +434,20 @@ import Sundogcert.OrderRelativeApproxLadder
 /-- info: 'Sundog.SawtoothDag.sawDag_polylog' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.SawtoothDag.sawDag_polylog
+
+/-! ## MvMonomial / MvPolyEval (U-1a/b) -- multivariate monomials and polynomials as ReLU Net n -/
+
+/-- info: 'Sundog.MvMonomial.prodTrop_approx' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MvMonomial.prodTrop_approx
+
+/-- info: 'Sundog.MvPolyEval.mvPolyTrop_approx' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MvPolyEval.mvPolyTrop_approx
+
+/-- info: 'Sundog.MvPolyEval.mv_poly_polylog' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MvPolyEval.mv_poly_polylog
 
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 
