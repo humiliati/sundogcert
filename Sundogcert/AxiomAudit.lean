@@ -77,6 +77,7 @@ import Sundogcert.ParityNoSufficientStat
 import Sundogcert.OrderRelative
 import Sundogcert.OrderRelativeMoment
 import Sundogcert.OrderRelativeAlgDegree
+import Sundogcert.OrderRelativeCohomology
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -896,3 +897,19 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 /-- info: 'Sundog.OrderRelative.AlgDegree.boxOpt_mode_vector' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.AlgDegree.boxOpt_mode_vector
+
+/-! ### OrderRelative — seventh axis (topological / cohomological): determine ⟺ torsion, resist ⟺ free -/
+
+/-- info: 'Sundog.OrderRelative.Cohomology.freeClass_resists' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Cohomology.freeClass_resists
+
+/-- info: 'Sundog.OrderRelative.Cohomology.torsion_vs_free' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Cohomology.torsion_vs_free
+
+/-! ### OrderRelative — the cohomological mode-vector (scalar order is the lossy join of a vector) -/
+
+/-- info: 'Sundog.OrderRelative.Cohomology.mixed_mode_vector' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Cohomology.mixed_mode_vector

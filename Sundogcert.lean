@@ -81,3 +81,5 @@ import Sundogcert.OrderRelative
 -- order binary) and the algebraic-degree axis with the mode-vector on the real BoxSEL optimum.
 import Sundogcert.OrderRelativeMoment
 import Sundogcert.OrderRelativeAlgDegree
+-- The topological/cohomological axis (torsion vs free) + the cohomological mode-vector.
+import Sundogcert.OrderRelativeCohomology
