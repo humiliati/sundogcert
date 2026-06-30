@@ -117,3 +117,5 @@ import Sundogcert.OrderRelativeSearchNeg
 import Sundogcert.OrderRelativeApprox
 -- The approximation axis GRADED by piece count (id 1 / ReLU 2 / x² ⊤) + a 2nd resist (eˣ).
 import Sundogcert.OrderRelativeApproxGraded
+-- A third determine rung: step2 = ReLU x + ReLU (x-1) at order 3 (the ladder climbs 1 < 2 < 3).
+import Sundogcert.OrderRelativeApproxLadder

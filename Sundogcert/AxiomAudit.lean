@@ -94,6 +94,7 @@ import Sundogcert.OrderRelativeConverse
 import Sundogcert.OrderRelativeSearchNeg
 import Sundogcert.OrderRelativeApprox
 import Sundogcert.OrderRelativeApproxGraded
+import Sundogcert.OrderRelativeApproxLadder
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1161,3 +1162,17 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 /-- info: 'Sundog.OrderRelative.ApproxGraded.exp_not_exactly_net' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.ApproxGraded.exp_not_exactly_net
+
+/-! ### OrderRelative — the approximation ladder's third rung (step2 at order 3, 1 < 2 < 3) -/
+
+/-- info: 'Sundog.OrderRelative.ApproxLadder.step2_hasPieceCover_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.ApproxLadder.step2_hasPieceCover_iff
+
+/-- info: 'Sundog.OrderRelative.ApproxLadder.step2_not_pieceCover_two' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.ApproxLadder.step2_not_pieceCover_two
+
+/-- info: 'Sundog.OrderRelative.ApproxLadder.ladder3' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.ApproxLadder.ladder3
