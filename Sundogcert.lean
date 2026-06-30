@@ -87,3 +87,5 @@ import Sundogcert.OrderRelativeMoment
 import Sundogcert.OrderRelativeAlgDegree
 -- The topological/cohomological axis (torsion vs free) + the cohomological mode-vector.
 import Sundogcert.OrderRelativeCohomology
+-- The composition law: scalar order of a product class = lcm = the divisibility-lattice join.
+import Sundogcert.OrderRelativeCompose

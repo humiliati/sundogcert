@@ -80,6 +80,7 @@ import Sundogcert.OrderRelative
 import Sundogcert.OrderRelativeMoment
 import Sundogcert.OrderRelativeAlgDegree
 import Sundogcert.OrderRelativeCohomology
+import Sundogcert.OrderRelativeCompose
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -947,3 +948,13 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 /-- info: 'Sundog.OrderRelative.Cohomology.mixed_mode_vector' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.Cohomology.mixed_mode_vector
+
+/-! ### OrderRelative — the composition law (scalar order of a product = lcm = divisibility join) -/
+
+/-- info: 'Sundog.OrderRelative.Compose.compose_order_eq_lcm' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Compose.compose_order_eq_lcm
+
+/-- info: 'Sundog.OrderRelative.Compose.compose_lcm_not_max' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Compose.compose_lcm_not_max
