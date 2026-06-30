@@ -97,6 +97,7 @@ import Sundogcert.OrderRelativeSearchNeg
 import Sundogcert.OrderRelativeApprox
 import Sundogcert.OrderRelativeApproxGraded
 import Sundogcert.OrderRelativeApproxLadder
+import Sundogcert.OrderRelativeApproxLadderK
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1192,3 +1193,33 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 /-- info: 'Sundog.OrderRelative.ApproxLadder.ladder3' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.ApproxLadder.ladder3
+
+/-! ### OrderRelative — the general k-breakpoint rung (Σ ReLU(x-i) at order k+1, unbounded ladder) -/
+
+/-- info: 'Sundog.OrderRelative.ApproxLadderK.sumRelu_hasPieceCover' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.ApproxLadderK.sumRelu_hasPieceCover
+
+/-- info: 'Sundog.OrderRelative.ApproxLadderK.sumRelu_bend' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.ApproxLadderK.sumRelu_bend
+
+/-- info: 'Sundog.OrderRelative.ApproxLadderK.sumRelu_not_pieceCover' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.ApproxLadderK.sumRelu_not_pieceCover
+
+/--
+info: 'Sundog.OrderRelative.ApproxLadderK.sumRelu_hasPieceCover_iff' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+-/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.ApproxLadderK.sumRelu_hasPieceCover_iff
+
+/-- info: 'Sundog.OrderRelative.ApproxLadderK.sumRelu_order_eq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.ApproxLadderK.sumRelu_order_eq
+
+/-- info: 'Sundog.OrderRelative.ApproxLadderK.ladderK' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.ApproxLadderK.ladderK
