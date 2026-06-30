@@ -112,3 +112,5 @@ import Sundogcert.OrderRelativeConverse
 import Sundogcert.OrderRelativeSearchNeg
 -- An approximation axis: exactness is order-relative (PL determine / x² resist); ε-approx collapses.
 import Sundogcert.OrderRelativeApprox
+-- The approximation axis GRADED by piece count (id 1 / ReLU 2 / x² ⊤) + a 2nd resist (eˣ).
+import Sundogcert.OrderRelativeApproxGraded

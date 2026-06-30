@@ -92,6 +92,7 @@ import Sundogcert.OrderRelativeRadicalCompose
 import Sundogcert.OrderRelativeConverse
 import Sundogcert.OrderRelativeSearchNeg
 import Sundogcert.OrderRelativeApprox
+import Sundogcert.OrderRelativeApproxGraded
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1127,3 +1128,17 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 /-- info: 'Sundog.OrderRelative.Approx.approx_axis_collapses' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.Approx.approx_axis_collapses
+
+/-! ### OrderRelative — the approximation axis GRADED (piece count) + a 2nd resist (eˣ) -/
+
+/-- info: 'Sundog.OrderRelative.ApproxGraded.graded_exactness' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.ApproxGraded.graded_exactness
+
+/-- info: 'Sundog.OrderRelative.ApproxGraded.exp_no_pieceCover' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.ApproxGraded.exp_no_pieceCover
+
+/-- info: 'Sundog.OrderRelative.ApproxGraded.exp_not_exactly_net' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.ApproxGraded.exp_not_exactly_net
