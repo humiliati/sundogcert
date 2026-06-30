@@ -71,6 +71,7 @@ import Sundogcert.PolyEval
 import Sundogcert.UniversalApprox
 import Sundogcert.ApproxCost
 import Sundogcert.SawtoothShared
+import Sundogcert.SawtoothDag
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 import Sundogcert.Certifies
@@ -412,6 +413,24 @@ import Sundogcert.OrderRelativeApproxGraded
 /-- info: 'Sundog.SawtoothShared.R_eq_iteratedTents' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.SawtoothShared.R_eq_iteratedTents
+
+/-! ## SawtoothDag (U-3 follow-on) -- the explicit O(m)-gate shared sawtooth DAG (polylog gates) -/
+
+/-- info: 'Sundog.SawtoothDag.compileWith_eval' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SawtoothDag.compileWith_eval
+
+/-- info: 'Sundog.SawtoothDag.sawBuild_eval' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SawtoothDag.sawBuild_eval
+
+/-- info: 'Sundog.SawtoothDag.sawBuild_gate' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SawtoothDag.sawBuild_gate
+
+/-- info: 'Sundog.SawtoothDag.sawDag_polylog' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SawtoothDag.sawDag_polylog
 
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 

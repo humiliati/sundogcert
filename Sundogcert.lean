@@ -69,6 +69,9 @@ import Sundogcert.ApproxCost
 -- Slate-4 U-3 follow-on (value core): the sawtooth's closed form = a flat sum of m chain-shared
 -- iterated tents (why an O(m)-gate shared DAG suffices, vs. the exponential tree).
 import Sundogcert.SawtoothShared
+-- Slate-4 U-3 follow-on (the literal gate count): the explicit O(m)-gate shared sawtooth ReLU DAG
+-- (compileWith reads a wire; the iterated-tent chain) — x² to ε at O(log 1/ε) GATES.
+import Sundogcert.SawtoothDag
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard
