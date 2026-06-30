@@ -85,6 +85,7 @@ import Sundogcert.OrderRelativeAlgDegree
 import Sundogcert.OrderRelativeCohomology
 import Sundogcert.OrderRelativeCompose
 import Sundogcert.OrderRelativeComposeLaw
+import Sundogcert.OrderRelativeRadicalCompose
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1026,3 +1027,13 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 /-- info: 'Sundog.OrderRelative.ComposeLaw.within_group_cancels' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.ComposeLaw.within_group_cancels
+
+/-! ### OrderRelative — the radical axis (multiplicative twin; join-homo axes = group-order axes) -/
+
+/-- info: 'Sundog.OrderRelative.RadicalCompose.mul_annihilates_prod' depends on axioms: [propext] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.RadicalCompose.mul_annihilates_prod
+
+/-- info: 'Sundog.OrderRelative.RadicalCompose.radical_cancel_sqrt2' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.RadicalCompose.radical_cancel_sqrt2

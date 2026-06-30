@@ -97,3 +97,5 @@ import Sundogcert.OrderRelativeCohomology
 import Sundogcert.OrderRelativeCompose
 -- The composition boundary: join-homo iff cancellation-free (2nd negative + the general coproduct law).
 import Sundogcert.OrderRelativeComposeLaw
+-- The radical axis = multiplicative twin of cohomological (3rd positive: group-order axes are join-homo).
+import Sundogcert.OrderRelativeRadicalCompose
