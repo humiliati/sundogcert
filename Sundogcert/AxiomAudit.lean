@@ -63,6 +63,7 @@ import Sundogcert.RegionPoly
 import Sundogcert.CancellationSpine
 import Sundogcert.ExactRepr
 import Sundogcert.GradedCancellation
+import Sundogcert.AnalyticGate
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 import Sundogcert.Certifies
@@ -73,6 +74,8 @@ import Sundogcert.PrattCert
 import Sundogcert.QueryGap
 import Sundogcert.ParityNoSufficientStat
 import Sundogcert.OrderRelative
+import Sundogcert.OrderRelativeMoment
+import Sundogcert.OrderRelativeAlgDegree
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -280,6 +283,16 @@ import Sundogcert.OrderRelative
 /-- info: 'Sundog.GradedCancellation.hasPieceCover_graded' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.GradedCancellation.hasPieceCover_graded
+
+/-! ## AnalyticGate -- x² is ReLU-approximable to any ε on [0,1], with a proven bound (S3-4) -/
+
+/-- info: 'Sundog.AnalyticGate.sqNet_approx' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AnalyticGate.sqNet_approx
+
+/-- info: 'Sundog.AnalyticGate.sq_eps_approx' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AnalyticGate.sq_eps_approx
 
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 
@@ -844,3 +857,23 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 /-- info: 'Sundog.OrderRelative.sqrt_two_mode_vector' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.sqrt_two_mode_vector
+
+/-! ### OrderRelative — fifth axis (spectral / moment): determine/resist's home; order is binary -/
+
+/-- info: 'Sundog.OrderRelative.Moment.cauchyMoment_resists' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Moment.cauchyMoment_resists
+
+/-- info: 'Sundog.OrderRelative.Moment.moment_gaussian_vs_cauchy' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Moment.moment_gaussian_vs_cauchy
+
+/-! ### OrderRelative — sixth axis (algebraic degree): the mode-vector on the real BoxSEL optimum -/
+
+/-- info: 'Sundog.OrderRelative.AlgDegree.algDegReaches_boxOpt_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.AlgDegree.algDegReaches_boxOpt_iff
+
+/-- info: 'Sundog.OrderRelative.AlgDegree.boxOpt_mode_vector' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.AlgDegree.boxOpt_mode_vector

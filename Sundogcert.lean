@@ -48,6 +48,8 @@ import Sundogcert.CancellationSpine
 import Sundogcert.ExactRepr
 -- Graded cancellation (S3-2): region count ≤ 4^(cancellation budget) · leafCount.
 import Sundogcert.GradedCancellation
+-- Analytic gate at ε>0 (S3-4): x² is ReLU-approximable on [0,1] with a machine-checked L∞ bound.
+import Sundogcert.AnalyticGate
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard
@@ -73,3 +75,7 @@ import Sundogcert.ParityNoSufficientStat
 -- The Order-Relative Resolution Law: the slate's one statement (a schema, not a scalar) that the
 -- axes (search / pressure / repertoire / determination / find-check) instantiate (B).
 import Sundogcert.OrderRelative
+-- Two further grounded instance families: the determine/resist law's own home (spectral/moment,
+-- order binary) and the algebraic-degree axis with the mode-vector on the real BoxSEL optimum.
+import Sundogcert.OrderRelativeMoment
+import Sundogcert.OrderRelativeAlgDegree
