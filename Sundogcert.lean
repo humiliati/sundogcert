@@ -64,6 +64,11 @@ import Sundogcert.MonomialEval
 import Sundogcert.PolyEval
 -- The general-continuous capstone: every continuous f on [0,1] is ReLU-approximable (Weierstrass).
 import Sundogcert.UniversalApprox
+-- Slate-4 U-3: the analytic gate's certified op-count in the StraightLineCost ledger.
+import Sundogcert.ApproxCost
+-- Slate-4 U-3 follow-on (value core): the sawtooth's closed form = a flat sum of m chain-shared
+-- iterated tents (why an O(m)-gate shared DAG suffices, vs. the exponential tree).
+import Sundogcert.SawtoothShared
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard

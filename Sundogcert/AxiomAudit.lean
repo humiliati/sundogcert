@@ -69,6 +69,8 @@ import Sundogcert.MultiplyGate
 import Sundogcert.MonomialEval
 import Sundogcert.PolyEval
 import Sundogcert.UniversalApprox
+import Sundogcert.ApproxCost
+import Sundogcert.SawtoothShared
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 import Sundogcert.Certifies
@@ -384,6 +386,30 @@ import Sundogcert.OrderRelativeSearchNeg
 /-- info: 'Sundog.UniversalApprox.continuous_relu_approximable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.UniversalApprox.continuous_relu_approximable
+
+/-! ## ApproxCost (Slate-4 U-3) -- the analytic gate's certified op-count in the cost ledger -/
+
+/-- info: 'Sundog.ApproxCost.linesTrop_nodeCount' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ApproxCost.linesTrop_nodeCount
+
+/-- info: 'Sundog.ApproxCost.analyticGate_dag_cost' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ApproxCost.analyticGate_dag_cost
+
+/-- info: 'Sundog.ApproxCost.analyticGate_cost_eps' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ApproxCost.analyticGate_cost_eps
+
+/-! ## SawtoothShared (U-3 follow-on) -- the sawtooth's closed form as a flat sum of iterated tents -/
+
+/-- info: 'Sundog.SawtoothShared.Ssum_eq_R' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SawtoothShared.Ssum_eq_R
+
+/-- info: 'Sundog.SawtoothShared.R_eq_iteratedTents' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SawtoothShared.R_eq_iteratedTents
 
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 
