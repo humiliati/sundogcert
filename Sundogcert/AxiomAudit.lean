@@ -74,6 +74,8 @@ import Sundogcert.SawtoothShared
 import Sundogcert.SawtoothDag
 import Sundogcert.MvMonomial
 import Sundogcert.MvPolyEval
+import Sundogcert.MvUniversalApprox
+import Sundogcert.ApproxCert
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 import Sundogcert.Certifies
@@ -449,6 +451,34 @@ import Sundogcert.OrderRelativeApproxLadderK
 /-- info: 'Sundog.MvPolyEval.mv_poly_polylog' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.MvPolyEval.mv_poly_polylog
+
+/-! ## MvUniversalApprox (U-1c/d) -- the multivariate cube capstone (universal approximation) -/
+
+/-- info: 'Sundog.MvUniversalApprox.toTerms_eval' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MvUniversalApprox.toTerms_eval
+
+/-- info: 'Sundog.MvUniversalApprox.coordAlg_dense' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MvUniversalApprox.coordAlg_dense
+
+/-- info: 'Sundog.MvUniversalApprox.continuous_relu_approximable_cube' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MvUniversalApprox.continuous_relu_approximable_cube
+
+/-! ## ApproxCertLedger (U-2) -- approximation certificates in the find/check ledger -/
+
+/-- info: 'Sundog.ApproxCertLedger.approx_from_samples' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ApproxCertLedger.approx_from_samples
+
+/-- info: 'Sundog.ApproxCertLedger.ApproxCert.sound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ApproxCertLedger.ApproxCert.sound
+
+/-- info: 'Sundog.ApproxCertLedger.ApproxCert.cheap_check_certifies' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ApproxCertLedger.ApproxCert.cheap_check_certifies
 
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 

@@ -76,6 +76,12 @@ import Sundogcert.SawtoothDag
 -- Σ c·∏ xᵢ, as ReLU Net n on [0,1]ⁿ at the polynomial rate (constructive core).
 import Sundogcert.MvMonomial
 import Sundogcert.MvPolyEval
+-- Slate-4 U-1c/d (cube capstone): every continuous f on [0,1]ⁿ is ReLU-approximable, via the
+-- MvPolynomial→net bridge + multivariate Stone-Weierstrass.
+import Sundogcert.MvUniversalApprox
+-- Slate-4 U-2: extend the find/check ledger to approximation certificates (the a-posteriori
+-- sampling bound — a finite cheap CHECK of a continuum bound, modulus the named carried input).
+import Sundogcert.ApproxCert
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard
