@@ -103,3 +103,5 @@ import Sundogcert.OrderRelativeComposeLaw
 import Sundogcert.OrderRelativeRadicalCompose
 -- The converse FAILS (idempotency obstruction): moment is join-homo but not a group order; + unified law.
 import Sundogcert.OrderRelativeConverse
+-- The search-reach negative machine-checked (the boundary's other negative; it inflates, not drops).
+import Sundogcert.OrderRelativeSearchNeg

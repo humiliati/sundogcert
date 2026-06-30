@@ -18,12 +18,12 @@ theorem search_not_join_under_mul :
     DenomReaches (1/2 : ℝ) 2
       ∧ (1/2 : ℝ) * (1/2) = 1/4
       ∧ ¬ DenomReaches ((1/2 : ℝ) * (1/2)) 2 := by
-  refine ⟨⟨1/2, by decide, by norm_num⟩, by norm_num, ?_⟩
+  refine ⟨⟨1/2, by norm_num, by norm_num⟩, by norm_num, ?_⟩
   rw [show (1/2 : ℝ) * (1/2) = 1/4 by norm_num]
   rintro ⟨q, hden, hq⟩
   rw [show (1/4 : ℝ) = ((1/4 : ℚ) : ℝ) by norm_num] at hq
   have hq4 : q = 1/4 := by exact_mod_cast hq
   rw [hq4] at hden
-  exact absurd hden (by decide)
+  norm_num at hden
 
 end Sundog.OrderRelative.SearchNeg

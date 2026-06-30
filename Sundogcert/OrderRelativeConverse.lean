@@ -43,8 +43,8 @@ theorem converse_fails {G : Type*} [Group G] (ψ : ℕ∞ → G)
 /-- **The coproduct law, unified — one source, both faces.** In ANY monoid, a budget `j` annihilates
 the coproduct `(x, y)` iff it annihilates both coordinates. `@[to_additive]` generates the additive
 face `coproduct_nsmul_eq_zero` (`j • (x,y) = 0 ↔ j • x = 0 ∧ j • y = 0`); the cohomological
-`ComposeLaw.annihilates_prod` and radical `RadicalCompose.mul_annihilates_prod` are its two faces. -/
-@[to_additive coproduct_nsmul_eq_zero]
+`annihilates_prod` and radical `mul_annihilates_prod` are its two concrete-group instances. -/
+@[to_additive]
 theorem coproduct_pow_eq_one {G H : Type*} [Monoid G] [Monoid H] (x : G) (y : H) (j : ℕ) :
     (x, y) ^ j = 1 ↔ x ^ j = 1 ∧ y ^ j = 1 := by
   simp [Prod.ext_iff]

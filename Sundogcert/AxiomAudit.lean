@@ -88,6 +88,7 @@ import Sundogcert.OrderRelativeCompose
 import Sundogcert.OrderRelativeComposeLaw
 import Sundogcert.OrderRelativeRadicalCompose
 import Sundogcert.OrderRelativeConverse
+import Sundogcert.OrderRelativeSearchNeg
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1071,3 +1072,13 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 /-- info: 'Sundog.OrderRelative.Converse.coproduct_pow_eq_one' depends on axioms: [propext] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.Converse.coproduct_pow_eq_one
+
+/-- info: 'Sundog.OrderRelative.Converse.coproduct_nsmul_eq_zero' depends on axioms: [propext] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Converse.coproduct_nsmul_eq_zero
+
+/-! ### OrderRelative — the search-reach negative, machine-checked (the boundary's 2nd negative) -/
+
+/-- info: 'Sundog.OrderRelative.SearchNeg.search_not_join_under_mul' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.SearchNeg.search_not_join_under_mul
