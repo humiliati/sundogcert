@@ -89,3 +89,5 @@ import Sundogcert.OrderRelativeAlgDegree
 import Sundogcert.OrderRelativeCohomology
 -- The composition law: scalar order of a product class = lcm = the divisibility-lattice join.
 import Sundogcert.OrderRelativeCompose
+-- The composition boundary: join-homo iff cancellation-free (2nd negative + the general coproduct law).
+import Sundogcert.OrderRelativeComposeLaw

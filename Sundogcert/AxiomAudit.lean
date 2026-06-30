@@ -81,6 +81,7 @@ import Sundogcert.OrderRelativeMoment
 import Sundogcert.OrderRelativeAlgDegree
 import Sundogcert.OrderRelativeCohomology
 import Sundogcert.OrderRelativeCompose
+import Sundogcert.OrderRelativeComposeLaw
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -958,3 +959,17 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 /-- info: 'Sundog.OrderRelative.Compose.compose_lcm_not_max' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.Compose.compose_lcm_not_max
+
+/-! ### OrderRelative — the composition boundary: join-homo iff the product is cancellation-free -/
+
+/-- info: 'Sundog.OrderRelative.ComposeLaw.algDeg_not_join_under_mul' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.ComposeLaw.algDeg_not_join_under_mul
+
+/-- info: 'Sundog.OrderRelative.ComposeLaw.annihilates_prod' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.ComposeLaw.annihilates_prod
+
+/-- info: 'Sundog.OrderRelative.ComposeLaw.within_group_cancels' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.ComposeLaw.within_group_cancels
