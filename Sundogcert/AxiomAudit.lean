@@ -69,6 +69,7 @@ import Sundogcert.MaxFlowMinCut
 import Sundogcert.MatchingCover
 import Sundogcert.TwoSat
 import Sundogcert.PrattCert
+import Sundogcert.QueryGap
 import Sundogcert.ParityNoSufficientStat
 import Sundogcert.OrderRelative
 
@@ -320,6 +321,24 @@ import Sundogcert.OrderRelative
 /-- info: 'Sundog.PrattCert.prime_iff_witness' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.PrattCert.prime_iff_witness
+
+/-! ## QueryGap -- the ledger's first PROVED (not imported) find/check gap (S3-3) -/
+
+/-- info: 'Sundog.QueryGap.search_needs_n_queries' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.QueryGap.search_needs_n_queries
+
+/-- info: 'Sundog.QueryGap.checkTree_eval' depends on axioms: [propext] -/
+#guard_msgs in
+#print axioms Sundog.QueryGap.checkTree_eval
+
+/-- info: 'Sundog.QueryGap.checkTree_depth' depends on axioms: [propext] -/
+#guard_msgs in
+#print axioms Sundog.QueryGap.checkTree_depth
+
+/-- info: 'Sundog.QueryGap.check_lt_find' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.QueryGap.check_lt_find
 
 /-! ## ShadowDecay — Debye–Waller decay and discrete determination -/
 
@@ -804,3 +823,13 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 /-- info: 'Sundog.OrderRelative.search_resist_sqrt_two' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.search_resist_sqrt_two
+
+/-! ### OrderRelative — fourth axis (radical reach) + an honest mode-vector on √2 -/
+
+/-- info: 'Sundog.OrderRelative.radicalReachSqrtTwo_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.radicalReachSqrtTwo_iff
+
+/-- info: 'Sundog.OrderRelative.sqrt_two_mode_vector' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.sqrt_two_mode_vector

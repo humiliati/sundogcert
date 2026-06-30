@@ -105,9 +105,9 @@ theorem order_is_schema_not_scalar (n : ℕ) :
 
 /-! ## A second axis — coordinate-locality (a prefix is sufficient at its width)
 
-A genuinely different filtration from parity's subset-parity: the order is the *prefix length* — the
-σ-slate's coordinate-locality (H2) axis. It grounds "the axes instantiate the law" on a SECOND axis,
-and, echoing H2, it is determine-only (always finite order, never the resist pole). -/
+A genuinely different filtration from parity's subset-parity: the order is the *prefix length*. It
+grounds "the instances instantiate the law" on a SECOND axis, and it is determine-only (always finite
+order, never the resist pole). -/
 
 /-- Parity of the first `d` coordinates: a target depending only on coordinates `< d`. -/
 def prefixParity (n d : ℕ) (b : Fin n → ZMod 2) : ZMod 2 :=
@@ -162,7 +162,7 @@ def localityProblem (n d : ℕ) (hd : d ≤ n) : Problem where
     exact_mod_cast Iff.rfl
 
 /-- The locality instance is **always finite-order** (`≠ ⊤`): coordinate-locality is determine-only
-(the σ-slate's H2 — locality cannot host the resist pole). -/
+(it cannot host the resist pole). -/
 theorem localityProblem_ord_ne_top (n d : ℕ) (hd : d ≤ n) :
     (localityProblem n d hd).ord () ≠ ⊤ :=
   WithTop.coe_ne_top
@@ -178,10 +178,9 @@ theorem two_axes_and_pole (n d : ℕ) (hd : d ≤ n) :
 
 /-! ## A third axis — search reachability (rational approximation by denominator)
 
-C1's search-reachability axis: the order is the DENOMINATOR budget. A rational target `q₀` is
-reached at order `q₀.den`; an IRRATIONAL target is reached at NO finite order → `⊤` — an EARNED pole
-(unlike the fiat `resistPole`). This is the C1 search-resist: the BoxSEL optimum `(9+√17)/32` is
-irrational, so bounded-denominator search never reaches it (machine-checked here for `√2`). -/
+The order is the DENOMINATOR budget. A rational target `q₀` is reached at order `q₀.den`; an
+IRRATIONAL target is reached at NO finite order → `⊤` — an EARNED pole (unlike the fiat `resistPole`):
+bounded-denominator search never reaches an irrational (machine-checked here for `√2`). -/
 
 /-- Reached by a rational of denominator `≤ k` equal to the target. -/
 def DenomReaches (x : ℝ) (k : ℕ) : Prop := ∃ q : ℚ, q.den ≤ k ∧ (q : ℝ) = x
@@ -226,5 +225,44 @@ theorem irrationalReach_resists (x : ℝ) (hx : Irrational x) :
 theorem search_resist_sqrt_two :
     ∀ k : ℕ, ¬ (irrationalReachProblem (Real.sqrt 2) irrational_sqrt_two).Resolves k () :=
   irrationalReach_resists _ _
+
+/-! ## A fourth axis — radical reach (a power lands in ℚ), and an HONEST mode-vector
+
+The order here is the least `m` with `x ^ m ∈ ℚ` (`x` is a radical of order ≤ k) — a DIFFERENT
+filtration from denominator-reach. It hosts a genuine mode-vector: `√2` has search-reach order `⊤`
+(irrational) yet radical order `2` (its square is rational). One object, two divergent orders across
+two grounded axes — search-resistant yet analytically simple. -/
+
+/-- Some power `x ^ m` with `1 ≤ m ≤ k` is rational (`x` is a radical of order ≤ k). -/
+def RadicalReaches (x : ℝ) (k : ℕ) : Prop := ∃ m : ℕ, 1 ≤ m ∧ m ≤ k ∧ ∃ q : ℚ, x ^ m = (q : ℝ)
+
+/-- `√2` is a radical of order exactly 2: its square is rational, but `√2` itself is not. -/
+theorem radicalReachSqrtTwo_iff (k : ℕ) : RadicalReaches (Real.sqrt 2) k ↔ 2 ≤ k := by
+  constructor
+  · rintro ⟨m, hm1, hmk, q, hq⟩
+    rcases Nat.lt_or_ge m 2 with hlt | hge
+    · interval_cases m
+      rw [pow_one] at hq
+      exact (irrational_sqrt_two ⟨q, hq.symm⟩).elim
+    · exact le_trans hge hmk
+  · intro hk
+    exact ⟨2, by norm_num, hk, 2, by rw [Real.sq_sqrt (by norm_num : (0 : ℝ) ≤ 2)]; norm_num⟩
+
+/-- The **radical-reach** instance for `√2`: order = 2 (a filtration distinct from denominators). -/
+def radicalReachSqrtTwo : Problem where
+  Target := Unit
+  ord _ := (2 : ℕ∞)
+  Resolves k _ := RadicalReaches (Real.sqrt 2) k
+  resolves_iff k _ := by
+    rw [radicalReachSqrtTwo_iff]
+    exact_mod_cast Iff.rfl
+
+/-- **A mode-vector.** `√2` carries two divergent orders across two grounded axes:
+search-reach `⊤` (irrational) and radical `2` (its square is rational) — search-resistant yet
+analytically simple, machine-checked. -/
+theorem sqrt_two_mode_vector :
+    (irrationalReachProblem (Real.sqrt 2) irrational_sqrt_two).ord () = ⊤
+      ∧ radicalReachSqrtTwo.ord () = (2 : ℕ∞) :=
+  ⟨rfl, rfl⟩
 
 end Sundog.OrderRelative

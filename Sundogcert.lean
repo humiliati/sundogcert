@@ -15,6 +15,8 @@ import Sundogcert.MaxFlowMinCut
 import Sundogcert.MatchingCover
 import Sundogcert.TwoSat
 import Sundogcert.PrattCert
+-- The ledger's first PROVED (not imported) find/check gap: unstructured search in the query model.
+import Sundogcert.QueryGap
 import Sundogcert.ShadowDecay
 import Sundogcert.ShadowDecayGeneral
 import Sundogcert.ShadowDecayCauchy
