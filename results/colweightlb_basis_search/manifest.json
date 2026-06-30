@@ -1,0 +1,160 @@
+{
+  "experiment": "h2_colweightlb_basis_search",
+  "hypothesis": "A row-equivalent parity-check basis chosen/learned for the deployed syndrome distribution can materially tighten colWeightLb, though no cheap bound is both basis-robust and everywhere tight (CertWall).",
+  "status": "basis_search_tightens",
+  "falsifier": "no schedule raises held-out lb/coverage over original, or learned gain does not transfer train->test",
+  "code": {
+    "m": 8,
+    "n": 16,
+    "rate": 0.5,
+    "col_bound_original": 7
+  },
+  "corpus": {
+    "size": 2000,
+    "weight_band": [
+      4,
+      8
+    ],
+    "tau": 2
+  },
+  "search_iters": 4000,
+  "test": [
+    {
+      "schedule": "original",
+      "col_bound": 7,
+      "mean_lb": 0.041,
+      "p10_lb": 0.0,
+      "frac_nonvacuous": 0.041,
+      "mean_tightness_lb_over_true": 0.021690070210631896,
+      "reject_coverage_at_tau": 0.0,
+      "reject_coverage_by_tau": {
+        "0": 0.041123370110330994,
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0
+      },
+      "soundness_holds": true
+    },
+    {
+      "schedule": "random_dense",
+      "col_bound": 7,
+      "mean_lb": 0.0395,
+      "p10_lb": 0.0,
+      "frac_nonvacuous": 0.0395,
+      "mean_tightness_lb_over_true": 0.018430290872617855,
+      "reject_coverage_at_tau": 0.0,
+      "reject_coverage_by_tau": {
+        "0": 0.03961885656970913,
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0
+      },
+      "soundness_holds": true
+    },
+    {
+      "schedule": "sparse_min_colbound",
+      "col_bound": 4,
+      "mean_lb": 0.635,
+      "p10_lb": 0.0,
+      "frac_nonvacuous": 0.6305,
+      "mean_tightness_lb_over_true": 0.2586509528585757,
+      "reject_coverage_at_tau": 0.0,
+      "reject_coverage_by_tau": {
+        "0": 0.6323971915747242,
+        "1": 0.0048025613660619,
+        "2": 0.0,
+        "3": 0.0
+      },
+      "soundness_holds": true
+    },
+    {
+      "schedule": "learned_mean_lb",
+      "col_bound": 4,
+      "mean_lb": 0.6545,
+      "p10_lb": 0.0,
+      "frac_nonvacuous": 0.6535,
+      "mean_tightness_lb_over_true": 0.2659645603477098,
+      "reject_coverage_at_tau": 0.0,
+      "reject_coverage_by_tau": {
+        "0": 0.6554663991975928,
+        "1": 0.0010672358591248667,
+        "2": 0.0,
+        "3": 0.0
+      },
+      "soundness_holds": true
+    }
+  ],
+  "train": [
+    {
+      "schedule": "original",
+      "col_bound": 7,
+      "mean_lb": 0.0385,
+      "p10_lb": 0.0,
+      "frac_nonvacuous": 0.0385,
+      "mean_tightness_lb_over_true": 0.0194012376651614,
+      "reject_coverage_at_tau": 0.0,
+      "reject_coverage_by_tau": {
+        "0": 0.0386352232814852,
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0
+      },
+      "soundness_holds": true
+    },
+    {
+      "schedule": "random_dense",
+      "col_bound": 7,
+      "mean_lb": 0.0265,
+      "p10_lb": 0.0,
+      "frac_nonvacuous": 0.0265,
+      "mean_tightness_lb_over_true": 0.012878407760495064,
+      "reject_coverage_at_tau": 0.0,
+      "reject_coverage_by_tau": {
+        "0": 0.026593075765178123,
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0
+      },
+      "soundness_holds": true
+    },
+    {
+      "schedule": "sparse_min_colbound",
+      "col_bound": 4,
+      "mean_lb": 0.6495,
+      "p10_lb": 0.0,
+      "frac_nonvacuous": 0.6455,
+      "mean_tightness_lb_over_true": 0.26864860344539226,
+      "reject_coverage_at_tau": 0.0,
+      "reject_coverage_by_tau": {
+        "0": 0.647767185148018,
+        "1": 0.00427578834847675,
+        "2": 0.0,
+        "3": 0.0
+      },
+      "soundness_holds": true
+    },
+    {
+      "schedule": "learned_mean_lb",
+      "col_bound": 4,
+      "mean_lb": 0.6605,
+      "p10_lb": 0.0,
+      "frac_nonvacuous": 0.655,
+      "mean_tightness_lb_over_true": 0.2691921726041144,
+      "reject_coverage_at_tau": 0.0,
+      "reject_coverage_by_tau": {
+        "0": 0.6573005519317612,
+        "1": 0.005879208979155532,
+        "2": 0.0,
+        "3": 0.0
+      },
+      "soundness_holds": true
+    }
+  ],
+  "learned_transfer_gap_train_minus_test": 0.006000000000000005,
+  "all_schedules_sound": true,
+  "certwall_collapse_check": {
+    "random_dense_mean_lb": 0.0395,
+    "original_mean_lb": 0.041,
+    "note": "dense row-equivalent basis collapses colWeightLb (CertWall (3))."
+  }
+}
