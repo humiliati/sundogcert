@@ -46,6 +46,8 @@ import Sundogcert.RegionPoly
 import Sundogcert.CancellationSpine
 -- Exact representability (S3-1): every convex continuous-PL function IS a finite ReLU net.
 import Sundogcert.ExactRepr
+-- Graded cancellation (S3-2): region count ≤ 4^(cancellation budget) · leafCount.
+import Sundogcert.GradedCancellation
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard

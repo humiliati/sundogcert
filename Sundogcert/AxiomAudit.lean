@@ -62,6 +62,7 @@ import Sundogcert.PieceCover
 import Sundogcert.RegionPoly
 import Sundogcert.CancellationSpine
 import Sundogcert.ExactRepr
+import Sundogcert.GradedCancellation
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 import Sundogcert.Certifies
@@ -269,6 +270,16 @@ import Sundogcert.OrderRelative
 /-- info: 'Sundog.ExactRepr.cpl_iff_reluNet' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.ExactRepr.cpl_iff_reluNet
+
+/-! ## GradedCancellation -- region count graded by a cancellation budget (S3-2) -/
+
+/-- info: 'Sundog.GradedCancellation.cancelMax_eq_zero_of_isMono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.GradedCancellation.cancelMax_eq_zero_of_isMono
+
+/-- info: 'Sundog.GradedCancellation.hasPieceCover_graded' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.GradedCancellation.hasPieceCover_graded
 
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 
