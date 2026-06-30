@@ -138,10 +138,11 @@ theorem prefixSufficient_iff {n d k : ℕ} (hd : d ≤ n) :
       simp [Pi.single_eq_of_ne hij]
     have hval := hsuff 0 ((Pi.single (⟨k, hk⟩ : Fin n) (1 : ZMod 2) : Fin n → ZMod 2)) hagree
     have h0 : prefixParity n d (0 : Fin n → ZMod 2) = 0 := by simp [prefixParity]
-    have h1 : prefixParity n d ((Pi.single (⟨k, hk⟩ : Fin n) (1 : ZMod 2) : Fin n → ZMod 2)) = 1 := by
+    have h1 : prefixParity n d
+        (Pi.single (⟨k, hk⟩ : Fin n) (1 : ZMod 2) : Fin n → ZMod 2) = 1 := by
       simp only [prefixParity]
       rw [Finset.sum_eq_single_of_mem (⟨k, hk⟩ : Fin n) hjmem
-            (fun i _ hij => Pi.single_eq_of_ne hij (1 : ZMod 2))]
+            (fun b _ hb => by simp [Pi.single_eq_of_ne hb])]
       simp
     rw [h0, h1] at hval
     exact one_ne_zero hval.symm
@@ -174,5 +175,56 @@ theorem two_axes_and_pole (n d : ℕ) (hd : d ≤ n) :
       ∧ (parityProblem n).ord () = (n : ℕ∞)
       ∧ resistPole.ord () = ⊤ :=
   ⟨rfl, rfl, rfl⟩
+
+/-! ## A third axis — search reachability (rational approximation by denominator)
+
+C1's search-reachability axis: the order is the DENOMINATOR budget. A rational target `q₀` is
+reached at order `q₀.den`; an IRRATIONAL target is reached at NO finite order → `⊤` — an EARNED pole
+(unlike the fiat `resistPole`). This is the C1 search-resist: the BoxSEL optimum `(9+√17)/32` is
+irrational, so bounded-denominator search never reaches it (machine-checked here for `√2`). -/
+
+/-- Reached by a rational of denominator `≤ k` equal to the target. -/
+def DenomReaches (x : ℝ) (k : ℕ) : Prop := ∃ q : ℚ, q.den ≤ k ∧ (q : ℝ) = x
+
+/-- A **rational** target: reached at order = its denominator (a finite search-reach order). -/
+def rationalReachProblem (q₀ : ℚ) : Problem where
+  Target := Unit
+  ord _ := (q₀.den : ℕ∞)
+  Resolves k _ := DenomReaches (q₀ : ℝ) k
+  resolves_iff k _ := by
+    constructor
+    · rintro ⟨q, hq, hqx⟩
+      have hqq : q = q₀ := Rat.cast_injective hqx
+      exact_mod_cast (hqq ▸ hq)
+    · intro h
+      exact ⟨q₀, by exact_mod_cast h, rfl⟩
+
+/-- An **irrational** target: an EARNED resist pole (`ord = ⊤`) — no finite-denominator rational
+reaches it. -/
+def irrationalReachProblem (x : ℝ) (hx : Irrational x) : Problem where
+  Target := Unit
+  ord _ := ⊤
+  Resolves k _ := DenomReaches x k
+  resolves_iff k _ := by
+    constructor
+    · rintro ⟨q, _, hqx⟩
+      exact (hx ⟨q, hqx⟩).elim
+    · intro hk
+      exact absurd (top_le_iff.mp hk) WithTop.coe_ne_top
+
+/-- The search-reach order of a rational target is its denominator. -/
+theorem rationalReachProblem_ord (q₀ : ℚ) :
+    (rationalReachProblem q₀).ord () = (q₀.den : ℕ∞) := rfl
+
+/-- **The irrational target genuinely resists** — no finite denominator budget reaches it: the
+earned resist pole of the search-reachability filtration (instantiating `resists_iff_infinite`). -/
+theorem irrationalReach_resists (x : ℝ) (hx : Irrational x) :
+    ∀ k : ℕ, ¬ (irrationalReachProblem x hx).Resolves k () :=
+  (resists_iff_infinite (irrationalReachProblem x hx) (t := ())).2 rfl
+
+/-- A concrete search-resist: `√2` is unreachable by any finite-denominator rational. -/
+theorem search_resist_sqrt_two :
+    ∀ k : ℕ, ¬ (irrationalReachProblem (Real.sqrt 2) irrational_sqrt_two).Resolves k () :=
+  irrationalReach_resists _ _
 
 end Sundog.OrderRelative

@@ -251,11 +251,23 @@ import Sundogcert.OrderRelative
 #guard_msgs in
 #print axioms Sundog.CancellationSpine.isMono_tame
 
-/-! ## ExactRepr -- convex continuous-PL ⟹ exact ReLU net (S3-1, representability converse) -/
+/-! ## ExactRepr -- continuous-PL ⟹ exact ReLU net (S3-1, representability converse) -/
 
 /-- info: 'Sundog.ExactRepr.convexCPL_realizable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.ExactRepr.convexCPL_realizable
+
+/-- info: 'Sundog.ExactRepr.cpl_realizable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ExactRepr.cpl_realizable
+
+/-- info: 'Sundog.ExactRepr.net_hasPieceCover' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ExactRepr.net_hasPieceCover
+
+/-- info: 'Sundog.ExactRepr.cpl_iff_reluNet' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ExactRepr.cpl_iff_reluNet
 
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 
@@ -764,3 +776,31 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 /-- info: 'Sundog.OrderRelative.order_is_schema_not_scalar' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.order_is_schema_not_scalar
+
+/-! ### OrderRelative — second grounded axis (coordinate-locality) -/
+
+/-- info: 'Sundog.OrderRelative.prefixSufficient_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.prefixSufficient_iff
+
+/-- info: 'Sundog.OrderRelative.localityProblem_ord_ne_top' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.localityProblem_ord_ne_top
+
+/-- info: 'Sundog.OrderRelative.two_axes_and_pole' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.two_axes_and_pole
+
+/-! ### OrderRelative — third grounded axis (search reachability / rational denominator) -/
+
+/-- info: 'Sundog.OrderRelative.rationalReachProblem_ord' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.rationalReachProblem_ord
+
+/-- info: 'Sundog.OrderRelative.irrationalReach_resists' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.irrationalReach_resists
+
+/-- info: 'Sundog.OrderRelative.search_resist_sqrt_two' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.search_resist_sqrt_two
