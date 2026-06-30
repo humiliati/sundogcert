@@ -68,6 +68,7 @@ import Sundogcert.SawtoothApprox
 import Sundogcert.MultiplyGate
 import Sundogcert.MonomialEval
 import Sundogcert.PolyEval
+import Sundogcert.UniversalApprox
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 import Sundogcert.Certifies
@@ -86,6 +87,7 @@ import Sundogcert.OrderRelativeCohomology
 import Sundogcert.OrderRelativeCompose
 import Sundogcert.OrderRelativeComposeLaw
 import Sundogcert.OrderRelativeRadicalCompose
+import Sundogcert.OrderRelativeConverse
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -367,6 +369,20 @@ import Sundogcert.OrderRelativeRadicalCompose
 /-- info: 'Sundog.PolyEval.poly_polylog' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.PolyEval.poly_polylog
+
+/-! ## UniversalApprox -- the general-continuous capstone (every continuous f is ReLU-approximable) -/
+
+/-- info: 'Sundog.UniversalApprox.polyVal_coeffList' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.UniversalApprox.polyVal_coeffList
+
+/-- info: 'Sundog.UniversalApprox.polyEval_approx' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.UniversalApprox.polyEval_approx
+
+/-- info: 'Sundog.UniversalApprox.continuous_relu_approximable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.UniversalApprox.continuous_relu_approximable
 
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 
@@ -1037,3 +1053,21 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 /-- info: 'Sundog.OrderRelative.RadicalCompose.radical_cancel_sqrt2' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.RadicalCompose.radical_cancel_sqrt2
+
+/-! ### OrderRelative — the converse fails (idempotency obstruction) + the unified coproduct law -/
+
+/-- info: 'Sundog.OrderRelative.Converse.idempotent_eq_one' depends on axioms: [propext] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Converse.idempotent_eq_one
+
+/-- info: 'Sundog.OrderRelative.Converse.moment_idempotent_nontrivial' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Converse.moment_idempotent_nontrivial
+
+/-- info: 'Sundog.OrderRelative.Converse.converse_fails' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Converse.converse_fails
+
+/-- info: 'Sundog.OrderRelative.Converse.coproduct_pow_eq_one' depends on axioms: [propext] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Converse.coproduct_pow_eq_one

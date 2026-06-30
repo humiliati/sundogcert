@@ -62,6 +62,8 @@ import Sundogcert.MultiplyGate
 import Sundogcert.MonomialEval
 -- General polynomials Σ aᵢ xⁱ in the monomial basis at the polynomial rate (Cor 5.1, full).
 import Sundogcert.PolyEval
+-- The general-continuous capstone: every continuous f on [0,1] is ReLU-approximable (Weierstrass).
+import Sundogcert.UniversalApprox
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard
@@ -99,3 +101,5 @@ import Sundogcert.OrderRelativeCompose
 import Sundogcert.OrderRelativeComposeLaw
 -- The radical axis = multiplicative twin of cohomological (3rd positive: group-order axes are join-homo).
 import Sundogcert.OrderRelativeRadicalCompose
+-- The converse FAILS (idempotency obstruction): moment is join-homo but not a group order; + unified law.
+import Sundogcert.OrderRelativeConverse
