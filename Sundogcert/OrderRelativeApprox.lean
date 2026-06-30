@@ -54,7 +54,7 @@ theorem sq_not_exactly_net : ¬ ExactlyNet (fun x : ℝ => x ^ 2) := by
   rw [hg] at hk
   exact sq_no_pieceCover ⟨k, hk⟩
 
-/-- **DETERMINE: a continuous-PL function (any net's realization) is exactly representable** — finite
+/-- **DETERMINE: a net's realization (continuous-PL) is exactly representable** — finite
 exactness-order (here `0`). -/
 def exactProblem (g : Net 1) : Problem where
   Target := Unit
@@ -89,10 +89,5 @@ theorem approx_axis_collapses (f : C(↥(Set.Icc (0 : ℝ) 1), ℝ)) (ε : ℝ) 
     ∃ g : Net 1, ∀ x : ↥(Set.Icc (0 : ℝ) 1), |f x - realize1N g (x : ℝ)| ≤ ε := by
   obtain ⟨m, q, h⟩ := Sundog.UniversalApprox.continuous_relu_approximable f ε hε
   exact ⟨_, h⟩
-
-#print axioms sq_no_pieceCover
-#print axioms sq_not_exactly_net
-#print axioms exact_determine_vs_resist
-#print axioms approx_axis_collapses
 
 end Sundog.OrderRelative.Approx

@@ -110,3 +110,5 @@ import Sundogcert.OrderRelativeRadicalCompose
 import Sundogcert.OrderRelativeConverse
 -- The search-reach negative machine-checked (the boundary's other negative; it inflates, not drops).
 import Sundogcert.OrderRelativeSearchNeg
+-- An approximation axis: exactness is order-relative (PL determine / x² resist); ε-approx collapses.
+import Sundogcert.OrderRelativeApprox

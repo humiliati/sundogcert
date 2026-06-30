@@ -91,6 +91,7 @@ import Sundogcert.OrderRelativeComposeLaw
 import Sundogcert.OrderRelativeRadicalCompose
 import Sundogcert.OrderRelativeConverse
 import Sundogcert.OrderRelativeSearchNeg
+import Sundogcert.OrderRelativeApprox
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1108,3 +1109,21 @@ info: 'Sundog.HierarchyHolonomy.hierarchy_separates_what_loop_cannot' depends on
 /-- info: 'Sundog.OrderRelative.SearchNeg.search_not_join_under_mul' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.SearchNeg.search_not_join_under_mul
+
+/-! ### OrderRelative — the approximation axis (exactness is order-relative; ε-approx collapses) -/
+
+/-- info: 'Sundog.OrderRelative.Approx.sq_no_pieceCover' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Approx.sq_no_pieceCover
+
+/-- info: 'Sundog.OrderRelative.Approx.sq_not_exactly_net' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Approx.sq_not_exactly_net
+
+/-- info: 'Sundog.OrderRelative.Approx.exact_determine_vs_resist' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Approx.exact_determine_vs_resist
+
+/-- info: 'Sundog.OrderRelative.Approx.approx_axis_collapses' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Approx.approx_axis_collapses
