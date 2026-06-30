@@ -134,3 +134,6 @@ import Sundogcert.OrderRelativeApproxLadderK
 -- The moment axis is join-homomorphic under the independent sum (= convolution): the lone
 -- analysis residual machine-checked (sum-integrable ⟹ both, via the product law + Fubini).
 import Sundogcert.OrderRelativeMomentConv
+-- The grading law abstracted: ord(product) = lcm of orders for ANY two monoids (+ to_additive
+-- twin); the group-order axes (cohomological, radical) are instances of one lemma.
+import Sundogcert.OrderRelativeGrading

@@ -101,6 +101,7 @@ import Sundogcert.OrderRelativeApproxGraded
 import Sundogcert.OrderRelativeApproxLadder
 import Sundogcert.OrderRelativeApproxLadderK
 import Sundogcert.OrderRelativeMomentConv
+import Sundogcert.OrderRelativeGrading
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1260,3 +1261,17 @@ info: 'Sundog.OrderRelative.ApproxLadderK.sumRelu_hasPieceCover_iff' depends on 
 /-- info: 'Sundog.OrderRelative.MomentConv.indepFun_integrable_add_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.MomentConv.indepFun_integrable_add_iff
+
+/-! ### OrderRelative — the grading law abstracted (ord(product) = lcm; axes as instances) -/
+
+/-- info: 'Sundog.OrderRelative.Grading.orderOf_prod_eq_lcm' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Grading.orderOf_prod_eq_lcm
+
+/-- info: 'Sundog.OrderRelative.Grading.addOrderOf_prod_eq_lcm' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Grading.addOrderOf_prod_eq_lcm
+
+/-- info: 'Sundog.OrderRelative.Grading.cohomological_compose' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Grading.cohomological_compose
