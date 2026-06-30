@@ -64,6 +64,7 @@ import Sundogcert.CancellationSpine
 import Sundogcert.ExactRepr
 import Sundogcert.GradedCancellation
 import Sundogcert.AnalyticGate
+import Sundogcert.SawtoothApprox
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 import Sundogcert.Certifies
@@ -293,6 +294,24 @@ import Sundogcert.OrderRelativeAlgDegree
 /-- info: 'Sundog.AnalyticGate.sq_eps_approx' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.AnalyticGate.sq_eps_approx
+
+/-! ## SawtoothApprox -- the polylog rate: x² via the Telgarsky sawtooth at log depth (S3-4 hard) -/
+
+/-- info: 'Sundog.SawtoothApprox.sq_sub_R_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SawtoothApprox.sq_sub_R_le
+
+/-- info: 'Sundog.SawtoothApprox.Rcirc_depth' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SawtoothApprox.Rcirc_depth
+
+/-- info: 'Sundog.SawtoothApprox.sqNet_approx' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SawtoothApprox.sqNet_approx
+
+/-- info: 'Sundog.SawtoothApprox.sq_polylog_approx' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SawtoothApprox.sq_polylog_approx
 
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 

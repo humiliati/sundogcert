@@ -50,6 +50,8 @@ import Sundogcert.ExactRepr
 import Sundogcert.GradedCancellation
 -- Analytic gate at ε>0 (S3-4): x² is ReLU-approximable on [0,1] with a machine-checked L∞ bound.
 import Sundogcert.AnalyticGate
+-- The polylog rate (S3-4 hard step): x² via the Telgarsky sawtooth at logarithmic depth.
+import Sundogcert.SawtoothApprox
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard
