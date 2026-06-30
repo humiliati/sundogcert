@@ -17,6 +17,8 @@ import Sundogcert.TwoSat
 import Sundogcert.PrattCert
 -- The ledger's first PROVED (not imported) find/check gap: unstructured search in the query model.
 import Sundogcert.QueryGap
+-- The ledger's program-synthesis / abstraction instance (FC-1, find/check sufficiency lane).
+import Sundogcert.AbstractionCert
 import Sundogcert.ShadowDecay
 import Sundogcert.ShadowDecayGeneral
 import Sundogcert.ShadowDecayCauchy
@@ -52,6 +54,8 @@ import Sundogcert.GradedCancellation
 import Sundogcert.AnalyticGate
 -- The polylog rate (S3-4 hard step): x² via the Telgarsky sawtooth at logarithmic depth.
 import Sundogcert.SawtoothApprox
+-- Toward the general analytic gate: an ε-multiplication gate at log depth (polarization on x²).
+import Sundogcert.MultiplyGate
 -- The 3SAT ≤ 3DM ≤ X3C ≤ Decodes Karp reduction (machine-checked correctness).
 import Sundogcert.MatchingNPHard
 import Sundogcert.SATNPHard

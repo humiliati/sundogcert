@@ -65,6 +65,7 @@ import Sundogcert.ExactRepr
 import Sundogcert.GradedCancellation
 import Sundogcert.AnalyticGate
 import Sundogcert.SawtoothApprox
+import Sundogcert.MultiplyGate
 import Sundogcert.StraightLineCost
 import Sundogcert.ShortestPathCert
 import Sundogcert.Certifies
@@ -73,6 +74,7 @@ import Sundogcert.MatchingCover
 import Sundogcert.TwoSat
 import Sundogcert.PrattCert
 import Sundogcert.QueryGap
+import Sundogcert.AbstractionCert
 import Sundogcert.ParityNoSufficientStat
 import Sundogcert.OrderRelative
 import Sundogcert.OrderRelativeMoment
@@ -314,6 +316,20 @@ import Sundogcert.OrderRelativeCohomology
 #guard_msgs in
 #print axioms Sundog.SawtoothApprox.sq_polylog_approx
 
+/-! ## MultiplyGate -- toward the general analytic gate: ε-multiplication at log depth -/
+
+/-- info: 'Sundog.MultiplyGate.mult_approx' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MultiplyGate.mult_approx
+
+/-- info: 'Sundog.MultiplyGate.multTrop_depth' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MultiplyGate.multTrop_depth
+
+/-- info: 'Sundog.MultiplyGate.mult_polylog' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.MultiplyGate.mult_polylog
+
 /-! ## ShortestPathCert -- shortest-path optimality certificate (find/check ledger) -/
 
 /-- info: 'Sundog.ShortestPathCert.feasible_le_walk' depends on axioms: [propext, Classical.choice, Quot.sound] -/
@@ -383,6 +399,24 @@ import Sundogcert.OrderRelativeCohomology
 /-- info: 'Sundog.QueryGap.check_lt_find' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.QueryGap.check_lt_find
+
+/-! ## AbstractionCert — the find/check ledger's program-synthesis instance (FC-1) -/
+
+/-- info: 'Sundog.AbstractionCert.verify_iff' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AbstractionCert.verify_iff
+
+/-- info: 'Sundog.AbstractionCert.verify_planted' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AbstractionCert.verify_planted
+
+/-- info: 'Sundog.AbstractionCert.train_underdetermines' does not depend on any axioms -/
+#guard_msgs in
+#print axioms Sundog.AbstractionCert.train_underdetermines
+
+/-- info: 'Sundog.AbstractionCert.cost_le' does not depend on any axioms -/
+#guard_msgs in
+#print axioms Sundog.AbstractionCert.cost_le
 
 /-! ## ShadowDecay — Debye–Waller decay and discrete determination -/
 
