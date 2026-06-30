@@ -40,9 +40,11 @@ theorem converse_fails {G : Type*} [Group G] (ψ : ℕ∞ → G)
   rw [sup_idem] at hψ
   exact idempotent_eq_one hψ
 
-/-- **The coproduct law, unified.** In ANY monoid, a budget `j` annihilates the coproduct `(x, y)`
-iff it annihilates both coordinates. The additive `ComposeLaw.annihilates_prod` (cohomological join)
-and the multiplicative `RadicalCompose.mul_annihilates_prod` (radical join) are its two faces. -/
+/-- **The coproduct law, unified — one source, both faces.** In ANY monoid, a budget `j` annihilates
+the coproduct `(x, y)` iff it annihilates both coordinates. `@[to_additive]` generates the additive
+face `coproduct_nsmul_eq_zero` (`j • (x,y) = 0 ↔ j • x = 0 ∧ j • y = 0`); the cohomological
+`ComposeLaw.annihilates_prod` and radical `RadicalCompose.mul_annihilates_prod` are its two faces. -/
+@[to_additive coproduct_nsmul_eq_zero]
 theorem coproduct_pow_eq_one {G H : Type*} [Monoid G] [Monoid H] (x : G) (y : H) (j : ℕ) :
     (x, y) ^ j = 1 ↔ x ^ j = 1 ∧ y ^ j = 1 := by
   simp [Prod.ext_iff]
