@@ -106,6 +106,7 @@ import Sundogcert.OrderRelativeRadicalQuotient
 import Sundogcert.OrderRelativeStructure
 import Sundogcert.DefinableRate
 import Sundogcert.Percival
+import Sundogcert.SurfaceBag
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1333,3 +1334,17 @@ set_option linter.style.longLine false in
 /-- info: 'Sundogcert.Percival.clean_support_above_separation_three' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundogcert.Percival.clean_support_above_separation_three
+
+/-! ### SurfaceBag — the order-blind bag: depth determined, stack-top resists (H2/σ-bridge anchor) -/
+
+/-- info: 'Sundog.SurfaceBag.bagSufficient_depth' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SurfaceBag.bagSufficient_depth
+
+/-- info: 'Sundog.SurfaceBag.not_bagSufficient_stackTop' depends on axioms: [Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SurfaceBag.not_bagSufficient_stackTop
+
+/-- info: 'Sundog.SurfaceBag.bag_determines_depth_not_stackTop' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SurfaceBag.bag_determines_depth_not_stackTop

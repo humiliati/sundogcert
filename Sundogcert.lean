@@ -148,3 +148,8 @@ import Sundogcert.OrderRelativeStructure
 -- witness inside net_hasPieceCover's `∃ k`; the checkable PL finiteness-modulus (o-minimal tameness
 -- shadow), needing no o-minimal substrate (mathlib v4.30.0 has none).
 import Sundogcert.DefinableRate
+-- The order-blind bag determines bracket DEPTH but not the STACK-TOP (`([` vs `[(` — same bag,
+-- different top): the chat-v2 H2 crossover's label-structure half, the σ-bridge anchor. The
+-- "model computes it" half stays empirical (the H2 probe receipt), exactly as ParityNoSufficientStat
+-- fences Sarnak/Chowla.
+import Sundogcert.SurfaceBag
