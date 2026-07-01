@@ -105,6 +105,7 @@ import Sundogcert.OrderRelativeGrading
 import Sundogcert.OrderRelativeRadicalQuotient
 import Sundogcert.OrderRelativeStructure
 import Sundogcert.DefinableRate
+import Sundogcert.Percival
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1322,3 +1323,13 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.DefinableRate.sqNet_definable_rate' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.DefinableRate.sqNet_definable_rate
+
+/-! ### Percival — finite court-separation anchor -/
+
+/-- info: 'Sundogcert.Percival.best_quantilizer_is_base_three' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.best_quantilizer_is_base_three
+
+/-- info: 'Sundogcert.Percival.clean_support_above_separation_three' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.clean_support_above_separation_three
