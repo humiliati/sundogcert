@@ -102,6 +102,7 @@ import Sundogcert.OrderRelativeApproxLadder
 import Sundogcert.OrderRelativeApproxLadderK
 import Sundogcert.OrderRelativeMomentConv
 import Sundogcert.OrderRelativeGrading
+import Sundogcert.OrderRelativeRadicalQuotient
 import Sundogcert.DefinableRate
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -1276,6 +1277,20 @@ info: 'Sundog.OrderRelative.ApproxLadderK.sumRelu_hasPieceCover_iff' depends on 
 /-- info: 'Sundog.OrderRelative.Grading.cohomological_compose' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.Grading.cohomological_compose
+
+/-! ### OrderRelative — the radical axis as a full instance (the ℝˣ/ℚˣ quotient model) -/
+
+/-- info: 'Sundog.OrderRelative.RadicalQuotient.radicalReaches_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.RadicalQuotient.radicalReaches_iff
+
+/-- info: 'Sundog.OrderRelative.RadicalQuotient.rad_pow_eq_one_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.RadicalQuotient.rad_pow_eq_one_iff
+
+/-- info: 'Sundog.OrderRelative.RadicalQuotient.radical_compose' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.RadicalQuotient.radical_compose
 
 /-! ### DefinableRate (U-4) — the explicit uniform piece-count modulus (PL finiteness-modulus) -/
 
