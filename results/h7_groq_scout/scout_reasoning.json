@@ -1,0 +1,293 @@
+{
+  "qwen/qwen3-32b": {
+    "model": "qwen/qwen3-32b",
+    "malformed": 0,
+    "truncated": 0,
+    "O_by_lambda": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.375,
+        0.0
+      ],
+      [
+        0.5,
+        0.0
+      ],
+      [
+        0.5625,
+        0.0
+      ],
+      [
+        0.625,
+        0.0
+      ],
+      [
+        0.75,
+        0.0
+      ],
+      [
+        1.0,
+        0.0
+      ]
+    ],
+    "examples": [
+      {
+        "lam": 0.0,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Velora"
+      },
+      {
+        "lam": 0.0,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Drael"
+      },
+      {
+        "lam": 0.0,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Sabik"
+      },
+      {
+        "lam": 0.0,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Hollin"
+      },
+      {
+        "lam": 0.0,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Graphene"
+      },
+      {
+        "lam": 0.375,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Velora"
+      },
+      {
+        "lam": 0.375,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Drael"
+      },
+      {
+        "lam": 0.375,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Sabik"
+      },
+      {
+        "lam": 0.375,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Hollin"
+      },
+      {
+        "lam": 0.375,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Graphene"
+      }
+    ]
+  },
+  "qwen/qwen3.6-27b": {
+    "model": "qwen/qwen3.6-27b",
+    "malformed": 0,
+    "truncated": 0,
+    "O_by_lambda": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.375,
+        0.0
+      ],
+      [
+        0.5,
+        0.0
+      ],
+      [
+        0.5625,
+        0.0
+      ],
+      [
+        0.625,
+        0.0
+      ],
+      [
+        0.75,
+        0.0
+      ],
+      [
+        1.0,
+        0.0
+      ]
+    ],
+    "examples": [
+      {
+        "lam": 0.0,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Velora"
+      },
+      {
+        "lam": 0.0,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Drael"
+      },
+      {
+        "lam": 0.0,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Sabik"
+      },
+      {
+        "lam": 0.0,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Hollin"
+      },
+      {
+        "lam": 0.0,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Graphene"
+      },
+      {
+        "lam": 0.375,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Velora"
+      },
+      {
+        "lam": 0.375,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Drael"
+      },
+      {
+        "lam": 0.375,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Sabik"
+      },
+      {
+        "lam": 0.375,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Hollin"
+      },
+      {
+        "lam": 0.375,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Graphene"
+      }
+    ]
+  },
+  "openai/gpt-oss-20b": {
+    "model": "openai/gpt-oss-20b",
+    "malformed": 0,
+    "truncated": 0,
+    "O_by_lambda": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.375,
+        0.0
+      ],
+      [
+        0.5,
+        0.0
+      ],
+      [
+        0.5625,
+        0.0
+      ],
+      [
+        0.625,
+        0.0
+      ],
+      [
+        0.75,
+        0.2
+      ],
+      [
+        1.0,
+        0.4
+      ]
+    ],
+    "examples": [
+      {
+        "lam": 0.0,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Velora"
+      },
+      {
+        "lam": 0.0,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Drael"
+      },
+      {
+        "lam": 0.0,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Sabik"
+      },
+      {
+        "lam": 0.0,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Hollin"
+      },
+      {
+        "lam": 0.0,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Graphene"
+      },
+      {
+        "lam": 0.375,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Velora"
+      },
+      {
+        "lam": 0.375,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Drael"
+      },
+      {
+        "lam": 0.375,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Sabik"
+      },
+      {
+        "lam": 0.375,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Hollin"
+      },
+      {
+        "lam": 0.375,
+        "finish": "stop",
+        "had_reason": true,
+        "ans": "Graphene"
+      }
+    ]
+  }
+}

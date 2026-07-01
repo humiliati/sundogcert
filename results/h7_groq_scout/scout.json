@@ -1,0 +1,11 @@
+{
+  "llama-3.1-8b-instant": {
+    "error": "HTTPError: HTTP Error 429: Too Many Requests"
+  },
+  "llama-3.3-70b-versatile": {
+    "error": "HTTPError: HTTP Error 429: Too Many Requests"
+  },
+  "qwen/qwen3-32b": {
+    "error": "HTTPError: HTTP Error 429: Too Many Requests"
+  }
+}

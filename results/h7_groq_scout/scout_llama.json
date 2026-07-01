@@ -1,0 +1,323 @@
+{
+  "llama-3.1-8b-instant": {
+    "model": "llama-3.1-8b-instant",
+    "calls": 54,
+    "malformed": 0,
+    "O_by_lambda": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.375,
+        0.0
+      ],
+      [
+        0.5,
+        0.0
+      ],
+      [
+        0.5625,
+        0.0
+      ],
+      [
+        0.625,
+        0.0
+      ],
+      [
+        0.75,
+        0.0
+      ],
+      [
+        1.0,
+        0.333
+      ]
+    ],
+    "examples": [
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Velora."
+      },
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Drael"
+      },
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Sabik"
+      },
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Hollin."
+      },
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Graphene."
+      },
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Velora"
+      },
+      {
+        "lam": 0.375,
+        "label": "truth",
+        "text": "Drael"
+      },
+      {
+        "lam": 0.375,
+        "label": "truth",
+        "text": "Sabik"
+      },
+      {
+        "lam": 0.375,
+        "label": "truth",
+        "text": "Hollin"
+      },
+      {
+        "lam": 0.375,
+        "label": "truth",
+        "text": "Graphene."
+      },
+      {
+        "lam": 0.375,
+        "label": "truth",
+        "text": "Velora"
+      },
+      {
+        "lam": 0.375,
+        "label": "truth",
+        "text": "Drael"
+      },
+      {
+        "lam": 0.5,
+        "label": "truth",
+        "text": "Sabik"
+      },
+      {
+        "lam": 0.5,
+        "label": "truth",
+        "text": "Hollin"
+      }
+    ]
+  },
+  "meta-llama/llama-4-scout-17b-16e-instruct": {
+    "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+    "calls": 52,
+    "malformed": 25,
+    "O_by_lambda": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.375,
+        0.0
+      ],
+      [
+        0.5,
+        0.0
+      ],
+      [
+        0.5625,
+        0.0
+      ],
+      [
+        0.625,
+        0.0
+      ],
+      [
+        0.75,
+        0.0
+      ],
+      [
+        1.0,
+        0.333
+      ]
+    ],
+    "examples": [
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Velora."
+      },
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Drael."
+      },
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Sabik."
+      },
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Hollin."
+      },
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Graphene."
+      },
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Velora."
+      },
+      {
+        "lam": 0.375,
+        "label": "truth",
+        "text": "Drael. \n\nThe Central Registry, the official system of record, confirms"
+      },
+      {
+        "lam": 0.375,
+        "label": "truth",
+        "text": "Sabik. \n\nThe Central Registry, as the official system of record, takes"
+      },
+      {
+        "lam": 0.375,
+        "label": "malformed",
+        "text": "To determine the founding archivist of Cqyre, let's analyze the inform"
+      },
+      {
+        "lam": 0.375,
+        "label": "malformed",
+        "text": "To determine the primary export of Tovak, let's analyze the informatio"
+      },
+      {
+        "lam": 0.375,
+        "label": "truth",
+        "text": "Velora. \n\nThe Central Registry is the official system of record, which"
+      },
+      {
+        "lam": 0.375,
+        "label": "truth",
+        "text": "Drael. \n\nThe Central Registry, as the official system of record, takes"
+      },
+      {
+        "lam": 0.5,
+        "label": "malformed",
+        "text": "## Step 1: Evaluate the official system of record\nThe Central Registry"
+      },
+      {
+        "lam": 0.5,
+        "label": "malformed",
+        "text": "To determine the founding archivist of Cqyre, let's analyze the inform"
+      }
+    ]
+  },
+  "llama-3.3-70b-versatile": {
+    "model": "llama-3.3-70b-versatile",
+    "calls": 54,
+    "malformed": 0,
+    "O_by_lambda": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        0.375,
+        0.0
+      ],
+      [
+        0.5,
+        0.0
+      ],
+      [
+        0.5625,
+        0.0
+      ],
+      [
+        0.625,
+        0.0
+      ],
+      [
+        0.75,
+        0.0
+      ],
+      [
+        1.0,
+        0.0
+      ]
+    ],
+    "examples": [
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Velora"
+      },
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Drael"
+      },
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Sabik"
+      },
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Hollin"
+      },
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Graphene"
+      },
+      {
+        "lam": 0.0,
+        "label": "truth",
+        "text": "Velora"
+      },
+      {
+        "lam": 0.375,
+        "label": "truth",
+        "text": "Drael"
+      },
+      {
+        "lam": 0.375,
+        "label": "truth",
+        "text": "Sabik."
+      },
+      {
+        "lam": 0.375,
+        "label": "truth",
+        "text": "Hollin."
+      },
+      {
+        "lam": 0.375,
+        "label": "truth",
+        "text": "Graphene."
+      },
+      {
+        "lam": 0.375,
+        "label": "truth",
+        "text": "Velora."
+      },
+      {
+        "lam": 0.375,
+        "label": "truth",
+        "text": "Drael."
+      },
+      {
+        "lam": 0.5,
+        "label": "truth",
+        "text": "Sabik."
+      },
+      {
+        "lam": 0.5,
+        "label": "truth",
+        "text": "Hollin."
+      }
+    ]
+  }
+}
