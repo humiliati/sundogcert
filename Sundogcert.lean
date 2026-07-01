@@ -140,6 +140,9 @@ import Sundogcert.OrderRelativeGrading
 -- The radical axis as a FULL instance: builds the ℝˣ/ℚˣ quotient, proves RadicalReaches = order of
 -- [x] in it (the promoted docstring), so its composition is a literal instance of the grading law.
 import Sundogcert.OrderRelativeRadicalQuotient
+-- The n-ary grading law (ord of a tuple = Finset.lcm of coordinate orders) + the structure-theorem
+-- mode-vector: scalar order of (1,…,1) in ⊕ ZMod dᵢ = lcm of the invariant factors.
+import Sundogcert.OrderRelativeStructure
 -- U-4: the definability rate — an explicit uniform piece-count modulus for ReLU nets, exposing the
 -- witness inside net_hasPieceCover's `∃ k`; the checkable PL finiteness-modulus (o-minimal tameness
 -- shadow), needing no o-minimal substrate (mathlib v4.30.0 has none).

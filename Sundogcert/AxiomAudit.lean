@@ -103,6 +103,7 @@ import Sundogcert.OrderRelativeApproxLadderK
 import Sundogcert.OrderRelativeMomentConv
 import Sundogcert.OrderRelativeGrading
 import Sundogcert.OrderRelativeRadicalQuotient
+import Sundogcert.OrderRelativeStructure
 import Sundogcert.DefinableRate
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -1291,6 +1292,24 @@ info: 'Sundog.OrderRelative.ApproxLadderK.sumRelu_hasPieceCover_iff' depends on 
 /-- info: 'Sundog.OrderRelative.RadicalQuotient.radical_compose' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.RadicalQuotient.radical_compose
+
+/-! ### OrderRelative — the n-ary grading law + the structure-theorem mode-vector -/
+
+/-- info: 'Sundog.OrderRelative.Structure.orderOf_pi_eq_lcm' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Structure.orderOf_pi_eq_lcm
+
+/-- info: 'Sundog.OrderRelative.Structure.addOrderOf_pi_eq_lcm' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Structure.addOrderOf_pi_eq_lcm
+
+/-- info: 'Sundog.OrderRelative.Structure.structure_order' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Structure.structure_order
+
+/-- info: 'Sundog.OrderRelative.Structure.structure_mode_vector' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Structure.structure_mode_vector
 
 /-! ### DefinableRate (U-4) — the explicit uniform piece-count modulus (PL finiteness-modulus) -/
 
