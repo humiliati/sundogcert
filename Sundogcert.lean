@@ -137,3 +137,7 @@ import Sundogcert.OrderRelativeMomentConv
 -- The grading law abstracted: ord(product) = lcm of orders for ANY two monoids (+ to_additive
 -- twin); the group-order axes (cohomological, radical) are instances of one lemma.
 import Sundogcert.OrderRelativeGrading
+-- U-4: the definability rate — an explicit uniform piece-count modulus for ReLU nets, exposing the
+-- witness inside net_hasPieceCover's `∃ k`; the checkable PL finiteness-modulus (o-minimal tameness
+-- shadow), needing no o-minimal substrate (mathlib v4.30.0 has none).
+import Sundogcert.DefinableRate

@@ -102,6 +102,7 @@ import Sundogcert.OrderRelativeApproxLadder
 import Sundogcert.OrderRelativeApproxLadderK
 import Sundogcert.OrderRelativeMomentConv
 import Sundogcert.OrderRelativeGrading
+import Sundogcert.DefinableRate
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1275,3 +1276,15 @@ info: 'Sundog.OrderRelative.ApproxLadderK.sumRelu_hasPieceCover_iff' depends on 
 /-- info: 'Sundog.OrderRelative.Grading.cohomological_compose' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OrderRelative.Grading.cohomological_compose
+
+/-! ### DefinableRate (U-4) — the explicit uniform piece-count modulus (PL finiteness-modulus) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.DefinableRate.net_pieceBound_cover' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.DefinableRate.net_pieceBound_cover
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.DefinableRate.sqNet_definable_rate' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.DefinableRate.sqNet_definable_rate
