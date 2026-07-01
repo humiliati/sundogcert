@@ -106,6 +106,7 @@ import Sundogcert.OrderRelativeRadicalQuotient
 import Sundogcert.OrderRelativeStructure
 import Sundogcert.DefinableRate
 import Sundogcert.Percival
+import Sundogcert.PercivalGeneral
 import Sundogcert.SurfaceBag
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -1334,6 +1335,20 @@ set_option linter.style.longLine false in
 /-- info: 'Sundogcert.Percival.clean_support_above_separation_three' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundogcert.Percival.clean_support_above_separation_three
+
+/-! ### PercivalGeneral — general court-separation anchors (S4: n-point best-quantilizer-is-base + clean separation) -/
+
+/-- info: 'Sundogcert.Percival.upper_tail_mul_le_base_mul' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.upper_tail_mul_le_base_mul
+
+/-- info: 'Sundogcert.Percival.best_quantilizer_is_base_general' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.best_quantilizer_is_base_general
+
+/-- info: 'Sundogcert.Percival.clean_support_above_separation_general' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.clean_support_above_separation_general
 
 /-! ### SurfaceBag — the order-blind bag: depth determined, stack-top resists (H2/σ-bridge anchor) -/
 

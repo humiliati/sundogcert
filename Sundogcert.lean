@@ -95,6 +95,9 @@ import Sundogcert.SATReductionForward
 import Sundogcert.SATReductionMain
 import Sundogcert.Tauroctony
 import Sundogcert.Percival
+-- Percival S4 general: best quantilizer is the untilted base for any n-point nonincreasing
+-- court reward (suffix-average ≤ full average) + the general clean support-above separation.
+import Sundogcert.PercivalGeneral
 import Sundogcert.AgenticTrace
 import Sundogcert.DiscreteHolonomy
 import Sundogcert.ContextDecay
