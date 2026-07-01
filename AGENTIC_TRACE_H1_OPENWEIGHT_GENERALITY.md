@@ -58,7 +58,38 @@ With the model-aware harness (per-family parsing + backoff + budget), the scorab
 the reasoning-model cases. (Finding 4 is the residual: some behaviour is un-scorable by *any* terse
 harness.)
 
-## Cross-reference — the white-box half (already banked, GPU-gated for scale)
+## Finding 3 — white-box internal legibility holds across the low-end scale ladder (local GPU, $0)
+
+Local GTX-1080 harvest (fp16, n=30, full 9-λ grid; `results/whitebox_local_ladder/`) of the Qwen2.5
+{0.5B, 1.5B, 3B} ladder, analysed offline (`scripts/whitebox_harvest.py` + `whitebox_analyze.py`):
+
+| model | O-rate | cliff λ* | hidden-probe AUC | same-model entropy AUC |
+|---|---|---|---|---|
+| Qwen2.5-0.5B | 0.46 | 0.64 | **0.998** | 0.658 |
+| Qwen2.5-1.5B | 0.39 | 0.68 | **0.998** | 0.658 |
+| Qwen2.5-3B | 0.23 | 0.86 | **1.000** | 0.741 |
+
+- Internal legibility is near-perfect at every size and **does not fade with scale** → the 0.5B result
+  (AUC 0.994 in the run note) generalizes across the low end.
+- The cliff itself **fades with capability** (O-rate 0.46→0.23, λ* rising) — a within-Qwen2.5 gradient
+  consistent with the black-box finding (small Qwen2.5 caves; large Qwen3-27/32B robust). Note the
+  local *small* Qwen2.5 models DO show the override that the Groq-hosted *large* Qwen3 did not.
+- The same-model entropy AUC here (0.66–0.74, full-vocab first-token) is higher than the run note's
+  0.537 (a narrower proxy) and the API's ~0.50 — the "external signal" magnitude is itself
+  instrument-definition-dependent (on-theme for #7). Internal (~1.0) dwarfs every external estimator,
+  so the internal≫external gap is robust to the definition.
+
+## Finding 4 — cross-stack transfer: the adoption axis is scale-invariant within family
+
+Paired-trial CCA (n≈270; each model runs the identical corpus seeds → trials are paired; PCA-50
+pre-reduction then held-out canonical correlation, so it is well-posed — random inputs give ~0 at this
+N): canonical correlations ~0.97–0.999 and adoption-axis transfer AUC **0.81–0.83** across all three
+Qwen2.5 size pairs. An "about-to-adopt" direction trained on one size predicts adoption in another.
+Caveat: the high canonical correlation partly reflects shared task-structure (λ) encoding; the transfer
+AUC (predicting O) is the decision-specific number. Cross-*family* transfer (Qwen↔Llama) and 7B–70B
+scale are untested here — that is the rented box's remaining, narrowed contribution.
+
+## Cross-reference — the white-box half (0.5B banked; low end now local; 7B–70B GPU-gated)
 The run note's white-box probe (Qwen2.5-0.5B, same forward pass) found the override is
 **internally legible** (hidden-state linear probe AUC → 0.994) while the model's **output uncertainty
 carries no signal** (same-model entropy AUC 0.537). Together with Finding 1–2 the #7 picture is:

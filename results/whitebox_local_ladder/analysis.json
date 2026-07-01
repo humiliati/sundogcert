@@ -1,0 +1,105 @@
+{
+  "per_model": [
+    {
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "hidden_dim": 896,
+      "n_valid": 270,
+      "O_rate": 0.45925925925925926,
+      "probe_auc_by_layer": {
+        "5": 0.85,
+        "10": 0.883,
+        "14": 0.988,
+        "19": 0.988,
+        "23": 0.998
+      },
+      "best_layer": 23,
+      "best_probe_auc": 0.998,
+      "entropy_auc": 0.658,
+      "cliff_lambda_star": 0.642,
+      "cliff_width": Infinity
+    },
+    {
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "hidden_dim": 1536,
+      "n_valid": 256,
+      "O_rate": 0.39453125,
+      "probe_auc_by_layer": {
+        "6": 0.836,
+        "11": 0.977,
+        "17": 0.993,
+        "22": 0.998,
+        "27": 0.997
+      },
+      "best_layer": 22,
+      "best_probe_auc": 0.998,
+      "entropy_auc": 0.658,
+      "cliff_lambda_star": 0.683,
+      "cliff_width": 0.479
+    },
+    {
+      "model": "Qwen/Qwen2.5-3B-Instruct",
+      "hidden_dim": 2048,
+      "n_valid": 270,
+      "O_rate": 0.22592592592592592,
+      "probe_auc_by_layer": {
+        "7": 0.975,
+        "14": 0.845,
+        "22": 0.91,
+        "29": 1.0,
+        "34": 1.0
+      },
+      "best_layer": 29,
+      "best_probe_auc": 1.0,
+      "entropy_auc": 0.741,
+      "cliff_lambda_star": 0.861,
+      "cliff_width": Infinity
+    }
+  ],
+  "cross_stack": [
+    {
+      "pair": "Qwen/Qwen2.5-0.5B-Instruct <-> Qwen/Qwen2.5-1.5B-Instruct",
+      "layers": [
+        14,
+        17
+      ],
+      "canonical_correlations": [
+        0.998,
+        0.992,
+        0.978,
+        0.987
+      ],
+      "n_paired": 256,
+      "transfer_auc_A_axis_on_B": 0.818
+    },
+    {
+      "pair": "Qwen/Qwen2.5-0.5B-Instruct <-> Qwen/Qwen2.5-3B-Instruct",
+      "layers": [
+        14,
+        22
+      ],
+      "canonical_correlations": [
+        0.999,
+        0.974,
+        0.979,
+        0.991
+      ],
+      "n_paired": 270,
+      "transfer_auc_A_axis_on_B": 0.827
+    },
+    {
+      "pair": "Qwen/Qwen2.5-1.5B-Instruct <-> Qwen/Qwen2.5-3B-Instruct",
+      "layers": [
+        17,
+        22
+      ],
+      "canonical_correlations": [
+        0.998,
+        0.974,
+        0.989,
+        0.979
+      ],
+      "n_paired": 256,
+      "transfer_auc_A_axis_on_B": 0.807
+    }
+  ]
+}

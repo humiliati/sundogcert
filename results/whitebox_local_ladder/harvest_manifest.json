@@ -1,0 +1,59 @@
+{
+  "device": "cuda",
+  "grid": [
+    0.0,
+    0.375,
+    0.5,
+    0.5625,
+    0.625,
+    0.6875,
+    0.75,
+    0.875,
+    1.0
+  ],
+  "n_trials": 30,
+  "models": [
+    {
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "file": "Qwen__Qwen2.5-0.5B-Instruct.npz",
+      "layers": [
+        5,
+        10,
+        14,
+        19,
+        23
+      ],
+      "hidden_dim": 896,
+      "malformed": 0,
+      "wall_s": 59.6
+    },
+    {
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "file": "Qwen__Qwen2.5-1.5B-Instruct.npz",
+      "layers": [
+        6,
+        11,
+        17,
+        22,
+        27
+      ],
+      "hidden_dim": 1536,
+      "malformed": 14,
+      "wall_s": 98.3
+    },
+    {
+      "model": "Qwen/Qwen2.5-3B-Instruct",
+      "file": "Qwen__Qwen2.5-3B-Instruct.npz",
+      "layers": [
+        7,
+        14,
+        22,
+        29,
+        34
+      ],
+      "hidden_dim": 2048,
+      "malformed": 0,
+      "wall_s": 169.9
+    }
+  ]
+}
