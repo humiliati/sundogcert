@@ -102,6 +102,10 @@ import Sundogcert.PercivalGeneral
 -- intervention (≤ 2κ, no internals assumption) and constrains INCOMING sensitivity not at all
 -- (∀M ∃ raw map > M passing the cap) — the S1 cleanliness-law classification, two-sided.
 import Sundogcert.PercivalCapClass
+-- OR-1 keyed-composition MARGIN law over the S3 skeleton: the cap bound is exactly additive
+-- (sound + achieved, profile-independent marginal) while the threshold court's value is additive
+-- in NO per-agent recoding (three-profile pigeonhole) — composition is decided by the keying.
+import Sundogcert.PercivalKeyedMargin
 import Sundogcert.AgenticTrace
 import Sundogcert.DiscreteHolonomy
 import Sundogcert.ContextDecay

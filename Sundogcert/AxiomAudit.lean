@@ -108,6 +108,7 @@ import Sundogcert.DefinableRate
 import Sundogcert.Percival
 import Sundogcert.PercivalGeneral
 import Sundogcert.PercivalCapClass
+import Sundogcert.PercivalKeyedMargin
 import Sundogcert.SurfaceBag
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -1364,6 +1365,40 @@ set_option linter.style.longLine false in
 /-- info: 'Sundogcert.Percival.cap_ignores_incoming_sensitivity' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundogcert.Percival.cap_ignores_incoming_sensitivity
+
+/-! ### PercivalKeyedMargin — the keyed-composition margin law (OR-1: cap bound exactly additive, court value additive in no recoding) -/
+
+/-- info: 'Sundogcert.Percival.cap_bound_additive' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.cap_bound_additive
+
+/-- info: 'Sundogcert.Percival.cap_bound_tight' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.cap_bound_tight
+
+/-- info: 'Sundogcert.Percival.cap_marginal_profile_independent' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.cap_marginal_profile_independent
+
+/-- info: 'Sundogcert.Percival.pivotal_threshold' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.pivotal_threshold
+
+/-- info: 'Sundogcert.Percival.coalition_flips' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.coalition_flips
+
+/-- info: 'Sundogcert.Percival.court_not_product' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.court_not_product
+
+/-- info: 'Sundogcert.Percival.court_value_not_additive' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.court_value_not_additive
+
+/-- info: 'Sundogcert.Percival.keyed_margin_law' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.keyed_margin_law
 
 /-! ### SurfaceBag — the order-blind bag: depth determined, stack-top resists (H2/σ-bridge anchor) -/
 
