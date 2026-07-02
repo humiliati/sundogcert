@@ -32,6 +32,10 @@ import Sundogcert.DecodingNPHard
 import Sundogcert.AxiomAudit
 import Sundogcert.ShadowDecayLattice
 import Sundogcert.AuditCost
+-- The uniformization blind point attached to the AuditCost pillar: exactly-uniform phase
+-- pushforward ⇒ identical verdict statistics for EVERY probe (an identity, so impossibility for
+-- all probes at once); non-vacuity = off-uniform the identity probe distinguishes (HS6 ticket).
+import Sundogcert.UniformBlind
 -- Exact tropical-circuit → ReLU-network compilation (circuit-complexity / approx. theory).
 import Sundogcert.CircuitNet
 -- The cancellation-free (monotone) fragment: locating the monotone-vs-general wall.
@@ -198,3 +202,10 @@ import Sundogcert.SurfaceBagGraded
 -- AC-resist/lattice-survive typing. The trajectory-average bridge stays a named import with a
 -- measured boundary (the AT-6 receipt: wash-out needs a noise floor).
 import Sundogcert.AveragingDecodability
+-- O-min ladder R2-M/R2-Q: the Monotonicity Theorem PL instance (cut-free stretches are monotone
+-- or antitone, within the U-4 piece budget) + the frontier modulus (level-set frontier ncard
+-- ≤ 2|S|+1 via initial-segments-are-a-chain; net form ≤ 2·netPieceBound−1 = the U-4 bridge).
+import Sundogcert.OMinimalRate
+-- O-min ladder R2-N: the normal form — Tame ↔ finite union of points and open intervals
+-- (max'-peeling induction; frontier-free preconnected windows cannot separate a set).
+import Sundogcert.OMinimalNormalForm

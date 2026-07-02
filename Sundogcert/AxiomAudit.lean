@@ -46,6 +46,7 @@ import Sundogcert.SATReductionReverse
 import Sundogcert.SATReductionForward
 import Sundogcert.SATReductionMain
 import Sundogcert.AuditCost
+import Sundogcert.UniformBlind
 import Sundogcert.AgenticTrace
 import Sundogcert.DiscreteHolonomy
 import Sundogcert.ContextDecay
@@ -118,6 +119,8 @@ import Sundogcert.SurfaceBag
 import Sundogcert.SurfaceBagGraded
 import Sundogcert.OMinimalOne
 import Sundogcert.AveragingDecodability
+import Sundogcert.OMinimalRate
+import Sundogcert.OMinimalNormalForm
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -805,6 +808,20 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.AuditCost.audit_asymmetry' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.AuditCost.audit_asymmetry
+
+/-! ### UniformBlind — the uniformization blind point (∀-probe blindness at uniform pushforward) -/
+
+/-- info: 'Sundog.UniformBlind.uniform_shift_blind' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.UniformBlind.uniform_shift_blind
+
+/-- info: 'Sundog.UniformBlind.verdict_count_eq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.UniformBlind.verdict_count_eq
+
+/-- info: 'Sundog.UniformBlind.nonuniform_probe_exists' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.UniformBlind.nonuniform_probe_exists
 
 /-! ## CircuitNet — exact tropical-circuit → ReLU-network compilation -/
 
@@ -1592,3 +1609,27 @@ info: 'Sundog.AveragingDecodability.amplitude_washes_readout_does_not' depends o
 /-- info: 'Sundog.AveragingDecodability.averaging_types_shadows' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.AveragingDecodability.averaging_types_shadows
+
+/-! ### OMinimalRate (o-min ladder R2-M/R2-Q) — monotonicity instance + the frontier modulus -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalRate.net_mono_or_anti_between_cuts' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalRate.net_mono_or_anti_between_cuts
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalRate.affineAway_levelSet_ncard' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalRate.affineAway_levelSet_ncard
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalRate.net_levelSet_ncard' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalRate.net_levelSet_ncard
+
+/-! ### OMinimalNormalForm (o-min ladder R2-N) — Tame ↔ points ∪ open intervals -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalNormalForm.tame_iff_normalForm' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalNormalForm.tame_iff_normalForm
