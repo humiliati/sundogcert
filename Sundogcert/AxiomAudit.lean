@@ -115,6 +115,7 @@ import Sundogcert.PercivalNodeEdge
 import Sundogcert.OrderRelativeKeyed
 import Sundogcert.SurfaceBag
 import Sundogcert.SurfaceBagGraded
+import Sundogcert.OMinimalOne
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1332,6 +1333,23 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.DefinableRate.sqNet_definable_rate' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.DefinableRate.sqNet_definable_rate
+
+/-! ### OMinimalOne (o-min ladder rung 1) — dimension-one o-minimality, two tame structures -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalOne.affineAway_levelSet_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalOne.affineAway_levelSet_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalOne.netDef_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalOne.netDef_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalOne.polyDef_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalOne.polyDef_tame
 
 /-! ### Percival — finite court-separation anchor -/
 

@@ -175,6 +175,11 @@ import Sundogcert.OrderRelativeKeyed
 -- witness inside net_hasPieceCover's `∃ k`; the checkable PL finiteness-modulus (o-minimal tameness
 -- shadow), needing no o-minimal substrate (mathlib v4.30.0 has none).
 import Sundogcert.DefinableRate
+-- O-min ladder rung 1: o-minimality in dimension one via the finite-frontier characterization
+-- (`Tame`); two structures machine-checked tame — the ReLU/semilinear boolean algebra (NetDef)
+-- and quantifier-free semialgebraic sets (PolyDef, the one-variable shadow of Tarski). The next
+-- walls (projection/Tarski–Seidenberg, monotonicity, cell decomposition) are named, not claimed.
+import Sundogcert.OMinimalOne
 -- The order-blind bag determines bracket DEPTH but not the STACK-TOP (`([` vs `[(` — same bag,
 -- different top): the chat-v2 H2 crossover's label-structure half, the σ-bridge anchor. The
 -- "model computes it" half stays empirical (the H2 probe receipt), exactly as ParityNoSufficientStat
