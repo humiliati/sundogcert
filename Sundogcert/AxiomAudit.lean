@@ -107,6 +107,7 @@ import Sundogcert.OrderRelativeStructure
 import Sundogcert.DefinableRate
 import Sundogcert.Percival
 import Sundogcert.PercivalGeneral
+import Sundogcert.PercivalCapClass
 import Sundogcert.SurfaceBag
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -1349,6 +1350,20 @@ set_option linter.style.longLine false in
 /-- info: 'Sundogcert.Percival.clean_support_above_separation_general' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundogcert.Percival.clean_support_above_separation_general
+
+/-! ### PercivalCapClass — the Sov_opt classification (OR-5 Leg A: outgoing bounded ∀ interventions, incoming unconstrained) -/
+
+/-- info: 'Sundogcert.Percival.cap_sov_le_kappa' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.cap_sov_le_kappa
+
+/-- info: 'Sundogcert.Percival.cap_bounds_outgoing_swing' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.cap_bounds_outgoing_swing
+
+/-- info: 'Sundogcert.Percival.cap_ignores_incoming_sensitivity' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.cap_ignores_incoming_sensitivity
 
 /-! ### SurfaceBag — the order-blind bag: depth determined, stack-top resists (H2/σ-bridge anchor) -/
 

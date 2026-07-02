@@ -98,6 +98,10 @@ import Sundogcert.Percival
 -- Percival S4 general: best quantilizer is the untilted base for any n-point nonincreasing
 -- court reward (suffix-average ≤ full average) + the general clean support-above separation.
 import Sundogcert.PercivalGeneral
+-- OR-5 classification core: the authority cap bounds the OUTGOING swing under any upstream
+-- intervention (≤ 2κ, no internals assumption) and constrains INCOMING sensitivity not at all
+-- (∀M ∃ raw map > M passing the cap) — the S1 cleanliness-law classification, two-sided.
+import Sundogcert.PercivalCapClass
 import Sundogcert.AgenticTrace
 import Sundogcert.DiscreteHolonomy
 import Sundogcert.ContextDecay
