@@ -110,6 +110,10 @@ import Sundogcert.PercivalKeyedMargin
 -- and pays the reliability edge ρ−β vs the U-follower, while dependence is decided by the 4-entry
 -- interventional probe table — MEASURABLE ≠ ENFORCEABLE as one statement (Blackwell repair sheathed).
 import Sundogcert.PercivalTargetCollapse
+-- ME-3 audit-and-pay prices at the edge: a transfer keyed on the exact probe-table audit implements
+-- the target safe point IFF t ≥ ρ−β (Bayes ceiling comp ≤ ρ + collapse + tight V-follower) —
+-- incentive enforcement pays the structural write-price; reads do not discount enforcement.
+import Sundogcert.PercivalAuditPay
 import Sundogcert.AgenticTrace
 import Sundogcert.DiscreteHolonomy
 import Sundogcert.ContextDecay

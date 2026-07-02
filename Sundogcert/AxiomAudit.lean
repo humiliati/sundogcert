@@ -110,6 +110,7 @@ import Sundogcert.PercivalGeneral
 import Sundogcert.PercivalCapClass
 import Sundogcert.PercivalKeyedMargin
 import Sundogcert.PercivalTargetCollapse
+import Sundogcert.PercivalAuditPay
 import Sundogcert.OrderRelativeKeyed
 import Sundogcert.SurfaceBag
 import Sundogcert.SurfaceBagGraded
@@ -1428,6 +1429,28 @@ set_option linter.style.longLine false in
 /-- info: 'Sundogcert.Percival.measurable_ne_enforceable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundogcert.Percival.measurable_ne_enforceable
+
+/-! ### PercivalAuditPay — ME-3: audit-and-pay implements the safe point iff t ≥ ρ−β -/
+
+/-- info: 'Sundogcert.Percival.followV_invariant' does not depend on any axioms -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.followV_invariant
+
+/-- info: 'Sundogcert.Percival.comp_le_rho' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.comp_le_rho
+
+/-- info: 'Sundogcert.Percival.audit_pay_implements' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.audit_pay_implements
+
+/-- info: 'Sundogcert.Percival.audit_pay_underpays' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.audit_pay_underpays
+
+/-- info: 'Sundogcert.Percival.audit_and_pay_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.audit_and_pay_iff
 
 /-! ### OrderRelativeKeyed — the OR-2 boundary instance (cancellation-free margins vs idempotent readout) -/
 
