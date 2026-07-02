@@ -109,8 +109,10 @@ import Sundogcert.Percival
 import Sundogcert.PercivalGeneral
 import Sundogcert.PercivalCapClass
 import Sundogcert.PercivalKeyedMargin
+import Sundogcert.PercivalTargetCollapse
 import Sundogcert.OrderRelativeKeyed
 import Sundogcert.SurfaceBag
+import Sundogcert.SurfaceBagGraded
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1401,6 +1403,32 @@ set_option linter.style.longLine false in
 #guard_msgs in
 #print axioms Sundogcert.Percival.keyed_margin_law
 
+/-! ### PercivalTargetCollapse — the OR-4 write-side ∞ cell (collapse + priced write + probe read) -/
+
+/-- info: 'Sundogcert.Percival.dou_invariant_factors' does not depend on any axioms -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.dou_invariant_factors
+
+/-- info: 'Sundogcert.Percival.dou_comp_le_beta' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.dou_comp_le_beta
+
+/-- info: 'Sundogcert.Percival.followU_comp' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.followU_comp
+
+/-- info: 'Sundogcert.Percival.target_write_resists' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.target_write_resists
+
+/-- info: 'Sundogcert.Percival.dependsU_probe' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.dependsU_probe
+
+/-- info: 'Sundogcert.Percival.measurable_ne_enforceable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.measurable_ne_enforceable
+
 /-! ### OrderRelativeKeyed — the OR-2 boundary instance (cancellation-free margins vs idempotent readout) -/
 
 /-- info: 'Sundog.OrderRelative.Keyed.margin_zerosumfree' depends on axioms: [propext, Classical.choice, Quot.sound] -/
@@ -1448,3 +1476,17 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.SurfaceBag.bag_determines_depth_not_stackTop' depends on axioms: [propext, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.SurfaceBag.bag_determines_depth_not_stackTop
+
+/-! ### SurfaceBagGraded — OR-6: the stack-top resists EVERY window (σ_surface = ∞) -/
+
+/-- info: 'Sundog.SurfaceBag.Graded.window_swap' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SurfaceBag.Graded.window_swap
+
+/-- info: 'Sundog.SurfaceBag.Graded.wcount_eq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SurfaceBag.Graded.wcount_eq
+
+/-- info: 'Sundog.SurfaceBag.Graded.stackTop_resists_every_window' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SurfaceBag.Graded.stackTop_resists_every_window

@@ -27,7 +27,8 @@ determine/resist axis for the Order-Relative Resolution Law's schema.
   order-blind statistic — the toy/combinatorial half, exactly as `ParityNoSufficientStat`
   proves the toy half and names Sarnak/Chowla as the imported wall.
 * Only the bag (order-blind) case. The graded window form ("undecodable at n-gram order w ⟺
-  σ > w") is the open hook, not formalized here.
+  σ > w") was the open hook — CLOSED 2026-07-01 by `SurfaceBagGraded.lean`
+  (`stackTop_resists_every_window`: σ_surface(stackTop) = ∞, every window order).
 -/
 import Mathlib
 

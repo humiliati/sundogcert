@@ -106,6 +106,10 @@ import Sundogcert.PercivalCapClass
 -- (sound + achieved, profile-independent marginal) while the threshold court's value is additive
 -- in NO per-agent recoding (three-profile pigeonhole) — composition is decided by the keying.
 import Sundogcert.PercivalKeyedMargin
+-- OR-4 the write-side ∞ cell: in S2's exact 2×2×2 CI model, do(U)-invariance factors through V
+-- and pays the reliability edge ρ−β vs the U-follower, while dependence is decided by the 4-entry
+-- interventional probe table — MEASURABLE ≠ ENFORCEABLE as one statement (Blackwell repair sheathed).
+import Sundogcert.PercivalTargetCollapse
 import Sundogcert.AgenticTrace
 import Sundogcert.DiscreteHolonomy
 import Sundogcert.ContextDecay
@@ -168,3 +172,7 @@ import Sundogcert.DefinableRate
 -- "model computes it" half stays empirical (the H2 probe receipt), exactly as ParityNoSufficientStat
 -- fences Sarnak/Chowla.
 import Sundogcert.SurfaceBag
+-- OR-6 the graded window form: σ_surface(stack-top) = ∞ — for EVERY window order w there are
+-- valid prefixes with identical ≤w-gram count vectors and different stack-tops (the context-swap
+-- witness family P x P y P / P y P x P with the position involution); closes SurfaceBag's open hook.
+import Sundogcert.SurfaceBagGraded
