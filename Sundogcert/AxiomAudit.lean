@@ -109,6 +109,7 @@ import Sundogcert.Percival
 import Sundogcert.PercivalGeneral
 import Sundogcert.PercivalCapClass
 import Sundogcert.PercivalKeyedMargin
+import Sundogcert.OrderRelativeKeyed
 import Sundogcert.SurfaceBag
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -1399,6 +1400,40 @@ set_option linter.style.longLine false in
 /-- info: 'Sundogcert.Percival.keyed_margin_law' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundogcert.Percival.keyed_margin_law
+
+/-! ### OrderRelativeKeyed — the OR-2 boundary instance (cancellation-free margins vs idempotent readout) -/
+
+/-- info: 'Sundog.OrderRelative.Keyed.margin_zerosumfree' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Keyed.margin_zerosumfree
+
+/-- info: 'Sundog.OrderRelative.Keyed.margin_torsion_free' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Keyed.margin_torsion_free
+
+/-- info: 'Sundog.OrderRelative.Keyed.cap_margins_coproduct' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Keyed.cap_margins_coproduct
+
+/-- info: 'Sundog.OrderRelative.Keyed.cap_margin_order_join' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Keyed.cap_margin_order_join
+
+/-- info: 'Sundog.OrderRelative.Keyed.court_readout_idempotent' does not depend on any axioms -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Keyed.court_readout_idempotent
+
+/-- info: 'Sundog.OrderRelative.Keyed.court_readout_not_group_order' depends on axioms: [propext] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Keyed.court_readout_not_group_order
+
+/-- info: 'Sundog.OrderRelative.Keyed.threshold_readout_not_hom' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Keyed.threshold_readout_not_hom
+
+/-- info: 'Sundog.OrderRelative.Keyed.keyed_boundary_instance' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OrderRelative.Keyed.keyed_boundary_instance
 
 /-! ### SurfaceBag — the order-blind bag: depth determined, stack-top resists (H2/σ-bridge anchor) -/
 

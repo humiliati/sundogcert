@@ -155,6 +155,10 @@ import Sundogcert.OrderRelativeRadicalQuotient
 -- The n-ary grading law (ord of a tuple = Finset.lcm of coordinate orders) + the structure-theorem
 -- mode-vector: scalar order of (1,…,1) in ⊕ ZMod dᵢ = lcm of the invariant factors.
 import Sundogcert.OrderRelativeStructure
+-- OR-2: the keyed-composition boundary instance — cap margins on the cancellation-free pole
+-- (ℚ≥0 zerosumfree; the banked coproduct/grading laws verbatim at margin tuples) vs the court's
+-- idempotent threshold readout (Bool ∨; idempotent_eq_one verbatim; the readout = the non-hom locus).
+import Sundogcert.OrderRelativeKeyed
 -- U-4: the definability rate — an explicit uniform piece-count modulus for ReLU nets, exposing the
 -- witness inside net_hasPieceCover's `∃ k`; the checkable PL finiteness-modulus (o-minimal tameness
 -- shadow), needing no o-minimal substrate (mathlib v4.30.0 has none).
