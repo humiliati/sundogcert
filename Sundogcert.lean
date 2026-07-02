@@ -118,6 +118,10 @@ import Sundogcert.PercivalAuditPay
 -- do(U)-invariance for ALL policies IFF at every v it masks the input or voids the action —
 -- every enforcer is a channel retreat, and pays the collapse; owning every node ≠ owning the edge.
 import Sundogcert.PercivalNodeEdge
+-- ME-5 the richer-joint witness: on the XOR synergy joint both single channels are worthless
+-- (edge formula = 0) yet the safe-point write-price is 1/2 — the reliability-edge FORMULA is a
+-- binary-symmetric-CI artifact/floor; the price survives as the value gap (local deficiency).
+import Sundogcert.PercivalSynergy
 import Sundogcert.AgenticTrace
 import Sundogcert.DiscreteHolonomy
 import Sundogcert.ContextDecay
@@ -189,3 +193,8 @@ import Sundogcert.SurfaceBag
 -- valid prefixes with identical ≤w-gram count vectors and different stack-tops (the context-swap
 -- witness family P x P y P / P y P x P with the position involution); closes SurfaceBag's open hook.
 import Sundogcert.SurfaceBagGraded
+-- AT-6 anchor: amplitude washes, a rescaling readout does not — attenuation by any nonzero factor
+-- preserves exact decodability (only the zero-limit shadow kills it), packaged with the in-tree
+-- AC-resist/lattice-survive typing. The trajectory-average bridge stays a named import with a
+-- measured boundary (the AT-6 receipt: wash-out needs a noise floor).
+import Sundogcert.AveragingDecodability

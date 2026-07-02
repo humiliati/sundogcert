@@ -112,10 +112,12 @@ import Sundogcert.PercivalKeyedMargin
 import Sundogcert.PercivalTargetCollapse
 import Sundogcert.PercivalAuditPay
 import Sundogcert.PercivalNodeEdge
+import Sundogcert.PercivalSynergy
 import Sundogcert.OrderRelativeKeyed
 import Sundogcert.SurfaceBag
 import Sundogcert.SurfaceBagGraded
 import Sundogcert.OMinimalOne
+import Sundogcert.AveragingDecodability
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1489,6 +1491,24 @@ set_option linter.style.longLine false in
 #guard_msgs in
 #print axioms Sundogcert.Percival.node_edge_typing_law
 
+/-! ### PercivalSynergy — ME-5: the XOR joint where the edge formula reads 0 but the price is 1/2 -/
+
+/-- info: 'Sundogcert.Percival.xor_vonly_half' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.xor_vonly_half
+
+/-- info: 'Sundogcert.Percival.xor_full_attains' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.xor_full_attains
+
+/-- info: 'Sundogcert.Percival.xor_invariant_le_half' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.xor_invariant_le_half
+
+/-- info: 'Sundogcert.Percival.synergy_edge_formula_fails' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.synergy_edge_formula_fails
+
 /-! ### OrderRelativeKeyed — the OR-2 boundary instance (cancellation-free margins vs idempotent readout) -/
 
 /-- info: 'Sundog.OrderRelative.Keyed.margin_zerosumfree' depends on axioms: [propext, Classical.choice, Quot.sound] -/
@@ -1550,3 +1570,25 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.SurfaceBag.Graded.stackTop_resists_every_window' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.SurfaceBag.Graded.stackTop_resists_every_window
+
+/-! ### AveragingDecodability — amplitude washes, the rescaling readout does not (AT-6 anchor) -/
+
+/-- info: 'Sundog.AveragingDecodability.decodable_mul_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AveragingDecodability.decodable_mul_iff
+
+/-- info: 'Sundog.AveragingDecodability.zero_shadow_not_decodable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AveragingDecodability.zero_shadow_not_decodable
+
+/--
+info: 'Sundog.AveragingDecodability.amplitude_washes_readout_does_not' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+-/
+#guard_msgs in
+#print axioms Sundog.AveragingDecodability.amplitude_washes_readout_does_not
+
+/-- info: 'Sundog.AveragingDecodability.averaging_types_shadows' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.AveragingDecodability.averaging_types_shadows

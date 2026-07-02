@@ -129,7 +129,7 @@ private theorem line_pinned {f : ℝ → ℝ} {S : Finset ℝ} {c x y z : ℝ}
 /-- Two frontier points of the level set `{f = c}` that avoid the cut set and see the same set of
 cuts below them coincide: their stretch is one affine piece pinned to `c`, so points witnessing
 "frontier" (arbitrarily near, off the level set) land in the pinned stretch — contradiction. -/
-private theorem fiber_aux {f : ℝ → ℝ} {S : Finset ℝ} {c x y : ℝ}
+theorem fiber_aux {f : ℝ → ℝ} {S : Finset ℝ} {c x y : ℝ}
     (hf : Continuous f) (hAff : AffineAway f S)
     (hx : x ∈ frontier {t : ℝ | f t = c}) (hy : y ∈ frontier {t : ℝ | f t = c})
     (hyS : y ∉ S) (hT : S.filter (· < x) = S.filter (· < y)) (hxy : x < y) : False := by
