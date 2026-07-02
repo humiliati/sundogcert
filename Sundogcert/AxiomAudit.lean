@@ -121,6 +121,8 @@ import Sundogcert.OMinimalOne
 import Sundogcert.AveragingDecodability
 import Sundogcert.OMinimalRate
 import Sundogcert.OMinimalNormalForm
+import Sundogcert.Semilinear
+import Sundogcert.FourierMotzkin
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1633,3 +1635,27 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalNormalForm.tame_iff_normalForm' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalNormalForm.tame_iff_normalForm
+
+/-! ### Semilinear (o-min ladder R3-semilinear 1/2) — boolean closure + the 1-D tame landing -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.Semilinear.slCompl₂_holds' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.Semilinear.slCompl₂_holds
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.Semilinear.slHolds₁_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.Semilinear.slHolds₁_tame
+
+/-! ### FourierMotzkin (o-min ladder R3-semilinear 2/2) — the projection axiom, dims 2 → 1 -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.FourierMotzkin.projSL_correct' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.FourierMotzkin.projSL_correct
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.FourierMotzkin.proj_semilinear_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.FourierMotzkin.proj_semilinear_tame

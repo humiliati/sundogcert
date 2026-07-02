@@ -209,3 +209,10 @@ import Sundogcert.OMinimalRate
 -- O-min ladder R2-N: the normal form — Tame ↔ finite union of points and open intervals
 -- (max'-peeling induction; frontier-free preconnected windows cannot separate a set).
 import Sundogcert.OMinimalNormalForm
+-- O-min ladder R3-semilinear (1/2): the semilinear presentation class, dims 1–2 — {>,=}-cells,
+-- constructive boolean closure (union/inter/de-Morgan complement), 1-D fragment lands in Tame.
+import Sundogcert.Semilinear
+-- O-min ladder R3-semilinear (2/2): Fourier–Motzkin — the projection axiom, dims 2 → 1: eliminate
+-- y per cell (equality pin ⇒ substitute ×b²; else lower/upper split + division-free pairwise
+-- comparisons + the explicit between-the-bounds witness); projections of semilinear sets are tame.
+import Sundogcert.FourierMotzkin
