@@ -71,6 +71,56 @@ So any "NP-hard" reading of the decoding problem stays **conditional on `P ≠ N
 Cook–Levin hardness of 3SAT. This repository proves the reduction is *faithful*; it does **not** prove
 decoding is hard, and makes **no** claim about P versus NP.
 
+## The Order-Relative Resolution Law — a synthesis core, eight grounded axes
+
+The repository's worked examples keep meeting the same shape: a bounded process
+*determines* some targets and *resists* others, and which one you get is set by an
+order. That shape is proved once, as a schema ([`OrderRelative.lean`](Sundogcert/OrderRelative.lean)):
+
+> **A bounded process with budget `k` resolves a target iff the target's order `≤ k`.
+> The determine/resist split is finite-order vs infinite-order.** (`Resolves k t ↔ ord t ≤ k`)
+
+**Eight instance families plus the resist pole** ground the schema, each a genuinely
+different filtration: parity-determination, coordinate-locality, search-reachability
+(`√2` an *earned* resist pole `⊤`, not a fiat one), radical-reach, spectral/moment (the
+Cauchy law), algebraic degree, cohomological torsion-vs-free (the Aharonov–Bohm `H¹`
+period), and the **surface-window** axis — over bracket strings the order-blind count
+vector *determines* nesting depth (`bagSufficient_depth`) yet can **never** determine
+the stack-top (`not_bagSufficient_stackTop`; witness: `([` vs `[(` share every count and
+disagree on the state), and the resistance holds at **every window order**
+(`stackTop_resists_every_window`, σ_surface = ∞). The surface pair is axiom-lean beyond
+the house standard: `[propext, Quot.sound]` — no `Classical.choice`.
+
+The guard rails are theorems too. `order_is_schema_not_scalar` blocks the
+universal-scalar misread — orders are **incomparable across instances**; the law is a
+schema, not one number. The **composition law** is a single general lemma
+(`orderOf_prod_eq_lcm` — join by lcm, not max), with both walls proved
+(`compose_lcm_not_max`: `4 ⊕ 6 = 12`, not `6`; `converse_fails`: join-homomorphic does
+not mean group-order). The **structure theorem** (`structure_mode_vector`) identifies
+the difficulty vector with a group's invariant-factor vector — the scalar order is its
+lattice join, a lossy projection of a structured object. And an **approximation
+dimension** (`OrderRelativeApprox*`) proves that approximating to any tolerance always
+succeeds while *exact* representation stays order-relative — an unbounded ladder against
+a hard resist pole.
+
+| module group | what it proves |
+|---|---|
+| [`OrderRelative`](Sundogcert/OrderRelative.lean) | the schema + the law `Resolves k t ↔ ord t ≤ k`; `resolvable_iff_finite` / `resists_iff_infinite`; the honesty guard `order_is_schema_not_scalar` |
+| axis instances — across `OrderRelative`, `ParityNoSufficientStat`, and `OrderRelative{AlgDegree, Cohomology, Moment, RadicalQuotient}` | the eight grounded filtrations: parity `ord = n`; prefix-locality `ord = d`; search-reach with `√2` an earned `⊤`; radical order 2 for `√2`; finite-mean vs Cauchy `⊤`; algebraic degree 2 vs denominator `⊤` on the lane optimum `(9+√17)/32`; torsion `m` vs free `⊤` (the `H¹` winding); mode-vectors proving one object carries divergent orders across axes |
+| composition + structure — `OrderRelative{Compose, ComposeLaw, RadicalCompose, Converse, Grading, Structure, Keyed, MomentConv, SearchNeg}` | `orderOf_prod_eq_lcm` proved once with the group-order axes as instances; sharpness and converse walls; `structure_mode_vector`; the keyed/graded composition boundaries; the moment axis join-homomorphic under convolution, the search axis proved **not** join-homomorphic — both sides of the composition boundary machine-checked |
+| approximation — `OrderRelativeApprox` / `…Graded` / `…Ladder` / `…LadderK` | ε-approximation always works; *exact* representation is order-relative |
+| **surface-window** — [`SurfaceBag`](Sundogcert/SurfaceBag.lean), [`SurfaceBagGraded`](Sundogcert/SurfaceBagGraded.lean) | the order axis: the bag determines depth, never the stack-top, at every window order (σ_surface = ∞); axiom-lean `[propext, Quot.sound]` |
+
+**The imported wall, named.** The schema is about labels and statistics, never about any
+model or named hard problem: not P-vs-NP, not learnability, not a claim about what
+neural networks "know." One boundary of the surface-window axis has been *measured*
+off-repo — on real code, a small pretrained language model reads the stack-top exactly
+where count statistics provably collapse, gated on matched baselines, and the
+high-dimensional version of the same question was run to a pre-registered negative —
+but that empirical half lives with its receipts on the Sundog site's
+machine-checked-method ledger; nothing about it is a theorem here. Everything in this
+section is `AxiomAudit`-gated like the rest of the repository.
+
 ## Build
 
 ```sh

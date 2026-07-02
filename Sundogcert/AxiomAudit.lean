@@ -111,6 +111,7 @@ import Sundogcert.PercivalCapClass
 import Sundogcert.PercivalKeyedMargin
 import Sundogcert.PercivalTargetCollapse
 import Sundogcert.PercivalAuditPay
+import Sundogcert.PercivalNodeEdge
 import Sundogcert.OrderRelativeKeyed
 import Sundogcert.SurfaceBag
 import Sundogcert.SurfaceBagGraded
@@ -1451,6 +1452,24 @@ set_option linter.style.longLine false in
 /-- info: 'Sundogcert.Percival.audit_and_pay_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundogcert.Percival.audit_and_pay_iff
+
+/-! ### PercivalNodeEdge — ME-2: every node-write enforcing the edge is a channel retreat -/
+
+/-- info: 'Sundogcert.Percival.owned_node_writable' does not depend on any axioms -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.owned_node_writable
+
+/-- info: 'Sundogcert.Percival.node_write_enforces_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.node_write_enforces_iff
+
+/-- info: 'Sundogcert.Percival.node_write_enforce_price' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.node_write_enforce_price
+
+/-- info: 'Sundogcert.Percival.node_edge_typing_law' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.node_edge_typing_law
 
 /-! ### OrderRelativeKeyed — the OR-2 boundary instance (cancellation-free margins vs idempotent readout) -/
 

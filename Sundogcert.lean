@@ -114,6 +114,10 @@ import Sundogcert.PercivalTargetCollapse
 -- the target safe point IFF t ≥ ρ−β (Bayes ceiling comp ≤ ρ + collapse + tight V-follower) —
 -- incentive enforcement pays the structural write-price; reads do not discount enforcement.
 import Sundogcert.PercivalAuditPay
+-- ME-2 the node/edge typing law: a node-write (input+output surgery, policy-blind) enforces
+-- do(U)-invariance for ALL policies IFF at every v it masks the input or voids the action —
+-- every enforcer is a channel retreat, and pays the collapse; owning every node ≠ owning the edge.
+import Sundogcert.PercivalNodeEdge
 import Sundogcert.AgenticTrace
 import Sundogcert.DiscreteHolonomy
 import Sundogcert.ContextDecay
