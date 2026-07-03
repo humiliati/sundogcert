@@ -241,3 +241,7 @@ import Sundogcert.SemilinearStructure
 -- Kills the Monotonicity Theorem's plumbing cost-center; receipt = tame_right_inc (a D-set in
 -- six lines of formula that costs ~100 lines raw).
 import Sundogcert.OMinimalFormula
+-- O-min ladder R4-C1a: toolkit riders — infinite tame sets contain intervals (normal-form
+-- rider); the pointwise eventual-sign trichotomies (right + left: three tame comparison sets,
+-- a frontier-avoiding window, preconnected_split, midpoint picks the sign) + sublevel gap-fill.
+import Sundogcert.OMinimalTrichotomy

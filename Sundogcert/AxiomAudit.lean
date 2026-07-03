@@ -130,6 +130,7 @@ import Sundogcert.SemilinearN
 import Sundogcert.FourierMotzkinN
 import Sundogcert.SemilinearStructure
 import Sundogcert.OMinimalFormula
+import Sundogcert.OMinimalTrichotomy
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1806,3 +1807,20 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalAbstract.Fml.tame_right_inc' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalAbstract.Fml.tame_right_inc
+
+/-! ### OMinimalTrichotomy (o-min ladder R4-C1a) — interval-in-infinite + eventual signs -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.tame_infinite_contains_Ioo' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.tame_infinite_contains_Ioo
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.eventual_right_sign' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.eventual_right_sign
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.eventual_left_sign' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.eventual_left_sign
