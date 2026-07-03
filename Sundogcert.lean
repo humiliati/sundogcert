@@ -216,3 +216,9 @@ import Sundogcert.Semilinear
 -- y per cell (equality pin ⇒ substitute ×b²; else lower/upper split + division-free pairwise
 -- comparisons + the explicit between-the-bounds witness); projections of semilinear sets are tame.
 import Sundogcert.FourierMotzkin
+-- O-min ladder R4-A: the abstract van den Dries structure (`OMinStructure`: booleans,
+-- substitution-in-one-axiom, ∃-snoc projection, order/singleton atoms, `Tame` as the S₁ axiom) +
+-- the definable calculus (rays/intervals; DefinableFun closed under composition; level sets tame)
+-- + the capstone: dimension-one definables are EXACTLY the tame sets (via R2's normal form +
+-- the shape lemma for open OrdConnected sets). Non-vacuity = R4-B (n-dim semilinear instance).
+import Sundogcert.OMinimalStructure

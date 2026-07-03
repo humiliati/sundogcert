@@ -123,6 +123,7 @@ import Sundogcert.OMinimalRate
 import Sundogcert.OMinimalNormalForm
 import Sundogcert.Semilinear
 import Sundogcert.FourierMotzkin
+import Sundogcert.OMinimalStructure
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1659,3 +1660,25 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.FourierMotzkin.proj_semilinear_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.FourierMotzkin.proj_semilinear_tame
+
+/-! ### OMinimalStructure (o-min ladder R4-A) — the abstract structure + definable calculus -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.OMinStructure.DefinableFun.comp' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.OMinStructure.DefinableFun.comp
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.isOpen_ordConnected_shape' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.isOpen_ordConnected_shape
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.s1_eq_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.s1_eq_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.defFun_tame_level' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.defFun_tame_level
