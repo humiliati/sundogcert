@@ -124,6 +124,9 @@ import Sundogcert.OMinimalNormalForm
 import Sundogcert.Semilinear
 import Sundogcert.FourierMotzkin
 import Sundogcert.OMinimalStructure
+import Sundogcert.SemilinearN
+import Sundogcert.FourierMotzkinN
+import Sundogcert.SemilinearStructure
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1682,3 +1685,49 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalAbstract.defFun_tame_level' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalAbstract.defFun_tame_level
+
+/-! ### SemilinearN (o-min ladder R4-B1) — n-dim semilinear syntax + boolean closure -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.SemilinearN.slInterN_holds' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SemilinearN.slInterN_holds
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.SemilinearN.slComplN_holds' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SemilinearN.slComplN_holds
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.SemilinearN.substSLN_toSet' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SemilinearN.substSLN_toSet
+
+/-! ### FourierMotzkinN (o-min ladder R4-B3) — eliminate the last variable, n dims -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.FourierMotzkinN.projCellN_correct' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.FourierMotzkinN.projCellN_correct
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.FourierMotzkinN.projSLN_toSet' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.FourierMotzkinN.projSLN_toSet
+
+/-! ### SemilinearStructure (o-min ladder R4-B4) — the first machine-checked o-min structure -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.SemilinearInstance.semilinearStructure' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SemilinearInstance.semilinearStructure
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.SemilinearInstance.semilinear_s1_eq_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SemilinearInstance.semilinear_s1_eq_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.SemilinearInstance.semilinear_defFun_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.SemilinearInstance.semilinear_defFun_tame

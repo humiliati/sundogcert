@@ -222,3 +222,17 @@ import Sundogcert.FourierMotzkin
 -- + the capstone: dimension-one definables are EXACTLY the tame sets (via R2's normal form +
 -- the shape lemma for open OrdConnected sets). Non-vacuity = R4-B (n-dim semilinear instance).
 import Sundogcert.OMinimalStructure
+-- O-min ladder R4-B1: the n-dimensional semilinear presentation class — coefficient-row atoms
+-- ((∑ aᵢxᵢ)+c ≷ 0), cells/unions, and the constructive boolean closure ported from dims 2 with
+-- the atom value abstracted (the one new fact: negating row+constant negates the value).
+import Sundogcert.SemilinearN
+-- O-min ladder R4-B3: n-dimensional Fourier–Motzkin — eliminate the last variable (front/last
+-- split via Fin.sum_univ_castSucc; one shared linearity lemma serves pair atoms + both
+-- substitution kinds; value lemmas restated with the front opaque; witness machinery imported
+-- verbatim from the dims-2 module). Headline projSLN_toSet = the definable_proj axiom shape.
+import Sundogcert.FourierMotzkinN
+-- O-min ladder R4-B4: the assembled instance — semilinearStructure : OMinStructure, the first
+-- machine-checked nontrivial o-minimal structure (classically: QE for the ordered ℝ-vector
+-- space). Discharges R4-A's non-vacuity fence and R3's n-dim fence; R4-A's capstone and
+-- tameness payoffs instantiate (semilinear_s1_eq_tame, semilinear_defFun_tame).
+import Sundogcert.SemilinearStructure
