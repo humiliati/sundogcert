@@ -131,6 +131,8 @@ import Sundogcert.FourierMotzkinN
 import Sundogcert.SemilinearStructure
 import Sundogcert.OMinimalFormula
 import Sundogcert.OMinimalTrichotomy
+import Sundogcert.OMinimalSignPartition
+import Sundogcert.OMinimalGluing
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1824,3 +1826,32 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalAbstract.eventual_left_sign' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalAbstract.eventual_left_sign
+
+/-! ### OMinimalSignPartition (o-min ladder R4-C1b) — one behavior class per gap -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.sign_partition' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.sign_partition
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.right_sign_cover' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.right_sign_cover
+
+/-! ### OMinimalGluing (o-min ladder R4-C1c) — local behavior globalizes, no continuity -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.rel_propagate' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.rel_propagate
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.strictMonoOn_of_locInc' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.strictMonoOn_of_locInc
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.eqOn_of_locConst' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.eqOn_of_locConst

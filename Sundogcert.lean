@@ -245,3 +245,11 @@ import Sundogcert.OMinimalFormula
 -- rider); the pointwise eventual-sign trichotomies (right + left: three tame comparison sets,
 -- a frontier-avoiding window, preconnected_split, midpoint picks the sign) + sublevel gap-fill.
 import Sundogcert.OMinimalTrichotomy
+-- O-min ladder R4-C1b: the sign partition — six one-sided sign-class sets tame via two formula
+-- templates; two-sided classes = intersections (locInc = rightAbove ∩ leftBelow, no new
+-- formulas); headline sign_partition = a finite cut-set with ONE behavior class per gap.
+import Sundogcert.OMinimalSignPartition
+-- O-min ladder R4-C1c: the gluing engine — ONE sup-chaining lemma over an abstract transitive
+-- relation (rel_propagate; no continuity, two-sided windows essential) instantiated three ways:
+-- locInc everywhere ⇒ StrictMonoOn, locDec ⇒ StrictAntiOn, locConst ⇒ constant on the gap.
+import Sundogcert.OMinimalGluing
