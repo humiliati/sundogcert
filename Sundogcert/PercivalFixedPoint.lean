@@ -168,9 +168,9 @@ theorem global_convergence (cov : Hyp → Bool) (h0 : Hyp)
   | zero => omega
   | succ k =>
     simp only [traj]
-    cases h : traj cov h0 k with
-    | V => rw [h, hcv]; rfl
-    | W => rw [h, hcw]; rfl
+    cases traj cov h0 k with
+    | V => rw [hcv]; rfl
+    | W => rw [hcw]; rfl
 
 /--
 **The wirehead regime.** Zero coverage under both deployments: the chain is
@@ -184,9 +184,9 @@ theorem capture_global (cov : Hyp → Bool) (h0 : Hyp)
   | zero => omega
   | succ k =>
     simp only [traj]
-    cases h : traj cov h0 k with
-    | V => rw [h, hcv]; rfl
-    | W => rw [h, hcw]; rfl
+    cases traj cov h0 k with
+    | V => rw [hcv]; rfl
+    | W => rw [hcw]; rfl
 
 /--
 **The wandering regime's skeleton: no fixed point is reached.** Coverage only
@@ -216,27 +216,27 @@ theorem wandering_period_two (cov : Hyp → Bool) (h0 : Hyp)
 #guard_msgs in
 #print axioms round_hit_recovers
 
-/-- info: 'Sundogcert.Percival.Chain.corrigible_absorbing' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'Sundogcert.Percival.Chain.corrigible_absorbing' does not depend on any axioms -/
 #guard_msgs in
 #print axioms corrigible_absorbing
 
-/-- info: 'Sundogcert.Percival.Chain.fall_without_coverage' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'Sundogcert.Percival.Chain.fall_without_coverage' does not depend on any axioms -/
 #guard_msgs in
 #print axioms fall_without_coverage
 
-/-- info: 'Sundogcert.Percival.Chain.wirehead_absorbing' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'Sundogcert.Percival.Chain.wirehead_absorbing' does not depend on any axioms -/
 #guard_msgs in
 #print axioms wirehead_absorbing
 
-/-- info: 'Sundogcert.Percival.Chain.grace_exits_wirehead' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'Sundogcert.Percival.Chain.grace_exits_wirehead' does not depend on any axioms -/
 #guard_msgs in
 #print axioms grace_exits_wirehead
 
-/-- info: 'Sundogcert.Percival.Chain.global_convergence' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'Sundogcert.Percival.Chain.global_convergence' depends on axioms: [propext, Quot.sound] -/
 #guard_msgs in
 #print axioms global_convergence
 
-/-- info: 'Sundogcert.Percival.Chain.capture_global' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+/-- info: 'Sundogcert.Percival.Chain.capture_global' depends on axioms: [propext, Quot.sound] -/
 #guard_msgs in
 #print axioms capture_global
 

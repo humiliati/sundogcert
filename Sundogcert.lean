@@ -236,3 +236,8 @@ import Sundogcert.FourierMotzkinN
 -- space). Discharges R4-A's non-vacuity fence and R3's n-dim fence; R4-A's capstone and
 -- tameness payoffs instantiate (semilinear_s1_eq_tame, semilinear_defFun_tame).
 import Sundogcert.SemilinearStructure
+-- O-min ladder R4-C0: the formula layer — definability by reflection (Fml: atoms = definable
+-- sets pulled back along coordinate maps; ¬/∧/∃; ∨/→/∀ derived; ONE induction Fml.definable).
+-- Kills the Monotonicity Theorem's plumbing cost-center; receipt = tame_right_inc (a D-set in
+-- six lines of formula that costs ~100 lines raw).
+import Sundogcert.OMinimalFormula

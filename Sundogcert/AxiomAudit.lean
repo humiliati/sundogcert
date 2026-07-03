@@ -115,6 +115,7 @@ import Sundogcert.PercivalAuditPay
 import Sundogcert.PercivalNodeEdge
 import Sundogcert.PercivalSynergy
 import Sundogcert.PercivalNoisyMargin
+import Sundogcert.PercivalFixedPoint
 import Sundogcert.OrderRelativeKeyed
 import Sundogcert.SurfaceBag
 import Sundogcert.SurfaceBagGraded
@@ -128,6 +129,7 @@ import Sundogcert.OMinimalStructure
 import Sundogcert.SemilinearN
 import Sundogcert.FourierMotzkinN
 import Sundogcert.SemilinearStructure
+import Sundogcert.OMinimalFormula
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1551,6 +1553,48 @@ set_option linter.style.longLine false in
 #guard_msgs in
 #print axioms Sundogcert.Percival.unpaired_flip_witness
 
+/-! ### PercivalFixedPoint — Track-C v4: the Angle-4 fixed-point gate (deploy-correct chain: corrigible/wirehead/wandering regimes) -/
+
+/-- info: 'Sundogcert.Percival.Chain.round_miss_falls' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.Chain.round_miss_falls
+
+/-- info: 'Sundogcert.Percival.Chain.round_miss_noninverted_recovers' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.Chain.round_miss_noninverted_recovers
+
+/-- info: 'Sundogcert.Percival.Chain.round_hit_recovers' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.Chain.round_hit_recovers
+
+/-- info: 'Sundogcert.Percival.Chain.corrigible_absorbing' does not depend on any axioms -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.Chain.corrigible_absorbing
+
+/-- info: 'Sundogcert.Percival.Chain.fall_without_coverage' does not depend on any axioms -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.Chain.fall_without_coverage
+
+/-- info: 'Sundogcert.Percival.Chain.wirehead_absorbing' does not depend on any axioms -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.Chain.wirehead_absorbing
+
+/-- info: 'Sundogcert.Percival.Chain.grace_exits_wirehead' does not depend on any axioms -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.Chain.grace_exits_wirehead
+
+/-- info: 'Sundogcert.Percival.Chain.global_convergence' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.Chain.global_convergence
+
+/-- info: 'Sundogcert.Percival.Chain.capture_global' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.Chain.capture_global
+
+/-- info: 'Sundogcert.Percival.Chain.wandering_period_two' depends on axioms: [propext] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.Chain.wandering_period_two
+
 /-! ### OrderRelativeKeyed — the OR-2 boundary instance (cancellation-free margins vs idempotent readout) -/
 
 /-- info: 'Sundog.OrderRelative.Keyed.margin_zerosumfree' depends on axioms: [propext, Classical.choice, Quot.sound] -/
@@ -1750,3 +1794,15 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.SemilinearInstance.semilinear_defFun_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.SemilinearInstance.semilinear_defFun_tame
+
+/-! ### OMinimalFormula (o-min ladder R4-C0) — the formula layer (definability by reflection) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.Fml.definable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.Fml.definable
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.Fml.tame_right_inc' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.Fml.tame_right_inc
