@@ -114,6 +114,7 @@ import Sundogcert.PercivalTargetCollapse
 import Sundogcert.PercivalAuditPay
 import Sundogcert.PercivalNodeEdge
 import Sundogcert.PercivalSynergy
+import Sundogcert.PercivalNoisyMargin
 import Sundogcert.OrderRelativeKeyed
 import Sundogcert.SurfaceBag
 import Sundogcert.SurfaceBagGraded
@@ -1531,6 +1532,24 @@ set_option linter.style.longLine false in
 /-- info: 'Sundogcert.Percival.synergy_edge_formula_fails' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundogcert.Percival.synergy_edge_formula_fails
+
+/-! ### PercivalNoisyMargin — Track-C v3: crispness is pairing (zero-coverage noise-invariance + bounded-noise recovery + unpaired fragility) -/
+
+/-- info: 'Sundogcert.Percival.zero_coverage_margin_noise_invariant' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.zero_coverage_margin_noise_invariant
+
+/-- info: 'Sundogcert.Percival.zero_coverage_capture' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.zero_coverage_capture
+
+/-- info: 'Sundogcert.Percival.bounded_noise_recovery' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.bounded_noise_recovery
+
+/-- info: 'Sundogcert.Percival.unpaired_flip_witness' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.unpaired_flip_witness
 
 /-! ### OrderRelativeKeyed — the OR-2 boundary instance (cancellation-free margins vs idempotent readout) -/
 
