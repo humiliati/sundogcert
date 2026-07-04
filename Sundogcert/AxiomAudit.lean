@@ -1601,6 +1601,16 @@ set_option linter.style.longLine false in
 #guard_msgs in
 #print axioms Sundogcert.Percival.Chain.wandering_period_two
 
+/-! ### PercivalBasin — LP-4: the corrigibility basin over ARBITRARY hypothesis space (breadth governed by coverage, not preference-neighbourhood) -/
+
+/-- info: 'Sundogcert.Percival.Basin.basin_empty_without_self_coverage' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.Basin.basin_empty_without_self_coverage
+
+/-- info: 'Sundogcert.Percival.Basin.basin_univ_full_coverage' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundogcert.Percival.Basin.basin_univ_full_coverage
+
 /-! ### OrderRelativeKeyed — the OR-2 boundary instance (cancellation-free margins vs idempotent readout) -/
 
 /-- info: 'Sundog.OrderRelative.Keyed.margin_zerosumfree' depends on axioms: [propext, Classical.choice, Quot.sound] -/
