@@ -258,3 +258,7 @@ import Sundogcert.OMinimalGluing
 -- uncountable [ℝ-specific; the general-RCF constant-or-injective route is the named
 -- refinement]) + assembly: finite cut-set, constant/StrictMonoOn/StrictAntiOn per gap.
 import Sundogcert.OMinimalMonotonicity
+-- O-min ladder R4-C2a: the order-continuity bridge (no arithmetic atoms ⇒ ε-δ inexpressible;
+-- ContinuousAt in pure order terms via nhds_basis_Ioo) + the usc/lsc split (two five-coordinate
+-- formulas) ⇒ tame_discSet: the discontinuity set of a definable function is tame.
+import Sundogcert.OMinimalContinuity

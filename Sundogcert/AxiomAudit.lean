@@ -134,6 +134,7 @@ import Sundogcert.OMinimalTrichotomy
 import Sundogcert.OMinimalSignPartition
 import Sundogcert.OMinimalGluing
 import Sundogcert.OMinimalMonotonicity
+import Sundogcert.OMinimalContinuity
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1868,3 +1869,25 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalAbstract.monotonicity_theorem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalAbstract.monotonicity_theorem
+
+/-! ### OMinimalContinuity (o-min ladder R4-C2a) — order bridge + tame discontinuity set -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.continuousAt_iff_order' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.continuousAt_iff_order
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.tame_discSet' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.tame_discSet
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.tame_image' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.tame_image
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.strictMonoOn_exists_continuityPt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.strictMonoOn_exists_continuityPt
