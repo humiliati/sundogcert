@@ -253,3 +253,8 @@ import Sundogcert.OMinimalSignPartition
 -- relation (rel_propagate; no continuity, two-sided windows essential) instantiated three ways:
 -- locInc everywhere ⇒ StrictMonoOn, locDec ⇒ StrictAntiOn, locConst ⇒ constant on the gap.
 import Sundogcert.OMinimalGluing
+-- O-min ladder R4-C1d: THE MONOTONICITY THEOREM — badSet finite (four eq-mixed window kills +
+-- the two extremum combos by countability: strict neighbor-extrema inject into ℚ², Ioo is
+-- uncountable [ℝ-specific; the general-RCF constant-or-injective route is the named
+-- refinement]) + assembly: finite cut-set, constant/StrictMonoOn/StrictAntiOn per gap.
+import Sundogcert.OMinimalMonotonicity

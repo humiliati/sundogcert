@@ -133,6 +133,7 @@ import Sundogcert.OMinimalFormula
 import Sundogcert.OMinimalTrichotomy
 import Sundogcert.OMinimalSignPartition
 import Sundogcert.OMinimalGluing
+import Sundogcert.OMinimalMonotonicity
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1855,3 +1856,15 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalAbstract.eqOn_of_locConst' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalAbstract.eqOn_of_locConst
+
+/-! ### OMinimalMonotonicity (o-min ladder R4-C1d) — THE MONOTONICITY THEOREM -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.badSet_finite' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.badSet_finite
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.monotonicity_theorem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.monotonicity_theorem
