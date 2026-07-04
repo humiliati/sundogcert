@@ -392,4 +392,59 @@ theorem constOn_continuousAt {φ : ℝ → ℝ} {c d : ℝ}
   rw [he]
   exact ⟨hp₀, hq₀⟩
 
+/-! ### C2c — assembly: the continuous Monotonicity Theorem -/
+
+/-- **The discontinuity set of a definable function is finite**: it is tame, and an interval
+of discontinuities would contain a C1-gap on which `φ` is constant or strictly monotone —
+both of which produce a continuity point. -/
+theorem discSet_finite {S : OMinStructure} {φ : ℝ → ℝ} (hφ : S.DefinableFun φ) :
+    {x : ℝ | ¬ ContinuousAt φ x}.Finite := by
+  by_contra hinf
+  obtain ⟨a, b, hab, hsub⟩ := tame_infinite_contains_Ioo (tame_discSet hφ) hinf
+  obtain ⟨F₁, hF₁⟩ := monotonicity_theorem hφ
+  obtain ⟨v, hv, hwin⟩ := exists_right_window F₁.finite_toSet ((a + b) / 2)
+  have hcab : a < (a + b) / 2 := by linarith
+  have hcbb : (a + b) / 2 < b := by linarith
+  have hcd : (a + b) / 2 < min v b := lt_min hv hcbb
+  have hsubab : Set.Ioo ((a + b) / 2) (min v b) ⊆ Set.Ioo a b := by
+    intro y hy
+    exact ⟨lt_trans hcab hy.1, lt_of_lt_of_le hy.2 (min_le_right _ _)⟩
+  have hgap : ∀ s ∈ F₁, s ∉ Set.Ioo ((a + b) / 2) (min v b) := by
+    intro s hs hmem
+    exact hwin s ⟨hmem.1, lt_of_lt_of_le hmem.2 (min_le_left _ _)⟩ (Finset.mem_coe.mpr hs)
+  rcases hF₁ _ _ hcd hgap with hC | hM | hA
+  · have hmid : ((a + b) / 2 + min v b) / 2 ∈ Set.Ioo ((a + b) / 2) (min v b) := by
+      rw [Set.mem_Ioo]
+      constructor <;> linarith
+    exact (hsub (hsubab hmid)) (constOn_continuousAt hC _ hmid)
+  · obtain ⟨x, hx, hcont⟩ := strictMonoOn_exists_continuityPt hφ hcd hM
+    exact (hsub (hsubab hx)) hcont
+  · obtain ⟨x, hx, hcont⟩ := strictAntiOn_exists_continuityPt hφ hcd hA
+    exact (hsub (hsubab hx)) hcont
+
+/-- **THE CONTINUOUS MONOTONICITY THEOREM (R4-C complete).** For every o-minimal structure and
+definable `φ : ℝ → ℝ`: a finite cut-set outside of which `φ` is piecewise constant, strictly
+increasing, or strictly decreasing, **and continuous** — van den Dries Ch. 3 §1 in full. -/
+theorem monotonicity_theorem_continuous {S : OMinStructure} {φ : ℝ → ℝ}
+    (hφ : S.DefinableFun φ) :
+    ∃ F : Finset ℝ, ∀ a b : ℝ, a < b → (∀ s ∈ F, s ∉ Set.Ioo a b) →
+      ((∀ x ∈ Set.Ioo a b, ∀ y ∈ Set.Ioo a b, φ x = φ y) ∨
+        StrictMonoOn φ (Set.Ioo a b) ∨ StrictAntiOn φ (Set.Ioo a b)) ∧
+      ContinuousOn φ (Set.Ioo a b) := by
+  classical
+  obtain ⟨F₀, hF₀⟩ := monotonicity_theorem hφ
+  have hdfin := discSet_finite hφ
+  refine ⟨F₀ ∪ hdfin.toFinset, ?_⟩
+  intro a b hab hgap
+  have hgap₀ : ∀ s ∈ F₀, s ∉ Set.Ioo a b := fun s hs =>
+    hgap s (Finset.mem_union_left _ hs)
+  have hcont : ContinuousOn φ (Set.Ioo a b) := by
+    apply continuousOn_of_forall_continuousAt
+    intro x hx
+    by_contra hnc
+    exact hgap x (Finset.mem_union_right _ (by
+      rw [Set.Finite.mem_toFinset]
+      exact hnc)) hx
+  exact ⟨hF₀ a b hab hgap₀, hcont⟩
+
 end Sundog.OMinimalAbstract

@@ -116,6 +116,7 @@ import Sundogcert.PercivalNodeEdge
 import Sundogcert.PercivalSynergy
 import Sundogcert.PercivalNoisyMargin
 import Sundogcert.PercivalFixedPoint
+import Sundogcert.PercivalBasin
 import Sundogcert.OrderRelativeKeyed
 import Sundogcert.SurfaceBag
 import Sundogcert.SurfaceBagGraded
@@ -1891,3 +1892,13 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalAbstract.strictMonoOn_exists_continuityPt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalAbstract.strictMonoOn_exists_continuityPt
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.discSet_finite' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.discSet_finite
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.monotonicity_theorem_continuous' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.monotonicity_theorem_continuous
