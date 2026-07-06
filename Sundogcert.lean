@@ -323,3 +323,16 @@ import Sundogcert.OMinimalRefinement
 -- band_triviality: on every cut-avoiding interval, one class, continuous ordered ranks, and
 -- every region UNIFORMLY in or out of A -- cell decomposition for R^2 in concrete form.
 import Sundogcert.OMinimalBandTriviality
+-- O-min ladder R4-D5d-1: the Cell2 packaging layer. Cell1/Cell2 datatypes + toSet +
+-- WellFormed + IsCellDecomp (covers/pairwise/adapted/wellFormed); the sort-free baseCells
+-- decomposition of the line from a finite cut set (points + adjacent gaps from a product
+-- filter + outer rays) proved covering and pairwise disjoint; and the two-point ray/univ
+-- uniformity upgrades that D5d-2's assembly needs for the unbounded base cells.
+import Sundogcert.OMinimalCells
+-- O-min ladder R4-D5d-2: CELL DECOMPOSITION FOR R^2 -- the arc's terminal theorem. Every
+-- definable planar set admits a finite, covering, pairwise-disjoint, adapted, well-formed
+-- cell decomposition (cell_decomposition; union form cell_decomposition_mem). Generic
+-- per-base constructor (bandLow . graphs . bands . bandHigh from a uniform class +
+-- selections) x per-base instantiations (fiber dichotomies at points, band_triviality on
+-- gaps, two-point upgrades on rays/line) x flatMap over the baseCells partition.
+import Sundogcert.OMinimalCellDecomp

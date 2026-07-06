@@ -148,6 +148,8 @@ import Sundogcert.OMinimalUniformFiniteness
 import Sundogcert.OMinimalFrontierBound
 import Sundogcert.OMinimalRefinement
 import Sundogcert.OMinimalBandTriviality
+import Sundogcert.OMinimalCells
+import Sundogcert.OMinimalCellDecomp
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -2117,3 +2119,32 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalAbstract.band_triviality' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalAbstract.band_triviality
+
+/-! ### OMinimalCells (o-min ladder R4-D5d-1) — the Cell₂ packaging layer -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.baseCells_covers' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.baseCells_covers
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.baseCells_pairwise' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.baseCells_pairwise
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.univ_uniform' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.univ_uniform
+
+/-! ### OMinimalCellDecomp (o-min ladder R4-D5d-2) — CELL DECOMPOSITION FOR ℝ² -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.cell_decomposition' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.cell_decomposition
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.cell_decomposition_mem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.cell_decomposition_mem
