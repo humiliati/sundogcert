@@ -272,3 +272,13 @@ import Sundogcert.OMinimalSlice
 -- formula pullback along coordinate maps, ∃-threading via extendMap). Chain kit for D2:
 -- decreasing chain, finset extraction/construction, and infinite_fiber_of_mem_all.
 import Sundogcert.OMinimalCounting
+-- O-min ladder R4-D2: the dichotomy kill (finite fibers + unbounded sizes => every counting
+-- set contains an interval, by cardinality stabilization of the decreasing chain) and the
+-- definable k-th point functions (BelowCount mirror, exact-rank IsNth unique+exists,
+-- totalized nthFn with definable graph -- the Monotonicity Theorem's D3 input).
+import Sundogcert.OMinimalPointFns
+-- O-min ladder R4-D3: the k-curve extraction -- for every k, one interval carrying k
+-- genuine (exact-rank, graphs-in-A), continuous, strictly ordered rank functions:
+-- k pairwise disjoint definable curves (dichotomy interval + continuous Monotonicity
+-- Theorem per rank + one finite-avoidance window over the union of cut-sets).
+import Sundogcert.OMinimalCurves

@@ -139,6 +139,8 @@ import Sundogcert.OMinimalMonotonicity
 import Sundogcert.OMinimalContinuity
 import Sundogcert.OMinimalSlice
 import Sundogcert.OMinimalCounting
+import Sundogcert.OMinimalPointFns
+import Sundogcert.OMinimalCurves
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1955,3 +1957,37 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalAbstract.infinite_fiber_of_mem_all' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalAbstract.infinite_fiber_of_mem_all
+
+/-! ### OMinimalPointFns (o-min ladder R4-D2) — the dichotomy kill + definable rank functions -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.exists_interval_in_countSet' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.exists_interval_in_countSet
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.isNth_exists' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.isNth_exists
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.definableFun_nthFn' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.definableFun_nthFn
+
+/-! ### OMinimalCurves (o-min ladder R4-D3) — the k-curve extraction -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.isNth_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.isNth_lt
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.isNth_exists_of_mem_countSet' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.isNth_exists_of_mem_countSet
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.exists_k_ordered_curves' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.exists_k_ordered_curves

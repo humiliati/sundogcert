@@ -121,6 +121,63 @@ but that empirical half lives with its receipts on the Sundog site's
 machine-checked-method ledger; nothing about it is a theorem here. Everything in this
 section is `AxiomAudit`-gated like the rest of the repository.
 
+## The o-minimality program — a machine-checked o-minimal structure
+
+The repository's tameness vocabulary (`Tame` = finite union of points and open intervals) is
+developed into a machine-checked fragment of o-minimality (van den Dries, *Tame Topology*), built
+bottom-up from dimension one. The headline
+([`SemilinearStructure.lean`](Sundogcert/SemilinearStructure.lean)):
+
+> **`semilinearStructure : OMinStructure` exists** — the ordered ℝ-vector-space (semilinear)
+> structure satisfies the o-minimality axioms, machine-checked, with
+> `semilinear_s1_eq_tame`: its dimension-one definables are **exactly** the tame sets
+> (equivalently: quantifier elimination for the ordered ℝ-vector space, in certified form).
+
+On top of the abstract structure, **the Monotonicity Theorem** — the first theorem of o-minimality
+(vdD Ch. 3 §1) — is proved in full: `monotonicity_theorem` (every definable `φ : ℝ → ℝ` admits a
+finite cut-set with `φ` constant, strictly increasing, or strictly decreasing on each gap) and
+`monotonicity_theorem_continuous` (adding `ContinuousOn` per gap), in
+[`OMinimalMonotonicity.lean`](Sundogcert/OMinimalMonotonicity.lean) /
+[`OMinimalContinuity.lean`](Sundogcert/OMinimalContinuity.lean).
+
+| module group | what it proves |
+|---|---|
+| dim-1 theory — [`OMinimalOne`](Sundogcert/OMinimalOne.lean), `OMinimalNormalForm`, `OMinimalRate` | `Tame` + two concrete structures tame in dimension one; the normal form (tame **is** "finite union of points and open intervals"); the monotonicity instance and the frontier modulus (the analytic bridge used by `DefinableRate`) |
+| semilinear presentation + projection — `Semilinear`, `FourierMotzkin`, `SemilinearN`, `FourierMotzkinN` | the semilinear class in dims 1–2 with Fourier–Motzkin projection `2 → 1`; then the n-dimensional syntax, boolean closure, and n-dimensional FM (eliminate the last variable) — the quantifier-elimination engine |
+| the abstract structure — [`OMinimalStructure`](Sundogcert/OMinimalStructure.lean), `OMinimalFormula` | `OMinStructure` (definable calculus: booleans, substitution, projection, `s1_eq_tame`); the formula layer — definability by reflection |
+| **the instance** — [`SemilinearStructure`](Sundogcert/SemilinearStructure.lean) | `semilinearStructure : OMinStructure` + `semilinear_s1_eq_tame` — the axioms are non-vacuous: a genuine structure inhabits them |
+| the Monotonicity Theorem — `OMinimalTrichotomy`, `OMinimalSignPartition`, `OMinimalGluing`, `OMinimalMonotonicity`, `OMinimalContinuity` | the toolkit (eventual-sign trichotomy; the finite sign partition — one behavior class per gap; the gluing lemmas — local behavior globalizes) → `monotonicity_theorem`, then the order-continuity bridge, the tame discontinuity set, and `monotonicity_theorem_continuous` |
+| toward cell decomposition — `OMinimalSlice`, `OMinimalCounting` | parametric slices + the fiber-frontier set; the counting formulas (fiber-size sets are tame) — the dimension-two engine inputs |
+
+**The walls, named.** The mathematics is classical (van den Dries); the contribution is the
+*formalization* — a prior-art pass found no existing machine-checked o-minimality development
+(time-stamped "none found," not "does not exist"). Tarski–Seidenberg quantifier elimination for the
+*semialgebraic* structure is not attempted — which is exactly why the certified nontrivial instance
+is the semilinear one. Everything `AxiomAudit`-gated.
+
+## Deploy-correct self-correction — coverage, pairing, basins
+
+A family of small decision-theoretic cores about a selection process choosing between a true
+objective and a proxy that imitates it, under a description-length prior — and what happens when
+the process is iterated (each deployment shapes what the next correction round samples). The
+attribution boundary is kept explicit: the *qualitative* fact that behaviour-only feedback cannot
+guarantee an honest selection is the literature's (the ELK problem and its 2026 impossibility
+theorem); performatively-stable points as fixed points of retraining are Perdomo et al. /
+Brown–Hod–Kalemaj; paired-proportion variance is classical. What is machine-checked here is the
+**quantified margins, the coverage-parameterised dynamics, and the basin dichotomy**:
+
+| module group | what it proves |
+|---|---|
+| court-separation anchors — [`Percival`](Sundogcert/Percival.lean), [`PercivalGeneral`](Sundogcert/PercivalGeneral.lean) | on rewards nonincreasing in proxy-pressure, no upper tail beats the untilted base (3-point anchor, then the general n-point cross-multiplied form); all-zero support past the threshold ⟹ any positive un-targeted reward strictly wins |
+| access-cell anchors — `PercivalCapClass`, `PercivalKeyedMargin`, `PercivalTargetCollapse`, `PercivalAuditPay`, `PercivalNodeEdge`, `PercivalSynergy` | the `Sov_opt` two-sided classification (outgoing bounded ∀ interventions, incoming unconstrained); the keyed-composition margin law; the write-side collapse `≤ β` with the priced write `ρ − β` exact; `audit_and_pay_iff` (a transfer implements the safe point ⟺ `t ≥ ρ−β`); the node/edge typing law ("owning every node ≠ owning the edge"); the XOR joint where the edge formula reads 0 but the price is ½ |
+| the noisy margin — [`PercivalNoisyMargin`](Sundogcert/PercivalNoisyMargin.lean) | **crispness is pairing**: on shared behaviour, paired evaluation cancels *any* observation noise exactly, so the zero-coverage selection margin is exactly `−prior` for every noise process (`zero_coverage_margin_noise_invariant`); bounded-noise recovery is per-hit (`bounded_noise_recovery`); the unpaired flip witness makes worst-case tolerance decay with eval size — the paired:unpaired tolerance ratio is the disagreement fraction |
+| the deploy-correct chain — [`PercivalFixedPoint`](Sundogcert/PercivalFixedPoint.lean) | the two-state dynamics: a covered round recovers the true objective, an uncovered round falls (noise-invariantly, by the round bridge); the corrigible state is absorbing **iff** its own deployment sustains coverage, the proxy state is absorbing **iff** its deployment's coverage is zero; with coverage only on one side the trajectory **alternates forever** (`wandering_period_two`) — the chain theorems are axiom-**free** (pure computation) |
+| the basin — [`PercivalBasin`](Sundogcert/PercivalBasin.lean) | over an **arbitrary** hypothesis type (no finiteness, no metric, no preference-neighbourhood): the eventually-stays basin of the corrigible target is **empty** without self-coverage and the **whole space** under full coverage (`[propext, Quot.sound]`) — the basin's breadth is governed by the coverage predicate, with the hypothesis space's structure playing no role |
+
+The empirical legs (a Pythia-checkpoint calibration of the paired-variance law; the toy
+Monte-Carlo dynamics) live with their receipts on the Sundog site's ledger; nothing about them is
+a theorem here.
+
 ## Build
 
 ```sh
@@ -171,6 +228,10 @@ proof makes `lake build` **fail**. The referee-free promise can no longer silent
 | `Sundogcert/MatchingCover.lean` | **König** — the second LP-duality `Certifies` instance (5th ledger entry). `matching_le_cover`: a vertex cover upper-bounds every matching (`|M| ≤ |C|`, via an injection matched-edge ↦ a cover endpoint — distinct matched edges share no vertex). `konig`: a tight matching/cover pair certifies the matching is **maximum** and the cover **minimum** at once. Cheap-check `covercert_cost_le` (`O(|E|)`); *finding* the maximum matching is the imported wall |
 | `Sundogcert/TwoSat.lean` | **2-SAT** — the *decision-problem* `Certifies` instance (6th ledger entry; NP "verification is easy"). `check_correct`: the `O(|φ|)` clause evaluator decides satisfiability exactly. `cert_sound`: a satisfying assignment certifies `Satisfiable` (the witness is the proof). Cheap-check `satcert_cost_le`; *finding* the assignment (the implication-graph SCC algorithm) is the imported wall |
 | `Sundogcert/PrattCert.lean` | **Pratt** — the *number-theoretic* `Certifies` instance (7th ledger entry; **primality is in NP**). A primitive-root `Witness` (`a^(p-1)=1`, `a^((p-1)/q)≠1` for every prime `q∣p-1`); `cert_sound` (Lucas) ⟹ `p.Prime`, `cert_complete` ⟹ every prime has one, `prime_iff_witness` the characterization — wrapping mathlib's `lucas_primality`/`reverse_lucas_primality`. Cheap-check `prattcert_cost_le` (`|factors|+1` modexps); *finding* the root + factoring `p−1` is the imported wall |
+| `Sundogcert/QueryGap.lean` | **the ledger's first PROVED (not imported) find/check gap.** Every other ledger entry imports its FIND-hardness; here *both* sides are theorems, in the decision-tree query model: checking a supplied witness costs **one** query (`checkTree_depth`), while any correct existence-decider needs **`≥ n`** queries (`search_needs_n_queries`, the adversary argument), so `check_lt_find`. Not a P-vs-NP separation — an *unconditional lower bound in a restricted model*, which is exactly what lets it be proved rather than imported |
+| `Sundogcert/QueryGapCapacity.lean` | **the capacity-resistance certificate** — the "third axis" of shadow-resistance (beyond dimensional and topological), de-imported. `capacity_certificate` bundles three machine-checked properties of the unstructured-search shadow: CHECK is flat (one query); the problem is **DETERMINABLE** (`scanFull`, a correct decider of depth exactly `n` — finite query order, so the resistance is *not* informational); yet FIND resists (`≥ n`). *Determinable yet find-resisting*: the computational coordinate, orthogonal to the informational finite/∞ order axis, with the gap proved rather than imported (contrast: the syndrome instance's hardness is imported and its measured gap is an upper bound against tested attackers) |
+| `Sundogcert/AbstractionCert.lean` | the find/check ledger's **program-synthesis** instance: `train_underdetermines` exhibits two distinct programs passing the same CHECK on the training set while disagreeing on a held-out input — checking is cheap, but the check under-determines the program (why abstraction benchmarks are FIND-bounded, not CHECK-bounded) |
+| `Sundogcert/AbstractionQueryGap.lean` | the abstraction instance of `check ≪ find`: reuses `QueryGap`'s adversary — for `D ≥ 2`, checking one candidate costs a single query while finding needs `≥ n` (`abstraction_check_lt_find`), unconditional in the query model |
 | `Sundogcert/CancellationSpine.lean` | **the cancellation spine** (N-2 synthesis anchor). `isMono_tame`: a cancellation-free (`IsMono`) circuit is *uniformly* tame — its realization is monotone **and** convex **and** region-polynomial, all from one hypothesis. Paired with `FoldCancellation.isMono_not_iterTent` (the cancellation-using tent is unreachable cancellation-free), this is the machine-checked half of "cancellation is the single coordinate." The full claim (additive/subtractive/division walls reducible too) stays a typed conjecture — the honest split is in `docs/ALGO_APPROX_N2_CANCELLATION_SPINE.md` |
 | `Sundogcert/DecodingNPHard.lean` | the chain's last link: exact-cover-by-3-sets ≤ bounded-weight GF(2) decoding (both directions, unconditional) |
 | `Sundogcert/MatchingNPHard.lean` | `3DM ≤ X3C`, composed through to decoding (`threeDM_iff_Decodes`) |
@@ -184,6 +245,13 @@ proof makes `lake build` **fail**. The referee-free promise can no longer silent
 | `Sundogcert/SATReductionForward.lean` | forward correctness: a satisfying assignment yields a perfect matching |
 | `Sundogcert/SATReductionMain.lean` | the composition — `Satisfiable φ ↔ Decodes …`, closing `3SAT ≤ 3DM ≤ X3C ≤ Decodes` |
 | `Sundogcert/AxiomAudit.lean` | the **self-enforcing axiom-clean gate**: every headline theorem's `#print axioms` pinned by `#guard_msgs` — a `sorry`/`native_decide`/extra-axiom regression fails the build |
+
+The table lists the certificate / find-check / expressivity arc. The **Order-Relative**,
+**o-minimality**, and **self-correction** families are tabled in their own sections above; the
+constructive universal-approximation ladder (`UniversalApprox`, `MvUniversalApprox`, and the
+monomial/polynomial gate chain) and the approximation-certificate modules (`ApproxCert`,
+`DefinableRate`) are documented in the algo-approx lane notes. `AxiomAudit.lean` imports every
+gated module, so the build enforces the full inventory regardless of what this README highlights.
 
 ## Agentic trace slate
 
