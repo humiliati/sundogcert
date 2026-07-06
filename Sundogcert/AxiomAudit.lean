@@ -85,6 +85,7 @@ import Sundogcert.MatchingCover
 import Sundogcert.TwoSat
 import Sundogcert.PrattCert
 import Sundogcert.QueryGap
+import Sundogcert.QueryGapCapacity
 import Sundogcert.AbstractionCert
 import Sundogcert.AbstractionQueryGap
 import Sundogcert.ParityNoSufficientStat
@@ -137,6 +138,7 @@ import Sundogcert.OMinimalGluing
 import Sundogcert.OMinimalMonotonicity
 import Sundogcert.OMinimalContinuity
 import Sundogcert.OMinimalSlice
+import Sundogcert.OMinimalCounting
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -586,6 +588,12 @@ import Sundogcert.OMinimalSlice
 /-- info: 'Sundog.QueryGap.check_lt_find' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.QueryGap.check_lt_find
+
+/-! ## QueryGapCapacity — the capacity-resistance certificate: the "third axis" (determinable yet find-resisting) with a NON-IMPORTED gap -/
+
+/-- info: 'Sundog.QueryGapCapacity.capacity_certificate' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.QueryGapCapacity.capacity_certificate
 
 /-! ## AbstractionCert — the find/check ledger's program-synthesis instance (FC-1) -/
 
@@ -1930,3 +1938,20 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalAbstract.fiberFrontier_fiber_finite' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalAbstract.fiberFrontier_fiber_finite
+
+/-! ### OMinimalCounting (o-min ladder R4-D1) — reindex + the tame counting sets -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.Fml.eval_reindex' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.Fml.eval_reindex
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.tame_countSet' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.tame_countSet
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.infinite_fiber_of_mem_all' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.infinite_fiber_of_mem_all

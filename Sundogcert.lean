@@ -267,3 +267,8 @@ import Sundogcert.OMinimalContinuity
 -- AUTOMATICALLY finite (fiber of Y = frontier of fiber of A; Tame = frontier-finite) — the
 -- uniform-finiteness engine's input.
 import Sundogcert.OMinimalSlice
+-- O-min ladder R4-D1: the counting formulas — countSet A k = {x | fiber ≥ k points} is tame
+-- via an Fml-valued recursion over the meta-natural k, powered by the new Fml.reindex (whole-
+-- formula pullback along coordinate maps, ∃-threading via extendMap). Chain kit for D2:
+-- decreasing chain, finset extraction/construction, and infinite_fiber_of_mem_all.
+import Sundogcert.OMinimalCounting
