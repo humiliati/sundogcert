@@ -282,3 +282,14 @@ import Sundogcert.OMinimalPointFns
 -- k pairwise disjoint definable curves (dichotomy interval + continuous Monotonicity
 -- Theorem per rank + one finite-avoidance window over the union of cut-sets).
 import Sundogcert.OMinimalCurves
+-- O-min ladder R4-D4a: the normality layer (classical Finiteness-Lemma route; the "pile
+-- wall" dissolved). Box-normality predicates, their definability (selection-continuity
+-- formula at ambient 12 over a generated snoc battery), normal heights open per column,
+-- +-/-infinity ray-normality tame -- the bad-set/beta machinery inputs for D4b-D4d.
+import Sundogcert.OMinimalNormal
+-- O-min ladder R4-D4b: the beta-machinery. Generic definable selector (selFn: any definable
+-- functional relation totalizes to a DefinableFun, proved once) instantiated five times:
+-- betaFn (least non-normal height, exists via IsClosed.csInf_mem + ray-normality bounds),
+-- fiber max/min, and the beta fiber neighbors (betaFn's own graph fed back as an atom).
+-- Plus the three tame bad sets. D4c's tube-kill inputs complete.
+import Sundogcert.OMinimalBeta

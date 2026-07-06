@@ -141,6 +141,8 @@ import Sundogcert.OMinimalSlice
 import Sundogcert.OMinimalCounting
 import Sundogcert.OMinimalPointFns
 import Sundogcert.OMinimalCurves
+import Sundogcert.OMinimalNormal
+import Sundogcert.OMinimalBeta
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1991,3 +1993,37 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalAbstract.exists_k_ordered_curves' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalAbstract.exists_k_ordered_curves
+
+/-! ### OMinimalNormal (o-min ladder R4-D4a) — the normality layer -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.definable_normal' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.definable_normal
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.normal_slice_isOpen' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.normal_slice_isOpen
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.tame_normalTop' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.tame_normalTop
+
+/-! ### OMinimalBeta (o-min ladder R4-D4b) — the β-machinery -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.definableFun_selFn' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.definableFun_selFn
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.definableFun_betaFn' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.definableFun_betaFn
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.tame_badFin' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.tame_badFin
