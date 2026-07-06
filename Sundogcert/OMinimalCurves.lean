@@ -64,8 +64,9 @@ theorem isNth_exists_of_mem_countSet {x : ℝ} {k : ℕ}
 
 /-! ### The finite-avoidance window -/
 
-/-- A finite set cannot block every subinterval: shrink past it, one point at a time. -/
-private theorem avoid_finset (G : Finset ℝ) : ∀ a₀ b₀ : ℝ, a₀ < b₀ →
+/-- A finite set cannot block every subinterval: shrink past it, one point at a time.
+(De-privatized at D4c: the window shrink is the ladder's workhorse.) -/
+theorem avoid_finset (G : Finset ℝ) : ∀ a₀ b₀ : ℝ, a₀ < b₀ →
     ∃ a b : ℝ, a < b ∧ Set.Ioo a b ⊆ Set.Ioo a₀ b₀ ∧ ∀ y ∈ G, y ∉ Set.Ioo a b := by
   classical
   induction G using Finset.induction_on with

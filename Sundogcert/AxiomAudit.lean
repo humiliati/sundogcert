@@ -143,6 +143,11 @@ import Sundogcert.OMinimalPointFns
 import Sundogcert.OMinimalCurves
 import Sundogcert.OMinimalNormal
 import Sundogcert.OMinimalBeta
+import Sundogcert.OMinimalBadFinite
+import Sundogcert.OMinimalUniformFiniteness
+import Sundogcert.OMinimalFrontierBound
+import Sundogcert.OMinimalRefinement
+import Sundogcert.OMinimalBandTriviality
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -2027,3 +2032,88 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalAbstract.tame_badFin' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalAbstract.tame_badFin
+
+/-! ### OMinimalBadFinite (o-min ladder R4-D4c) — the tube kill: bad sets are finite -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.notNormalTop_finite' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.notNormalTop_finite
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.badFin_finite' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.badFin_finite
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.abnormal_finite' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.abnormal_finite
+
+/-! ### OMinimalUniformFiniteness (o-min ladder R4-D4d) — THE FINITENESS LEMMA -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.count_locally_constant' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.count_locally_constant
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.uniform_finiteness' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.uniform_finiteness
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.exists_empty_countSet' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.exists_empty_countSet
+
+/-! ### OMinimalFrontierBound (o-min ladder R4-D5a) — the uniform frontier bound -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.frontier_ncard_bound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.frontier_ncard_bound
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.ranks_enumerate' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.ranks_enumerate
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.frontier_partition' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.frontier_partition
+
+/-! ### OMinimalRefinement (o-min ladder R4-D5b) — the master refinement -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.tame_bandIn' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.tame_bandIn
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.tame_const_on' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.tame_const_on
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.master_refinement' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.master_refinement
+
+/-! ### OMinimalBandTriviality (o-min ladder R4-D5c) — the CDT₂ core -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.band_dichotomy_fiber' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.band_dichotomy_fiber
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.regions_cover' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.regions_cover
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.band_triviality' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.band_triviality

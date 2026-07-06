@@ -293,3 +293,33 @@ import Sundogcert.OMinimalNormal
 -- fiber max/min, and the beta fiber neighbors (betaFn's own graph fed back as an atom).
 -- Plus the three tame bad sets. D4c's tube-kill inputs complete.
 import Sundogcert.OMinimalBeta
+-- O-min ladder R4-D4c: THE TUBE KILL -- the bad sets are FINITE. Ray kills (fiber-max/min
+-- continuity caps a window with a constant => ray box) + the tube proper (interval of bad
+-- parameters -> beta exists -> three tame-flag splits -> triple continuity shrink -> the
+-- (c,d) tube between the fiber neighbors is A-free except the beta-graph -> (a*, beta a*)
+-- is normal, contradicting beta = least non-normal height). abnormal_finite = D4d's input.
+import Sundogcert.OMinimalBadFinite
+-- O-min ladder R4-D4d: UNIFORM FINITENESS -- the Finiteness Lemma complete (vdD Ch.3 (1.7)
+-- over the abstract OMinStructure). Count locally constant at fully-normal parameters
+-- (min-peeling strips for >=, ray boxes + Heine-Borel leftover cover + thin-box injection
+-- for <=); counting-set frontiers live in the finite abnormal set; the chain kill
+-- (gap-pigeonhole + preconnected_split propagation) forbids unbounded fiber sizes.
+import Sundogcert.OMinimalUniformFiniteness
+-- O-min ladder R4-D5a: CDT2 opens -- the uniform frontier bound. uniform_finiteness applied
+-- to D0's fiberFrontier (definable, automatically finite fibers): |frontier(A_x)| <= N for
+-- EVERY definable A, no hypothesis. Rank enumeration of finite fibers (every point is the
+-- rank of its below-count) + the tame exact-count base classes covering the line.
+import Sundogcert.OMinimalFrontierBound
+-- O-min ladder R4-D5b: the master refinement -- one bound N and ONE finite cut set C such
+-- that on every C-avoiding interval: a single exact-count class, all N rank functions of
+-- fiberFrontier continuous, and every structural test (graph/band/ray/full, both polarities
+-- via the complement trick) constant. Tests tame via rank-graph atoms; constancy =
+-- preconnected_split on frontier-free intervals. D5c's complete input.
+import Sundogcert.OMinimalRefinement
+-- O-min ladder R4-D5c: BAND TRIVIALITY -- the CDT2 core. Per-fiber dichotomies (open bands
+-- between consecutive fiberFrontier ranks are frontier-free by rank enumeration + ordering,
+-- so preconnected_split forces all-in/all-out; likewise both rays and the k=0 full fiber),
+-- regions_cover (rays+graphs+bands exhaust the line, Nat.findGreatest), and the capstone
+-- band_triviality: on every cut-avoiding interval, one class, continuous ordered ranks, and
+-- every region UNIFORMLY in or out of A -- cell decomposition for R^2 in concrete form.
+import Sundogcert.OMinimalBandTriviality
