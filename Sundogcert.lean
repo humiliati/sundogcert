@@ -262,3 +262,8 @@ import Sundogcert.OMinimalMonotonicity
 -- ContinuousAt in pure order terms via nhds_basis_Ioo) + the usc/lsc split (two five-coordinate
 -- formulas) ⇒ tame_discSet: the discontinuity set of a definable function is tame.
 import Sundogcert.OMinimalContinuity
+-- O-min ladder R4-D0: parametric slices are tame (the C0 slicing IOU); closure in order terms;
+-- the fiber-frontier set Y = {(x,y) | y ∈ frontier(A_x)} is definable, and its fibers are
+-- AUTOMATICALLY finite (fiber of Y = frontier of fiber of A; Tame = frontier-finite) — the
+-- uniform-finiteness engine's input.
+import Sundogcert.OMinimalSlice

@@ -136,6 +136,7 @@ import Sundogcert.OMinimalSignPartition
 import Sundogcert.OMinimalGluing
 import Sundogcert.OMinimalMonotonicity
 import Sundogcert.OMinimalContinuity
+import Sundogcert.OMinimalSlice
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -1912,3 +1913,20 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalAbstract.monotonicity_theorem_continuous' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalAbstract.monotonicity_theorem_continuous
+
+/-! ### OMinimalSlice (o-min ladder R4-D0) — slices + the fiber-frontier set -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.tame_slice' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.tame_slice
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.definable_fiberFrontier' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.definable_fiberFrontier
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.fiberFrontier_fiber_finite' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.fiberFrontier_fiber_finite
