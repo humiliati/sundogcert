@@ -154,6 +154,8 @@ import Sundogcert.PolySignPartition
 import Sundogcert.PolyBranchTrees
 import Sundogcert.PseudoRemainder
 import Sundogcert.PolyDerivZones
+import Sundogcert.SignDiagrams
+import Sundogcert.DiagramNormalize
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -2220,3 +2222,37 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.TarskiQE.deriv_free_sign_zones' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.TarskiQE.deriv_free_sign_zones
+
+/-! ### SignDiagrams (TS-QE, TS-2d-1) — the summit's base camp -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.exists_diagram' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.exists_diagram
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.elim_of_diagramPartition' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.elim_of_diagramPartition
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.diagramPartition_of_constants' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.diagramPartition_of_constants
+
+/-! ### DiagramNormalize (TS-QE, TS-2d-2a) — padding removal -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.dropPadding_paddingFree' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.dropPadding_paddingFree
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.realizes_dropPadding' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.realizes_dropPadding
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.realizes_samples_root' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.realizes_samples_root

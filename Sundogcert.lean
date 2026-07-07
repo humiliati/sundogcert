@@ -362,3 +362,18 @@ import Sundogcert.PseudoRemainder
 -- deriv_free_sign_zones (at most one root per derivative-root-free interval, full diagram);
 -- end behavior at +-infinity with the (-1)^deg parity twist via comp(-X).
 import Sundogcert.PolyDerivZones
+-- TS-QE TS-2d-1: sign diagrams -- the summit's base camp. SADef (QF-semialgebraic parameter
+-- sets, PolyDef-style closure + full algebra incl. signEq atoms and list unions); the sign
+-- diagram representation (signVec / ColsFrom / Realizes: sorted sample points containing
+-- all roots + alternating ray/pt/gap columns); exists_diagram (every point realizes one);
+-- realizes_exists_iff (a diagram answers the existential sign query); DiagramPartition =
+-- THE SUMMIT STATEMENT + elim_of_diagramPartition (the elimination as a corollary);
+-- diagramPartition_of_constants = the base case of the Cohen-Hormander induction.
+import Sundogcert.SignDiagrams
+-- TS-QE TS-2d-2a: padding removal -- the surgery's first pitch. dropPadding (fuel-
+-- structured for clean equations + fuel-irrelevance congr) merges away point-columns with
+-- no zero entry; output PaddingFree; realization preserved (in the drop case no member is
+-- zero at g and the neighboring columns provably agree across the dropped sample); in a
+-- padding-free realized diagram every sample is a root of some member -- the TS-2b
+-- transfer reaches every sample. The 2d-2b augmentation's input contract.
+import Sundogcert.DiagramNormalize
