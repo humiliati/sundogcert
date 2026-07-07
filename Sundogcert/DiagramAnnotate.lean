@@ -167,7 +167,7 @@ def gapPlanAnti (sa sb : SignType) : GapPlan :=
 
 /-! ### Validity: bounded gaps -/
 
-private theorem some_mem_lt {a y : ℝ} (h : a < y) :
+theorem some_mem_lt {a y : ℝ} (h : a < y) :
     ∀ l ∈ (some a : Option ℝ), l < y := by
   intro l hl
   rw [Option.mem_def, Option.some.injEq] at hl

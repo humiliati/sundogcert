@@ -414,3 +414,23 @@ import Sundogcert.DiagramAnnotate
 -- BotSign/TopSign end tags); famDegrees_derived_lt (the DM decrease) and
 -- famDegrees_induction (the well-founded principle the elimination recursion runs on).
 import Sundogcert.DiagramDescent
+-- TS-QE TS-2d-3 (assembly, first pitch): the reads. readZeroIdx/readPtSign +
+-- readPtSign_correct (the sample read IS P's sign -- GraftData's sP entries from
+-- column data); headD_reads_gap_sign (sigma' as headD of the gap column); baseDrop /
+-- readAnnot (the structural walk functions); colsFrom_widen (barrier widening for the
+-- fused master's pending-gap design, documented in the module header).
+import Sundogcert.DiagramReads
+-- TS-QE TS-2d-3: THE FUSED MASTER. One strong induction over the full derived diagram
+-- with the pending-gap accumulator (last kept barrier lo0 + FlankTag + the carried
+-- projected-gap fact) producing ColsFrom(baseDrop) and GraftData(readAnnot) TOGETHER;
+-- capstone realizes_readAnnot: from a realized derived-family diagram, P :: Pd :: bres
+-- realizes graftWalk of the READ annotation -- every ingredient a pure function of
+-- (D, em, ep), so a branch-constant diagram + end tags give ONE branch-wide diagram.
+import Sundogcert.DiagramMaster
+-- TS-QE TS-2 recursion (first pitch): the selection transport + end-sign branches.
+-- realizes_selectFam (a realized diagram restricts to ANY family whose members occur
+-- in the original, via first-occurrence idxOf reads -- subsumes drop-member,
+-- reordering, and duplication: the recursion's whole reshaping layer);
+-- topSign_live/botSign_live (end tags pinned by the sign of the evaluated leading
+-- coefficient -- SADef-expressible via the 2d-1 sign-condition algebra).
+import Sundogcert.DiagramSelect

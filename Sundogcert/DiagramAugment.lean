@@ -38,7 +38,7 @@ theorem signVec_append (F₁ F₂ : List (Polynomial (MvPolynomial (Fin n) ℝ))
     signVec (F₁ ++ F₂) g y = signVec F₁ g y ++ signVec F₂ g y := by
   rw [signVec, signVec, signVec, List.map_append]
 
-private theorem take_signVec_append (F₁ F₂ : List (Polynomial (MvPolynomial (Fin n) ℝ)))
+theorem take_signVec_append (F₁ F₂ : List (Polynomial (MvPolynomial (Fin n) ℝ)))
     (g : Fin n → ℝ) (y : ℝ) :
     (signVec (F₁ ++ F₂) g y).take F₁.length = signVec F₁ g y := by
   rw [signVec_append]

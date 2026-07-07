@@ -161,6 +161,9 @@ import Sundogcert.DiagramGraft
 import Sundogcert.DiagramWalk
 import Sundogcert.DiagramAnnotate
 import Sundogcert.DiagramDescent
+import Sundogcert.DiagramReads
+import Sundogcert.DiagramMaster
+import Sundogcert.DiagramSelect
 import Sundogcert.ConstantPairObstruction
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -2390,3 +2393,49 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.TarskiQE.famDegrees_induction' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.TarskiQE.famDegrees_induction
+
+/-! ### DiagramReads (TS-QE, TS-2d-3 assembly) — the annotation reads -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.readPtSign_correct' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.readPtSign_correct
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.headD_reads_gap_sign' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.headD_reads_gap_sign
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.colsFrom_widen' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.colsFrom_widen
+
+/-! ### DiagramMaster (TS-QE, TS-2d-3) — the fused master -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.colsFrom_master' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.colsFrom_master
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.realizes_readAnnot' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.realizes_readAnnot
+
+/-! ### DiagramSelect (TS-QE, TS-2 recursion) — selection transport + end-sign branches -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.realizes_selectFam' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.realizes_selectFam
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.topSign_live' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.topSign_live
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.botSign_live' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.botSign_live
