@@ -150,6 +150,9 @@ import Sundogcert.OMinimalRefinement
 import Sundogcert.OMinimalBandTriviality
 import Sundogcert.OMinimalCells
 import Sundogcert.OMinimalCellDecomp
+import Sundogcert.PolySignPartition
+import Sundogcert.PolyBranchTrees
+import Sundogcert.PseudoRemainder
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -2148,3 +2151,54 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalAbstract.cell_decomposition_mem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalAbstract.cell_decomposition_mem
+
+/-! ### PolySignPartition (TS-QE, TS-1) — the univariate sign partition -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.poly_sign_constant' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.poly_sign_constant
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.family_sign_partition' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.family_sign_partition
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.family_sign_eq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.family_sign_eq
+
+/-! ### PolyBranchTrees (TS-QE, TS-2a) — the parametric branch machinery -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.spec_eval_cons' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.spec_eval_cons
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.resolve_spec' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.resolve_spec
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.spec_natDegree_eq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.spec_natDegree_eq
+
+/-! ### PseudoRemainder (TS-QE, TS-2b) — pseudo-division and the sign transfer -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.pseudoModExp_identity' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.pseudoModExp_identity
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.emod_eval_at_root' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.emod_eval_at_root
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.sign_transfer' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.sign_transfer

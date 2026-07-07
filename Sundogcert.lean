@@ -336,3 +336,22 @@ import Sundogcert.OMinimalCells
 -- selections) x per-base instantiations (fiber dichotomies at points, band_triviality on
 -- gaps, two-point upgrades on rays/line) x flatMap over the baseCells partition.
 import Sundogcert.OMinimalCellDecomp
+-- TS-QE TS-1: the univariate sign partition (Tarski-Seidenberg opens; route = Cohen-Hormander
+-- set-level over concrete R). One finite cut set (the family's roots) off which each nonzero
+-- polynomial keeps a constant strict sign per cut-avoiding interval; sign-vector constancy;
+-- root sets tame. IVT core: a sign change without a root is impossible.
+import Sundogcert.PolySignPartition
+-- TS-QE TS-2a: branch trees -- the parametric machinery. spec g = coefficient evaluation
+-- (bridged to MvPolynomial eval at Fin.cons via finSuccEquiv); resolve g = strip vanishing
+-- leading coefficients (WF on support size), preserving the specialization and making it
+-- degree-exact (spec_natDegree_eq / spec_eq_zero_iff / spec_leadingCoeff_eq); the finite
+-- truncChain every branch lands in + compositional branch conditions; famDegrees = the
+-- Dershowitz-Manna elimination measure (mathlib instWellFoundedIsDershowitzMannaLT).
+import Sundogcert.PolyBranchTrees
+-- TS-QE TS-2b: the mod-trick -- sign transfer at roots. Pseudo-division built from scratch
+-- over any CommRing (mathlib has none): pstep exact top-cancellation, pseudoModExp WF
+-- recursion with the identity c^k Q = S P + rem (existential quotient) and the degree
+-- guard; the EVEN-EXPONENT trick (emod/eexp) makes the transfer factor strictly positive,
+-- killing the classical sign-twist bookkeeping. sign_transfer: at any root of spec g P, on
+-- the live-leading-coefficient branch, Q's three-way sign equals its evenized remainder's.
+import Sundogcert.PseudoRemainder
