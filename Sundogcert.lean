@@ -383,3 +383,34 @@ import Sundogcert.DiagramNormalize
 -- level, the interval-vanishing degeneracy, and the integration receipt: P's sign is
 -- transfer-determined at EVERY sample of the projected padding-free base-diagram.
 import Sundogcert.DiagramAugment
+-- Casino C-03 follow-up (E3-emptiness as a theorem): the constant-pair obstruction — any shadow
+-- co-fibering 0̄ and 1̄ admits NO measurable XOR-free monomial (the two constants separate it);
+-- every quadratic-mixing wiring co-fibers them, so the day-2 E3 emptiness holds for every n,
+-- wiring, and degree — proved, not enumerated. Fence: says nothing about E2 (its forms pass the
+-- obstruction; C-03's match-conditional fence rests on the E2-internal census, not on E3).
+import Sundogcert.ConstantPairObstruction
+-- TS-QE TS-2d-2c: the root-insertion splice. Keyed gap zones (outcome selected by flank
+-- signs), ray monotonicity on Iic/Ici from derivative sign, keyed ray zones (crossing
+-- manufactured from the eventual end-sign bounds), and the ColsFrom-level graft:
+-- colsFrom_insert / colsFrom_insert_last split a gap or the terminal ray into
+-- [gap, point, gap]; colsFrom_graft_root repeats the old column for the old family.
+import Sundogcert.DiagramGraft
+-- TS-QE TS-2d-3 (first half): the whole-diagram walk. GapPlan (flow/graft) + per-sample
+-- signs as diagram-level data; graftWalk = the new diagram as a PURE FUNCTION of
+-- (sP, plans, old columns) -- the branch-uniformity payload; GraftData = the semantic
+-- contract (ColsFrom-shaped); realizes_graftWalk: Realizes g (P :: F) (graftWalk sP
+-- plans D), with full P-root coverage and sortedness recovered via colsFrom_pairwise.
+import Sundogcert.DiagramWalk
+-- TS-QE TS-2d-3 (second half, first pitch): computing the annotation. BotSign/TopSign
+-- end-sign contracts (discharged from leading-coefficient data via eventually_*);
+-- gapPlanMono/gapPlanAnti decision functions on flank signs; validity lemmas per
+-- (position x orientation), each discharged by one 2c keyed zone lemma; capstone
+-- exists_graftData: derivative-roots-among-samples => a valid GraftData exists.
+import Sundogcert.DiagramAnnotate
+-- TS-QE TS-2d-3 (descent engine): branch-constant annotation + the DM measure.
+-- column_reads_sample_sign (the transfer POSITIONALLY: a base-zero at i forces entry
+-- base.length+i to be P's sign -- sP as a function of column entries); readPlan +
+-- four validity bridges (plans as functions of the P'-gap-entry, flank reads, and
+-- BotSign/TopSign end tags); famDegrees_derived_lt (the DM decrease) and
+-- famDegrees_induction (the well-founded principle the elimination recursion runs on).
+import Sundogcert.DiagramDescent

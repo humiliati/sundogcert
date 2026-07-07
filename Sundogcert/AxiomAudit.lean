@@ -157,6 +157,11 @@ import Sundogcert.PolyDerivZones
 import Sundogcert.SignDiagrams
 import Sundogcert.DiagramNormalize
 import Sundogcert.DiagramAugment
+import Sundogcert.DiagramGraft
+import Sundogcert.DiagramWalk
+import Sundogcert.DiagramAnnotate
+import Sundogcert.DiagramDescent
+import Sundogcert.ConstantPairObstruction
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -2279,3 +2284,109 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.TarskiQE.augment_foothold' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.TarskiQE.augment_foothold
+
+/-! ### ConstantPairObstruction (casino C-03 follow-up) — E3-emptiness as a theorem -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.ConstantPairObstruction.measurableVia_const_pair' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ConstantPairObstruction.measurableVia_const_pair
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.ConstantPairObstruction.quadMix_mono_not_measurable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.ConstantPairObstruction.quadMix_mono_not_measurable
+
+/--
+info: 'Sundog.ConstantPairObstruction.quadMix_e3_draw_not_measurable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+-/
+#guard_msgs in
+#print axioms Sundog.ConstantPairObstruction.quadMix_e3_draw_not_measurable
+
+/--
+info: 'Sundog.ConstantPairObstruction.dayTwoShadow_mono_not_measurable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+-/
+#guard_msgs in
+#print axioms Sundog.ConstantPairObstruction.dayTwoShadow_mono_not_measurable
+
+/-! ### DiagramGraft (TS-QE, TS-2d-2c) — root insertion into gaps and rays -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.colsFrom_insert' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.colsFrom_insert
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.gap_cross_mono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.gap_cross_mono
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.ray_left_cross_mono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.ray_left_cross_mono
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.ray_right_cross_mono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.ray_right_cross_mono
+
+/-! ### DiagramWalk (TS-QE, TS-2d-3 first half) — the whole-diagram walk -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.colsFrom_pairwise' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.colsFrom_pairwise
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.graftWalk_colsFrom' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.graftWalk_colsFrom
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.realizes_graftWalk' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.realizes_graftWalk
+
+/-! ### DiagramAnnotate (TS-QE, TS-2d-3) — computing the annotation -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.gapValid_incr' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.gapValid_incr
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.gapValid_left_incr' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.gapValid_left_incr
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.exists_graftData' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.exists_graftData
+
+/-! ### DiagramDescent (TS-QE, TS-2d-3) — branch-constant annotation + the DM measure -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.column_reads_sample_sign' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.column_reads_sample_sign
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.readPlan_valid_gap' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.readPlan_valid_gap
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.famDegrees_derived_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.famDegrees_derived_lt
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.famDegrees_induction' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.famDegrees_induction

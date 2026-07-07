@@ -156,7 +156,7 @@ def Realizes (g : Fin n → ℝ) (F : List (Polynomial (MvPolynomial (Fin n) ℝ
 
 /-! ### Gap constancy -/
 
-private theorem sign_eq_of_no_root_Icc (p : ℝ[X]) {y y' : ℝ} (hle : y ≤ y')
+theorem sign_eq_of_no_root_Icc (p : ℝ[X]) {y y' : ℝ} (hle : y ≤ y')
     (hfree : ∀ z ∈ Set.Icc y y', ¬ p.IsRoot z) :
     SignType.sign (p.eval y) = SignType.sign (p.eval y') := by
   have hy : p.eval y ≠ 0 := hfree y (Set.left_mem_Icc.mpr hle)
