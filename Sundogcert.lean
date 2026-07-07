@@ -355,3 +355,10 @@ import Sundogcert.PolyBranchTrees
 -- killing the classical sign-twist bookkeeping. sign_transfer: at any root of spec g P, on
 -- the live-leading-coefficient branch, Q's three-way sign equals its evenized remainder's.
 import Sundogcert.PseudoRemainder
+-- TS-QE TS-2c: between-roots signs -- the derivative family and monotonicity. The
+-- parametric derivative commutes with specialization; derivative sign => strict mono/anti
+-- (deriv machinery + Polynomial.deriv); the sign-zone trichotomies (all-pos / all-neg /
+-- one interior root with clean zones, both orientations); the capstone
+-- deriv_free_sign_zones (at most one root per derivative-root-free interval, full diagram);
+-- end behavior at +-infinity with the (-1)^deg parity twist via comp(-X).
+import Sundogcert.PolyDerivZones

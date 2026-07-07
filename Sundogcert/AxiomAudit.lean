@@ -153,6 +153,7 @@ import Sundogcert.OMinimalCellDecomp
 import Sundogcert.PolySignPartition
 import Sundogcert.PolyBranchTrees
 import Sundogcert.PseudoRemainder
+import Sundogcert.PolyDerivZones
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -2202,3 +2203,20 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.TarskiQE.sign_transfer' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.TarskiQE.sign_transfer
+
+/-! ### PolyDerivZones (TS-QE, TS-2c) — between-roots signs via monotonicity -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.spec_derivative' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.spec_derivative
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.strictMonoOn_sign_zones' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.strictMonoOn_sign_zones
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.deriv_free_sign_zones' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.deriv_free_sign_zones
