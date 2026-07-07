@@ -156,6 +156,7 @@ import Sundogcert.PseudoRemainder
 import Sundogcert.PolyDerivZones
 import Sundogcert.SignDiagrams
 import Sundogcert.DiagramNormalize
+import Sundogcert.DiagramAugment
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
 
@@ -2256,3 +2257,25 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.TarskiQE.realizes_samples_root' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.TarskiQE.realizes_samples_root
+
+/-! ### DiagramAugment (TS-QE, TS-2d-2b foothold) — P-column augmentation at samples -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.realizes_project_prefix' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.realizes_project_prefix
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.sign_transfer_signType' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.sign_transfer_signType
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.spec_eq_zero_of_gap_roots' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.spec_eq_zero_of_gap_roots
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.augment_foothold' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.augment_foothold

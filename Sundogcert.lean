@@ -377,3 +377,9 @@ import Sundogcert.SignDiagrams
 -- padding-free realized diagram every sample is a root of some member -- the TS-2b
 -- transfer reaches every sample. The 2d-2b augmentation's input contract.
 import Sundogcert.DiagramNormalize
+-- TS-QE TS-2d-2b (foothold): P-column augmentation at samples. Prefix projection of
+-- realized diagrams (family laid out base ++ remainders; columns truncated to the base,
+-- then dropPadding makes every sample a BASE root), the TS-2b transfer at the SignType
+-- level, the interval-vanishing degeneracy, and the integration receipt: P's sign is
+-- transfer-determined at EVERY sample of the projected padding-free base-diagram.
+import Sundogcert.DiagramAugment
