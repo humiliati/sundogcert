@@ -442,3 +442,19 @@ import Sundogcert.DiagramSelect
 -- exists_resolve_cell (the cover); realizes_congr (spec-equal families share diagrams)
 -- + realizes_zero_cons (zero members insert as all-zero rows).
 import Sundogcert.DiagramBranches
+-- TS-QE TS-2's LAST THEOREM: the Dershowitz-Manna assembly. diagramPartition_all
+-- (every family of parametric polynomials has a diagram partition: famDegrees_induction
+-- over resolve-cells; per cell either the constants base case or max-degree elimination
+-- through the machine-checked reconstruction pipeline realizes_readAnnot ->
+-- realizes_zero_cons -> realizes_selectFam -> realizes_congr, with SADef branch sets and
+-- branch-constant diagrams) and elim_signVector: TARSKI-SEIDENBERG, ELIMINATION FORM --
+-- the existential sign-vector set is semialgebraic in the parameters.
+import Sundogcert.DiagramAssembly
+-- TS-3: semialgebraicStructure -- THE SECOND O-MINIMAL STRUCTURE, the first genuinely
+-- nonlinear one. SADef assembles into OMinStructure: booleans (2d-1 algebra);
+-- substitution via MvPolynomial.rename; PROJECTION = TARSKI-SEIDENBERG (sadef_sign_char
+-- sign-vector characterization + the snoc/cons rotation Fin.snoc Fin.succ 0 +
+-- elim_signVector per fiber); linear atoms; tame_dim_one via TS-1's cut partition.
+-- The whiteboard at the real field: semialgebraic_s1_eq_tame,
+-- semialgebraic_uniform_finiteness, semialgebraic_cell_decomposition.
+import Sundogcert.SemialgebraicStructure

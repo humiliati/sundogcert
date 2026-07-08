@@ -165,6 +165,8 @@ import Sundogcert.DiagramReads
 import Sundogcert.DiagramMaster
 import Sundogcert.DiagramSelect
 import Sundogcert.DiagramBranches
+import Sundogcert.DiagramAssembly
+import Sundogcert.SemialgebraicStructure
 import Sundogcert.ConstantPairObstruction
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -2462,3 +2464,42 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.TarskiQE.exists_resolve_cell' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.TarskiQE.exists_resolve_cell
+
+/-! ### DiagramAssembly (TS-QE, TS-2's last theorem) — the elimination, closed -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.diagramPartition_all' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.diagramPartition_all
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.elim_signVector' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.elim_signVector
+
+/-! ### SemialgebraicStructure (TS-3) — the semialgebraic o-minimal structure -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.semialgebraicStructure' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.semialgebraicStructure
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.sadef_proj' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.sadef_proj
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.semialgebraic_s1_eq_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.semialgebraic_s1_eq_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.semialgebraic_uniform_finiteness' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.semialgebraic_uniform_finiteness
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.semialgebraic_cell_decomposition' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.semialgebraic_cell_decomposition
