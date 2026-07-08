@@ -458,3 +458,10 @@ import Sundogcert.DiagramAssembly
 -- The whiteboard at the real field: semialgebraic_s1_eq_tame,
 -- semialgebraic_uniform_finiteness, semialgebraic_cell_decomposition.
 import Sundogcert.SemialgebraicStructure
+-- R4-E: the Pillay-Steinhorn bridge -- definable families are NIP (bounded form).
+-- ShattersFam trace-shattering; shatter_le_of_ordConnected_pieces (a family of unions
+-- of <= K order-connected pieces cannot shatter 2K+2 points: alternation + pigeonhole);
+-- cell fibers are order-connected; definable_family_nip (any OMinStructure, bound
+-- 2*cells+1 from CDT2); semialgebraic_family_nip + semilinear_family_nip -- the bridge
+-- back to the approximation lane: polynomial AND ReLU-class families are VC-finite.
+import Sundogcert.OMinimalNIP

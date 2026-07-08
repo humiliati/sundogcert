@@ -167,6 +167,7 @@ import Sundogcert.DiagramSelect
 import Sundogcert.DiagramBranches
 import Sundogcert.DiagramAssembly
 import Sundogcert.SemialgebraicStructure
+import Sundogcert.OMinimalNIP
 import Sundogcert.ConstantPairObstruction
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -2503,3 +2504,25 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.TarskiQE.semialgebraic_cell_decomposition' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.TarskiQE.semialgebraic_cell_decomposition
+
+/-! ### OMinimalNIP (R4-E) — the Pillay–Steinhorn NIP/VC bridge -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.shatter_le_of_ordConnected_pieces' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.shatter_le_of_ordConnected_pieces
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.definable_family_nip' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.definable_family_nip
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.semialgebraic_family_nip' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.semialgebraic_family_nip
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalAbstract.semilinear_family_nip' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalAbstract.semilinear_family_nip
