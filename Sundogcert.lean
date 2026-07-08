@@ -434,3 +434,11 @@ import Sundogcert.DiagramMaster
 -- topSign_live/botSign_live (end tags pinned by the sign of the evaluated leading
 -- coefficient -- SADef-expressible via the 2d-1 sign-condition algebra).
 import Sundogcert.DiagramSelect
+-- TS-QE TS-2 recursion (pitch 2): the vanishing-lead branch layer. resolve g q IS the
+-- pointwise truncation (spec-preserving, zero-or-live, finitely many values); this
+-- module makes the branching SADef: sadef_resolve_fiber/cell (fibers of the resolution
+-- map are semialgebraic in the parameters, by support induction on the vanishing of
+-- leads); resolve_cell_props (the master's hlive contract per cell) +
+-- exists_resolve_cell (the cover); realizes_congr (spec-equal families share diagrams)
+-- + realizes_zero_cons (zero members insert as all-zero rows).
+import Sundogcert.DiagramBranches

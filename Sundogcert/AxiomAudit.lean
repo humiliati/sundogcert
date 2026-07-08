@@ -164,6 +164,7 @@ import Sundogcert.DiagramDescent
 import Sundogcert.DiagramReads
 import Sundogcert.DiagramMaster
 import Sundogcert.DiagramSelect
+import Sundogcert.DiagramBranches
 import Sundogcert.ConstantPairObstruction
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -2439,3 +2440,25 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.TarskiQE.botSign_live' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.TarskiQE.botSign_live
+
+/-! ### DiagramBranches (TS-QE, TS-2 recursion) — the vanishing-lead branch layer -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.realizes_congr' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.realizes_congr
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.realizes_zero_cons' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.realizes_zero_cons
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.sadef_resolve_cell' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.sadef_resolve_cell
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.TarskiQE.exists_resolve_cell' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.TarskiQE.exists_resolve_cell
