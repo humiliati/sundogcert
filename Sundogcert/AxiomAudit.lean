@@ -168,6 +168,9 @@ import Sundogcert.DiagramBranches
 import Sundogcert.DiagramAssembly
 import Sundogcert.SemialgebraicStructure
 import Sundogcert.OMinimalNIP
+import Sundogcert.SigmoidTame
+import Sundogcert.TanhTame
+import Sundogcert.SoftplusTame
 import Sundogcert.ConstantPairObstruction
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -2526,3 +2529,59 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalAbstract.semilinear_family_nip' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalAbstract.semilinear_family_nip
+
+/-! ### SigmoidTame (dim-1 sigmoid mini-witness off R1) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalSigmoid.tame_sublevel_of_injective' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalSigmoid.tame_sublevel_of_injective
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalSigmoid.sigmoid_strictMono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalSigmoid.sigmoid_strictMono
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalSigmoid.sigmoid_lt_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalSigmoid.sigmoid_lt_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalSigmoid.sigmoid_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalSigmoid.sigmoid_dnf_tame
+
+/-! ### TanhTame (dim-1 tanh mini-witness off R1) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalTanh.tanh_continuous' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalTanh.tanh_continuous
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalTanh.tanh_lt_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalTanh.tanh_lt_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalTanh.tanh_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalTanh.tanh_dnf_tame
+
+/-! ### SoftplusTame (dim-1 softplus mini-witness off R1) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalSoftplus.softplus_strictMono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalSoftplus.softplus_strictMono
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalSoftplus.softplus_lt_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalSoftplus.softplus_lt_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalSoftplus.softplus_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalSoftplus.softplus_dnf_tame

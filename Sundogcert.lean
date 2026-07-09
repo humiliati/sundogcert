@@ -465,3 +465,22 @@ import Sundogcert.SemialgebraicStructure
 -- 2*cells+1 from CDT2); semialgebraic_family_nip + semilinear_family_nip -- the bridge
 -- back to the approximation lane: polynomial AND ReLU-class families are VC-finite.
 import Sundogcert.OMinimalNIP
+-- Dim-1 sigmoid tameness -- a mini-witness off R1. Off R1's finite-frontier Tame:
+-- continuous-injective threshold sets are tame (frontier_superlevel_subset + injective
+-- level set = subsingleton = finite); the concrete logistic sigmoid is continuous +
+-- strictly monotone (Real.exp), transcendental so NOT reachable via the semialgebraic
+-- witness; every one-variable sigmoid threshold/band and any finite DNF of bands is
+-- tame. Dim-1 only -- composition + dim >= 2 need the exp structure (a parked wall).
+import Sundogcert.SigmoidTame
+-- Dim-1 tanh tameness -- the second monotone-activation witness off R1. Reuses the
+-- SigmoidTame continuous-injective threshold core; tanh needs only two facts (no
+-- strictMono proof): tanh_continuous (tanh = sinh/cosh, cosh > 0) and mathlib's
+-- Real.tanh_injective. Every one-variable affine-tanh threshold/band and any finite
+-- DNF of bands is Tame. Same fence: dim-1 only, exp/Wilkie structure a parked wall.
+import Sundogcert.TanhTame
+-- Dim-1 softplus tameness -- the third monotone-activation witness off R1. softplus(x)
+-- = log(1 + e^x), strictly increasing and UNBOUNDED (range (0,inf)). Reuses the
+-- SigmoidTame continuous-injective threshold core; two facts: softplus_continuous
+-- (Continuous.log on positive 1+e^x) + softplus_strictMono (Real.log_lt_log). Every
+-- one-variable affine-softplus threshold/band and any finite DNF is Tame. Same fence.
+import Sundogcert.SoftplusTame
