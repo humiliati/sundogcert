@@ -171,6 +171,13 @@ import Sundogcert.OMinimalNIP
 import Sundogcert.SigmoidTame
 import Sundogcert.TanhTame
 import Sundogcert.SoftplusTame
+import Sundogcert.ArctanTame
+import Sundogcert.ErfTame
+import Sundogcert.FiniteFiberTame
+import Sundogcert.GeluTame
+import Sundogcert.FiniteFiberRolle
+import Sundogcert.GeluFiniteFibers
+import Sundogcert.SiluTame
 import Sundogcert.ConstantPairObstruction
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -2585,3 +2592,92 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalSoftplus.softplus_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalSoftplus.softplus_dnf_tame
+
+/-! ### ArctanTame (dim-1 arctan mini-witness off R1) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalArctan.arctan_lt_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalArctan.arctan_lt_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalArctan.arctan_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalArctan.arctan_dnf_tame
+
+/-! ### ErfTame (dim-1 erf mini-witness off R1, from-scratch definition) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalErf.erf_strictMono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalErf.erf_strictMono
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalErf.erf_lt_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalErf.erf_lt_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalErf.erf_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalErf.erf_dnf_tame
+
+/-! ### FiniteFiberTame (the finite-fiber core, beyond monotonicity) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalFiber.tame_sublevel_of_finite' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalFiber.tame_sublevel_of_finite
+
+/-! ### GeluTame (dim-1 GELU, non-monotone, reduced to GeluFibersFinite) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalGelu.gelu_continuous' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalGelu.gelu_continuous
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalGelu.gelu_lt_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalGelu.gelu_lt_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalGelu.gelu_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalGelu.gelu_dnf_tame
+
+/-! ### FiniteFiberRolle (finite critical points ⇒ finite fibers) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalFiber.finite_fiber_of_finite_deriv_zeros' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalFiber.finite_fiber_of_finite_deriv_zeros
+
+/-! ### GeluFiniteFibers (GELU closed unconditionally) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalGelu.geluFibersFinite' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalGelu.geluFibersFinite
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalGelu.gelu_dnf_tame'' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalGelu.gelu_dnf_tame'
+
+/-! ### SiluTame (dim-1 SiLU/swish, non-monotone, via equation transform) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalSilu.siluFibersFinite' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalSilu.siluFibersFinite
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalSilu.silu_lt_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalSilu.silu_lt_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalSilu.silu_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalSilu.silu_dnf_tame

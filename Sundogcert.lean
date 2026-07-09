@@ -484,3 +484,40 @@ import Sundogcert.TanhTame
 -- (Continuous.log on positive 1+e^x) + softplus_strictMono (Real.log_lt_log). Every
 -- one-variable affine-softplus threshold/band and any finite DNF is Tame. Same fence.
 import Sundogcert.SoftplusTame
+-- Dim-1 arctan tameness -- fourth monotone-activation witness off R1. Bounded
+-- (range (-pi/2,pi/2)), reuses the SigmoidTame core; both facts are mathlib's
+-- (Real.continuous_arctan + Real.arctan_strictMono). arctan_dnf_tame.
+import Sundogcert.ArctanTame
+-- Dim-1 erf tameness -- fifth witness, and the FIRST from-scratch build: mathlib has
+-- NO error function, so erf(x) := (2/sqrt pi) * integral_0^x exp(-t^2) is defined here.
+-- erf_continuous (continuous_primitive), erf_strictMono (positive integrand => integral
+-- strictly increasing in upper limit) => injective; then the core gives erf_dnf_tame.
+import Sundogcert.ErfTame
+-- The finite-fiber core -- threshold tameness beyond monotonicity. Generalizes the
+-- SigmoidTame injective core: the real hypothesis is a FINITE level set (injectivity =
+-- the subsingleton special case). tame_{level,sublevel,superlevel,le,ge}_of_finite.
+-- Entry point for non-monotone activations (finitely many monotone pieces => finite fibers).
+import Sundogcert.FiniteFiberTame
+-- Dim-1 GELU -- the first NON-MONOTONE activation. gelu(x) = x*Phi(x), min ~ -0.75, not
+-- injective; unexpressible in raw mathlib (no Gaussian CDF) but expressible via the lane's
+-- erf (Phi = (1+erf(x/sqrt 2))/2). Defined + continuous in-lane; tameness reduced via the
+-- finite-fiber core to ONE obligation GeluFibersFinite (level sets finite -- true, two
+-- monotone branches, but an analytic lift NOT done here). gelu_*_tame are conditional on it.
+import Sundogcert.GeluTame
+-- Finite critical points => finite fibers (Rolle counting). Reusable engine for
+-- non-monotone fiber-finiteness: a differentiable g with {g'=0} finite has {g=c} finite
+-- (Rolle between consecutive level points => arbitrarily many distinct critical points).
+import Sundogcert.FiniteFiberRolle
+-- GeluFibersFinite, PROVED -- GELU closed unconditionally. Rolle counting applied twice:
+-- gelu'' = Ed(x)*(2-x^2)/2 with Ed > 0 (exp_pos), so {gelu''=0} = {+-sqrt 2} (NO Gaussian
+-- integral, NO tail bounds); {gelu''=0} finite => {gelu'=0} finite => {gelu=c} finite.
+-- Delivers geluFibersFinite + the UNCONDITIONAL gelu_dnf_tame' (first non-monotone
+-- activation closed). Derivatives via FTC (erf') + chain/product rules; axiom-clean.
+import Sundogcert.GeluFiniteFibers
+-- Dim-1 SiLU/swish tameness -- the second non-monotone activation. silu(x) = x*sigma(x),
+-- min ~ -1.28, non-monotone. The GELU derivative-clearing trick DOESN'T transfer (sigma'
+-- = sigma(1-sigma) is polynomial in sigma not x, so silu'' stays transcendental). The
+-- Rolle ENGINE still closes it via the equation transform silu(x)=c <=> (x-c)*e^x=c,
+-- where g_c(x)=(x-c)e^x has ONE critical point (g_c'=(x-c+1)e^x zeros only at c-1); one
+-- counting-lemma step => {silu=c} finite. silu_dnf_tame unconditional. Axiom-clean.
+import Sundogcert.SiluTame
