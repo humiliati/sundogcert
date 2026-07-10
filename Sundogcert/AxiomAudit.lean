@@ -179,6 +179,11 @@ import Sundogcert.FiniteFiberRolle
 import Sundogcert.GeluFiniteFibers
 import Sundogcert.SiluTame
 import Sundogcert.MishTame
+import Sundogcert.EluTame
+import Sundogcert.SeluTame
+import Sundogcert.GeluTanhTame
+import Sundogcert.GeluSigmoidTame
+import Sundogcert.LeakyReluTame
 import Sundogcert.ConstantPairObstruction
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -2699,3 +2704,88 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalMish.mish_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalMish.mish_dnf_tame
+
+/-! ### EluTame (dim-1 ELU, piecewise monotone) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalElu.elu_strictMono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalElu.elu_strictMono
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalElu.elu_lt_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalElu.elu_lt_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalElu.elu_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalElu.elu_dnf_tame
+
+/-! ### SeluTame (dim-1 SELU, scaled ELU, monotone) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalSelu.selu_strictMono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalSelu.selu_strictMono
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalSelu.selu_lt_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalSelu.selu_lt_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalSelu.selu_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalSelu.selu_dnf_tame
+
+/-! ### GeluTanhTame (dim-1 GELU tanh-approximation, cubic critical equation) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalGeluTanh.geluTanhFibersFinite' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalGeluTanh.geluTanhFibersFinite
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalGeluTanh.gelu_tanh_lt_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalGeluTanh.gelu_tanh_lt_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalGeluTanh.gelu_tanh_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalGeluTanh.gelu_tanh_dnf_tame
+
+/-! ### GeluSigmoidTame (dim-1 GELU sigmoid-approximation, linear critical equation) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalGeluSigmoid.geluSigmoidFibersFinite' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalGeluSigmoid.geluSigmoidFibersFinite
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalGeluSigmoid.gelu_sigmoid_lt_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalGeluSigmoid.gelu_sigmoid_lt_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalGeluSigmoid.gelu_sigmoid_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalGeluSigmoid.gelu_sigmoid_dnf_tame
+
+/-! ### LeakyReluTame (dim-1 Leaky ReLU, piecewise-linear strictly-monotone) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalLeakyRelu.lrelu_strictMono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalLeakyRelu.lrelu_strictMono
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalLeakyRelu.lrelu_lt_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalLeakyRelu.lrelu_lt_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalLeakyRelu.lrelu_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalLeakyRelu.lrelu_dnf_tame

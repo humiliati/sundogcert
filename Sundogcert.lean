@@ -529,3 +529,31 @@ import Sundogcert.SiluTame
 -- G'=e^x*h1, h1''=(2x-2c+5)e^x zeros only at c-5/2, so Rolle chain h1''->h1'->h1->G'->G
 -- => {mish=c} finite. mish_dnf_tame unconditional. The Rolle depth tracks the # of exp scales.
 import Sundogcert.MishTame
+-- Dim-1 ELU tameness -- a piecewise MONOTONE activation (not the Rolle route). elu(x) =
+-- x (x>=0) / e^x - 1 (x<0), strictly increasing + continuous at 0, so it fits the
+-- MONOTONE injective-core route (tame_*_of_injective). New element = the piecewise
+-- (if-then-else) definition: elu_continuous via Continuous.if_le (boundary 0=x => x=e^x-1),
+-- elu_strictMono by sign cases (cross case e^x-1 < 0 <= y). elu_dnf_tame unconditional.
+import Sundogcert.EluTame
+-- Dim-1 SELU tameness -- scaled ELU, still MONOTONE (injective-core route, not Rolle).
+-- selu(x) = lam*(x for x>=0, alp*(e^x-1) for x<0); parametrized by lam,alp>0 (SELU's
+-- specific constants are a positive-real instance; covers ELU lam=alp=1 too). Positive
+-- scaling preserves ELU strict monotonicity; continuity via Continuous.if_le. selu_dnf_tame.
+import Sundogcert.SeluTame
+-- Dim-1 GELU-tanh (the tanh approximation) tameness -- third way to feed the Rolle engine.
+-- gelu_tanh(x) = 0.5*x*(1+tanh(c*(x+a*x^3))), c=sqrt(2/pi), a=0.044715; non-monotone. Via
+-- 1+tanh(v)=2/(1+e^{-2v}) => x*sigma(w), w=2c(x+ax^3); transform gelu_tanh(x)=C <=>
+-- (x-C)e^{w(x)}=C; g'=e^w*(1+(x-C)w'), 1+(x-C)w' = a CUBIC POLYNOMIAL (w'=2c(1+3ax^2)),
+-- <=3 roots, so {g'=0} finite via Polynomial.finite_setOf_isRoot; ONE Rolle step =>
+-- {gelu_tanh=C} finite. gelu_tanh_dnf_tame unconditional. Cubic-in-exponent => polynomial critical eq.
+import Sundogcert.GeluTanhTame
+-- Dim-1 GELU-sigmoid approximation tameness. gelu_sigmoid(x) = x*sigma(k*x), k=1.702 --
+-- the sigmoid approximation of GELU (scaled-argument SiLU); non-monotone. Transform
+-- gelu_sigmoid(x)=C <=> (x-C)*e^{k*x}=C; g'=e^{k*x}*(1+k*(x-C)), {g'=0}={C-1/k} SINGLE
+-- point (LINEAR critical eq); one Rolle step => {gelu_sigmoid=C} finite. Unconditional dnf.
+import Sundogcert.GeluSigmoidTame
+-- Dim-1 Leaky ReLU tameness. lrelu(x) = x (x>=0) / alpha*x (x<0), alpha=0.01 (any >0) --
+-- piecewise-LINEAR sibling of ELU; both slopes positive => STRICTLY MONOTONE => injective
+-- core route (NOT Rolle). Continuous.if_le gluing + strict-mono-by-cases (cross case
+-- alpha*x<0<=y from alpha>0, no exp). Fills the ReLU-family gap that fits the monotone core.
+import Sundogcert.LeakyReluTame
