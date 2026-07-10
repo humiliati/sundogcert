@@ -521,3 +521,11 @@ import Sundogcert.GeluFiniteFibers
 -- where g_c(x)=(x-c)e^x has ONE critical point (g_c'=(x-c+1)e^x zeros only at c-1); one
 -- counting-lemma step => {silu=c} finite. silu_dnf_tame unconditional. Axiom-clean.
 import Sundogcert.SiluTame
+-- Dim-1 Mish tameness -- the third non-monotone activation, TWO exponential scales.
+-- mish(x) = x*tanh(softplus x), min ~ -1.19. tanh o softplus carries both e^x and e^{2x},
+-- so neither the GELU differentiate-to-polynomial route nor SiLU's one-step transform
+-- closes it; the Rolle engine is applied DEEPER. Rational form tanh(softplus x) =
+-- (e^{2x}+2e^x)/(e^{2x}+2e^x+2) => mish(x)=c <=> G(x)=(x-c)e^{2x}+2(x-c)e^x-2c=0;
+-- G'=e^x*h1, h1''=(2x-2c+5)e^x zeros only at c-5/2, so Rolle chain h1''->h1'->h1->G'->G
+-- => {mish=c} finite. mish_dnf_tame unconditional. The Rolle depth tracks the # of exp scales.
+import Sundogcert.MishTame

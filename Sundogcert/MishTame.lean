@@ -76,15 +76,16 @@ theorem mish_eq_iff (c x : ℝ) : mish x = c ↔ G c x = 0 := by
 
 /-- A linear function's derivative. -/
 theorem hlin (a b x : ℝ) : HasDerivAt (fun y : ℝ => a * y + b) a x := by
-  simpa using HasDerivAt.add_const (HasDerivAt.const_mul a (hasDerivAt_id x)) b
+  simpa using HasDerivAt.add_const b (HasDerivAt.const_mul a (hasDerivAt_id x))
 
 /-- `G' = eˣ·h₁`. -/
 noncomputable def G' (c x : ℝ) : ℝ :=
-  Real.exp x * Real.exp x * (2 * x - 2 * c + 1) + 2 * Real.exp x * (x - c + 1)
+  Real.exp x * Real.exp x * (2 * x + (1 - 2 * c)) + 2 * Real.exp x * (x + (1 - c))
 
-noncomputable def h1 (c x : ℝ) : ℝ := Real.exp x * (2 * x - 2 * c + 1) + 2 * (x - c + 1)
-noncomputable def h1p (c x : ℝ) : ℝ := Real.exp x * (2 * x - 2 * c + 3) + 2
-noncomputable def h1pp (c x : ℝ) : ℝ := Real.exp x * (2 * x - 2 * c + 5)
+noncomputable def h1 (c x : ℝ) : ℝ :=
+  Real.exp x * (2 * x + (1 - 2 * c)) + 2 * (x + (1 - c))
+noncomputable def h1p (c x : ℝ) : ℝ := Real.exp x * (2 * x + (3 - 2 * c)) + 2
+noncomputable def h1pp (c x : ℝ) : ℝ := Real.exp x * (2 * x + (5 - 2 * c))
 
 theorem hG (c x : ℝ) : HasDerivAt (G c) (G' c x) x := by
   have hE := Real.hasDerivAt_exp x
@@ -100,32 +101,28 @@ theorem hG (c x : ℝ) : HasDerivAt (G c) (G' c x) x := by
         (HasDerivAt.const_mul 2 (HasDerivAt.mul hxc hE)))
   have heq : (1 * (Real.exp x * Real.exp x)
         + (x - c) * (Real.exp x * Real.exp x + Real.exp x * Real.exp x))
-      + 2 * (1 * Real.exp x + (x - c) * Real.exp x) = G' c x := by
-    unfold G'; ring
+      + 2 * (1 * Real.exp x + (x - c) * Real.exp x) = G' c x := by unfold G'; ring
   rwa [heq] at hraw
 
 theorem hh1 (c x : ℝ) : HasDerivAt (h1 c) (h1p c x) x := by
   have hE := Real.hasDerivAt_exp x
+  have hid : HasDerivAt (fun y : ℝ => y + (1 - c)) 1 x :=
+    HasDerivAt.add_const (1 - c) (hasDerivAt_id x)
   have hraw : HasDerivAt (h1 c)
-      ((Real.exp x * (2 * x - 2 * c + 1) + Real.exp x * 2) + 2 * 1) x :=
-    HasDerivAt.add (HasDerivAt.mul hE (hlin 2 (-(2 * c) + 1) x))
-      (HasDerivAt.const_mul 2 (hlin 1 (-c + 1) x))
-  have heq : (Real.exp x * (2 * x - 2 * c + 1) + Real.exp x * 2) + 2 * 1 = h1p c x := by
+      ((Real.exp x * (2 * x + (1 - 2 * c)) + Real.exp x * 2) + 2 * 1) x :=
+    HasDerivAt.add (HasDerivAt.mul hE (hlin 2 (1 - 2 * c) x))
+      (HasDerivAt.const_mul 2 hid)
+  have heq : (Real.exp x * (2 * x + (1 - 2 * c)) + Real.exp x * 2) + 2 * 1 = h1p c x := by
     unfold h1p; ring
-  rw [heq] at hraw
-  convert hraw using 2
-  unfold h1; ring
+  rwa [heq] at hraw
 
 theorem hh1p (c x : ℝ) : HasDerivAt (h1p c) (h1pp c x) x := by
   have hE := Real.hasDerivAt_exp x
-  have hraw : HasDerivAt (h1p c)
-      (Real.exp x * (2 * x - 2 * c + 3) + Real.exp x * 2) x :=
-    HasDerivAt.add_const (HasDerivAt.mul hE (hlin 2 (-(2 * c) + 3) x)) 2
-  have heq : Real.exp x * (2 * x - 2 * c + 3) + Real.exp x * 2 = h1pp c x := by
+  have hraw : HasDerivAt (h1p c) (Real.exp x * (2 * x + (3 - 2 * c)) + Real.exp x * 2) x :=
+    HasDerivAt.add_const 2 (HasDerivAt.mul hE (hlin 2 (3 - 2 * c) x))
+  have heq : Real.exp x * (2 * x + (3 - 2 * c)) + Real.exp x * 2 = h1pp c x := by
     unfold h1pp; ring
-  rw [heq] at hraw
-  convert hraw using 2
-  unfold h1p; ring
+  rwa [heq] at hraw
 
 /-! ### The chain bottoms out at one point -/
 

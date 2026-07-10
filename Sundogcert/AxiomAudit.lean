@@ -178,6 +178,7 @@ import Sundogcert.GeluTame
 import Sundogcert.FiniteFiberRolle
 import Sundogcert.GeluFiniteFibers
 import Sundogcert.SiluTame
+import Sundogcert.MishTame
 import Sundogcert.ConstantPairObstruction
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -2681,3 +2682,20 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalSilu.silu_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalSilu.silu_dnf_tame
+
+/-! ### MishTame (dim-1 Mish, non-monotone, two exp scales) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalMish.mishFibersFinite' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalMish.mishFibersFinite
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalMish.mish_lt_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalMish.mish_lt_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalMish.mish_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalMish.mish_dnf_tame
