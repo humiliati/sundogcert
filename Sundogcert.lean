@@ -557,3 +557,8 @@ import Sundogcert.GeluSigmoidTame
 -- core route (NOT Rolle). Continuous.if_le gluing + strict-mono-by-cases (cross case
 -- alpha*x<0<=y from alpha>0, no exp). Fills the ReLU-family gap that fits the monotone core.
 import Sundogcert.LeakyReluTame
+-- Dim-1 Softsign tameness. softsign(x) = x/(1+|x|), bounded into (-1,1). Strictly --
+-- increasing (deriv 1/(1+|x|)^2>0), continuous everywhere (denom 1+|x|>=1>0 never zero)
+-- => MONOTONE injective-core route (NOT Rolle). New element = the |x| forces a sign-case
+-- split for strict mono, each case a clean cross-multiplication (div_lt_div_iff0).
+import Sundogcert.SoftsignTame

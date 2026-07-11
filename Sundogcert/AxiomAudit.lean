@@ -184,6 +184,7 @@ import Sundogcert.SeluTame
 import Sundogcert.GeluTanhTame
 import Sundogcert.GeluSigmoidTame
 import Sundogcert.LeakyReluTame
+import Sundogcert.SoftsignTame
 import Sundogcert.ConstantPairObstruction
 
 /-! ## Certificate — lossiness, accept/reject soundness, sound column-weight bound -/
@@ -2789,3 +2790,20 @@ set_option linter.style.longLine false in
 /-- info: 'Sundog.OMinimalLeakyRelu.lrelu_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in
 #print axioms Sundog.OMinimalLeakyRelu.lrelu_dnf_tame
+
+/-! ### SoftsignTame (dim-1 Softsign, bounded monotone via injective core) -/
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalSoftsign.softsign_strictMono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalSoftsign.softsign_strictMono
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalSoftsign.softsign_lt_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalSoftsign.softsign_lt_tame
+
+set_option linter.style.longLine false in
+/-- info: 'Sundog.OMinimalSoftsign.softsign_dnf_tame' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in
+#print axioms Sundog.OMinimalSoftsign.softsign_dnf_tame
